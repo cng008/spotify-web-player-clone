@@ -1,7 +1,81 @@
 .Body {
   flex: 0.8;
-  color: white;
   background: linear-gradient(rgb(91, 87, 115), rgb(0, 0, 0, 1));
   height: 100vh;
   padding: 30px;
+  overflow-y: overlay;
+}
+
+.Body::--webkit-scrollbar {
+  display: none;
+}
+
+.Body-info {
+  display: flex;
+  align-items: flex-end;
+  padding: 10px;
+}
+
+.Body-info > img {
+  height: 20vw;
+  margin: 0 20px;
+  box-shadow: rgba(0, 0, 0, 0.5);
+}
+
+.Body-infoText > h2 {
+  font-size: 48px;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.Body-infoText > p {
+  font-size: 14px;
+}
+
+.Body-shuffle {
+  font-size: 80px !important;
+  margin-left: 50px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: #1ed15e !important;
+}
+
+.Body-shuffle:hover {
+  transition: transform 0.1s ease-in-out;
+  transform: scale(1.05);
+}
+
+.Body-controls {
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  margin: 20px -30px;
+}
+
+.Body-icons {
+  display: flex;
+  flex: 0.8;
+  align-items: center;
+}
+
+.Body-icons > .MuiSvgIcon-root:hover {
+  color: white;
+}
+
+.Body-icons > .MuiSvgIcon-root {
+  margin-right: 20px;
+}
+.Body-filter {
+  flex: 0.2;
+  justify-content: space-between;
+}
+
+.Body-form {
+  width: 11em;
+  border: none;
+}
+
+.Body-songList > .MuiTable-root {
+  flex: 1;
+  color: rgba(255, 255, 255, 0.686) !important;
 }

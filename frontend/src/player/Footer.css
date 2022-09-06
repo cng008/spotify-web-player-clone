@@ -3,7 +3,7 @@
   justify-content: space-between;
   position: fixed;
   bottom: 0;
-  height: 65px;
+  height: 40px;
   width: 97%;
   background-color: #282828;
   padding: 20px;
@@ -26,7 +26,7 @@
 
 .Footer-center {
   display: flex;
-  flex: 0.4;
+  flex: 0.5;
   align-items: center;
   justify-content: space-between;
   color: white;
@@ -34,7 +34,7 @@
   padding: 0 100px;
 }
 
-.Footer-green {
+.Footer-green:active {
   color: #1ed15e;
 }
 
@@ -45,16 +45,31 @@
   font-size: 12px;
 }
 
+/* make play button bigger */
+.Footer-icon {
+  color: rgba(255, 255, 255, 0.686);
+}
+
+/* make play button bigger */
+.Footer-icon:nth-child(3) {
+  font-size: 3em !important;
+  color: white;
+}
+.Footer-icon:nth-child(3):hover {
+  transition: transform 0.1s ease-in-out;
+  transform: scale(1.05);
+}
+
 .Footer-icon:hover,
 .Footer-green:hover {
-  transition: transform 0.1s ease-in-out;
-  transform: scale(1.2) !important; /** to override material ui*/
-  cursor: pointer;
+  /* transition: transform 0.1s ease-in-out; */
+  /* transform: scale(1.1) !important; * to override material ui */
+  color: white;
 }
 
 .Footer-right {
   display: flex;
-  flex: 0.3;
+  flex: 0.2;
   justify-content: space-between;
   align-items: center;
   color: white;
@@ -62,5 +77,10 @@
 
 /* override material ui slider color */
 .Footer-right * .MuiSlider-root {
-  color: green;
+  color: white;
+  max-width: 100px;
+}
+
+.Footer-right * .MuiSlider-root:hover {
+  color: #1ed15e;
 }
