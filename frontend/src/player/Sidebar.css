@@ -6,3 +6,21 @@
   height: 100vh;
   padding: 0 10px;
 }
+
+.Sidebar-logo {
+  height: 70px;
+  padding: 10px;
+  margin-right: auto;
+}
+
+.Sidebar-title {
+  margin-left: 10px;
+  padding: 5px;
+  font-size: 12px;
+}
+
+.Sidebar > hr {
+  border: 1px solid #282828;
+  width: 90%;
+  margin: 10px auto;
+}
