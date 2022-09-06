@@ -1,0 +1,30 @@
+.Header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.Header-left {
+  display: flex;
+  flex: 0.5;
+  align-items: center;
+  background-color: white;
+  color: grey;
+  border-radius: 30px;
+  min-width: 80px;
+  padding: 10px;
+}
+
+.Header-left > input {
+  border: none;
+  width: 100%;
+}
+
+.Header-right {
+  display: flex;
+  align-items: center;
+}
+
+.Header-right > h4 {
+  margin-left: 10px;
+}
