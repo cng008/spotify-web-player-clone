@@ -1,0 +1,8 @@
+.Sidebar {
+  flex: 0.2;
+  color: white;
+  background-color: #040404;
+  min-width: 230px;
+  height: 100vh;
+  padding: 0 10px;
+}

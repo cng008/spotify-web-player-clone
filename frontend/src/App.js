@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { getTokenFromUrl } from './spotify';
 import SpotifyWebApi from 'spotify-web-api-js';
-
+import Player from './Player';
+import { useStateValue } from './StateProvider';
 import Login from './Login';
 import Routes from './Routes';
 
@@ -10,7 +11,9 @@ import Routes from './Routes';
 const spotify = new SpotifyWebApi();
 
 function App() {
-  const [token, setToken] = useState(null);
+  // pull from useContext
+  const [{ user, token }, dispatch] = useStateValue();
+
   // runs when app component loads and every time variable changes
   useEffect(() => {
     const hash = getTokenFromUrl();
@@ -19,27 +22,35 @@ function App() {
 
     // set token to state
     if (_token) {
-      setToken(_token);
+      // add to useContext layer
+      dispatch({
+        type: 'SET_TOKEN',
+        token: _token
+      });
+
       spotify.setAccessToken(_token);
 
       // get user's account
       spotify.getMe().then(user => {
-        console.log(user);
+        dispatch({
+          type: 'SET_USER',
+          user: user
+        });
       });
     }
-
-    console.log('TOKEN:', _token);
   }, []);
 
+  console.log('user:', user);
+  console.log('token:', token);
+
   return (
-    <BrowserRouter>
-      <div className="App">
-        <h1>Spotify Clone</h1>
-        <p>{token}</p>
-        <Login />
+    <div className="App">
+      <BrowserRouter>
+        {/* Display different pages depending on if a user is logged in */}
+        {token ? <Player spotify={spotify} /> : <Login />}
         <Routes />
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </div>
   );
 }
 
