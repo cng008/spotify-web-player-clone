@@ -8,3 +8,59 @@
   background-color: #282828;
   padding: 20px;
 }
+
+.Footer-left {
+  display: flex;
+  flex: 0.3;
+  align-items: center;
+  color: white;
+  width: 300px;
+}
+
+.Footer-albumLogo {
+  height: 60px;
+  width: 50px;
+  margin-right: 20px;
+  object-fit: contain;
+}
+
+.Footer-center {
+  display: flex;
+  flex: 0.4;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  max-width: 200px;
+  padding: 0 100px;
+}
+
+.Footer-green {
+  color: #1ed15e;
+}
+
+.Footer-songInfo > h4 {
+  margin-bottom: 5px;
+}
+.Footer-songInfo > p {
+  font-size: 12px;
+}
+
+.Footer-icon:hover,
+.Footer-green:hover {
+  transition: transform 0.1s ease-in-out;
+  transform: scale(1.2) !important; /** to override material ui*/
+  cursor: pointer;
+}
+
+.Footer-right {
+  display: flex;
+  flex: 0.3;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+/* override material ui slider color */
+.Footer-right * .MuiSlider-root {
+  color: green;
+}
