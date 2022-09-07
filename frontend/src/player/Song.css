@@ -14,7 +14,8 @@
 }
 
 .Song-info {
-  margin-left: 20px;
+  display: flex;
+  align-items: center;
 }
 
 .Song-info > h1 {
@@ -30,4 +31,11 @@
 .Song-albumImg {
   height: 40px;
   width: 40px;
+  margin-right: 1em;
+}
+
+h3 {
+  color: white;
+  font-weight: 600;
+  margin-bottom: 0.5em;
 }

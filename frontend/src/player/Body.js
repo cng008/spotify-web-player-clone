@@ -9,13 +9,6 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import SearchIcon from '@material-ui/icons/Search';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -30,7 +23,7 @@ const Body = ({ spotify }) => {
   const handleChange = evt => {
     setSort(evt.target.value);
   };
-
+  console.log(discover_weekly);
   return (
     <div className="Body">
       <Header spotify={spotify} />
@@ -45,61 +38,61 @@ const Body = ({ spotify }) => {
         </div>
       </div>
 
-      <div className="Body-controls">
-        <div className="Body-icons">
-          <PlayCircleFilledIcon className="Body-shuffle" />
-          <FavoriteBorderIcon fontSize="large" />
-          <MoreHorizIcon fontSize="large" />
+      <section>
+        <div className="Body-controls">
+          <div className="Body-icons">
+            <PlayCircleFilledIcon className="Body-shuffle" />
+            <FavoriteBorderIcon fontSize="large" />
+            <MoreHorizIcon fontSize="large" />
+          </div>
+
+          <div className="Body-filter">
+            <SearchIcon />
+            <FormControl sx={{ m: 1, minWidth: 80 }} className="Body-form">
+              <InputLabel id="song-order"></InputLabel>
+              <Select
+                labelId="song-order"
+                id="song-order"
+                value={sort ? sort : 'custom'}
+                label="Age"
+                onChange={handleChange}
+              >
+                <MenuItem value="" disabled>
+                  <small>Sort By</small>
+                </MenuItem>
+                <MenuItem value="custom">Custom Order</MenuItem>
+                <MenuItem value="title">Title</MenuItem>
+                <MenuItem value="artist">Artist</MenuItem>
+                <MenuItem value="album">Album</MenuItem>
+                <MenuItem value="dateAdded">Date added</MenuItem>
+                <MenuItem value="duration">Duration</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
         </div>
 
-        <div className="Body-filter">
-          <SearchIcon />
-          <FormControl sx={{ m: 1, minWidth: 80 }} className="Body-form">
-            <InputLabel id="song-order"></InputLabel>
-            <Select
-              labelId="song-order"
-              id="song-order"
-              value={sort ? sort : 'Custom Order'}
-              label="Age"
-              onChange={handleChange}
-            >
-              <MenuItem value="" disabled>
-                <small>Sort By</small>
-              </MenuItem>
-              <MenuItem value="custom">Custom Order</MenuItem>
-              <MenuItem value="title">Title</MenuItem>
-              <MenuItem value="artist">Artist</MenuItem>
-              <MenuItem value="album">Album</MenuItem>
-              <MenuItem value="dateAdded">Date added</MenuItem>
-              <MenuItem value="duration">Duration</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-      </div>
-
-      <div className="Body-songList">
-        {/* List of songs */}
-        <TableContainer>
-          <Table sx={{ maxWidth: 650 }} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <TableCell>#</TableCell>
-                <TableCell>TITLE</TableCell>
-                <TableCell>ALBUM</TableCell>
-                <TableCell>DATA ADDED</TableCell>
+        <div className="Body-songList">
+          {/* List of songs */}
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>TITLE</th>
+                <th>ALBUM</th>
+                <th>DATE ADDED</th>
                 <AccessTimeIcon />
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                {discover_weekly?.tracks.items.map(item => (
-                  <Song track={item.track} />
-                ))}
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+              </tr>
+            </thead>
+            <tbody>
+              {discover_weekly?.tracks.items.map((item, id) => (
+                <tr>
+                  <Song track={item.track} id={id} />
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
   );
 };
