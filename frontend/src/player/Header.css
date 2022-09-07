@@ -8,18 +8,19 @@
 .Header-left {
   display: flex;
   flex: 0.5;
+}
+
+/* .Header-left > input {
+  border: none;
   align-items: center;
   background-color: white;
   color: grey;
   border-radius: 30px;
   min-width: 80px;
+  width: 40%;
   padding: 10px;
-}
-
-.Header-left > input {
-  border: none;
-  width: 100%;
-}
+  transform: scale(2);
+}  */
 
 .Header-right {
   display: flex;
