@@ -1,3 +1,6 @@
+-- from the terminal run:
+-- psql < spotify.sql
+
 \echo 'Delete and recreate spotify_clone db?'
 \prompt 'Return for yes or control-C to cancel > ' foo
 
