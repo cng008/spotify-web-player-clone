@@ -75,7 +75,7 @@ class Playlist {
   /** Given a playlist name, return data about playlist.
    *
    * Returns { id, name, handle, userId, description, createdAt, image }
-   *   where songs is [{ title, duration, artist_id, album_id, image }, ...]
+   *   where songs is [{ title, duration, date_added, artist_id, album_id, image }, ...]
    *
    * Throws NotFoundError if not found.
    **/
@@ -90,7 +90,7 @@ class Playlist {
 
     const playlist = playlistRes.rows[0];
 
-    if (!playlist) throw new NotFoundError(`No playlist: ${playlist.name}`);
+    if (!playlist) throw new NotFoundError(`No playlist: ${handle}`);
 
     const songRes = await db.query(
       `SELECT s.id, s.title, s.duration, s.date_added AS "dateAdded", s.artist_id AS "artistId", ab.name AS "albumName", ab.release_year AS "albumReleaseYear", s.image
@@ -99,32 +99,20 @@ class Playlist {
         JOIN songs AS s ON pls.song_id = s.id
         JOIN albums AS ab ON s.album_id = ab.id
         WHERE p.handle = $1`,
+      // `SELECT s.id, s.title, s.duration, s.date_added AS "dateAdded", at.name AS "artistName", ab.name AS "albumName", ab.release_year AS "albumReleaseYear", s.image
+      //   FROM playlists AS p
+      //   JOIN playlist_songs AS pls ON p.id = pls.playlist_id
+      //   JOIN songs AS s ON pls.song_id = s.id
+      //   JOIN albums AS ab ON s.album_id = ab.id
+      //   JOIN artist_songs AS ats ON s.id = ats.song_id
+      //   JOIN artists AS at ON ats.artist_id = at.id
+      //   WHERE p.handle = $1`,
       [handle]
     );
 
     playlist.songs = songRes.rows;
 
     return playlist;
-    //     let query = `SELECT name, user_id, description, to_char(created_at, 'yyyy-mm-dd hh:mi:ss AM'), image
-    //     FROM playlists`;
-    // let whereExpressions = [];
-
-    // whereExpressions.push(`WHERE name LIKE $${name}`);
-
-    // // const songRes = await db.query(
-    // //   `SELECT title, duration, artist_id, album_id, image
-    // //        FROM songs
-    // //        WHERE playlist_id.name = $1
-    // //        ORDER BY id`,
-    // //   [name]
-    // // );
-
-    // // playlist.songs = songRes.rows;
-
-    // const playlistsRes = await db.query(query);
-    // if (!playlistsRes) throw new NotFoundError(`No playlist: ${name}`);
-
-    // return playlistsRes.rows;
   }
 
   /** Update playlist data with `data`.

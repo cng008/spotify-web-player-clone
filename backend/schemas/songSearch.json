@@ -3,24 +3,23 @@
   "$id": "http://our.playlist.com/playlistSearch.schema.json",
   "type": "object",
   "properties": {
-    "name": {
+    "title": {
       "type": "string"
     },
-    "handle": {
+    "duration": {
       "type": "string"
     },
-    "user_id": {
+    "date_added": {
+      "type": "string"
+    },
+    "artist_id": {
       "type": "integer"
     },
-    "description": {
-      "type": "string"
-    },
-    "created_at": {
-      "type": "string"
+    "album_id": {
+      "type": "integer"
     },
     "image": {
-      "type": "string",
-      "format": "uri"
+      "type": "string"
     }
   },
   "additionalProperties": true,
