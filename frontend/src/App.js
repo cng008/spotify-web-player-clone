@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { getTokenFromUrl } from './auth';
+import { getTokenFromUrl } from './common/auth';
 import SpotifyWebApi from 'spotify-web-api-js';
+import SpotifyApi from './common/api';
 import Player from './Player';
 import { useStateValue } from './StateProvider';
 import Login from './Login';
@@ -12,7 +13,7 @@ const spotify = new SpotifyWebApi();
 
 function App() {
   // pull from useContext
-  const [{ user, token }, dispatch] = useStateValue();
+  const [{ token }, dispatch] = useStateValue();
 
   // runs when app component loads and every time variable changes
   useEffect(() => {
@@ -38,15 +39,15 @@ function App() {
         });
       });
 
-      /** get playlists
-       * returns a promise
-       */
-      spotify.getUserPlaylists().then(playlists => {
-        dispatch({
-          type: 'SET_PLAYLISTS',
-          playlists: playlists
-        });
-      });
+      // /** get playlists
+      //  * returns a promise
+      //  */
+      // SpotifyApi.getPlaylists().then(playlists => {
+      //   dispatch({
+      //     type: 'SET_PLAYLISTS',
+      //     playlists: playlists
+      //   });
+      // });
 
       spotify.getPlaylist('37i9dQZEVXcUfolfIkR1hC').then(response => {
         dispatch({
@@ -57,8 +58,19 @@ function App() {
     }
   }, []);
 
-  console.log('user:', user);
-  console.log('token:', token);
+  /** FOR PRODUCTION
+   * delete before deploying*/
+  useEffect(() => {
+    /** get playlists
+     * returns a promise
+     */
+    SpotifyApi.getPlaylists().then(playlists => {
+      dispatch({
+        type: 'SET_PLAYLISTS',
+        playlists: playlists
+      });
+    });
+  }, []);
 
   return (
     <div className="App">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { loginUrl } from './auth';
+import { loginUrl } from './common/auth';
 import './Login.css';
 
 const Login = () => {

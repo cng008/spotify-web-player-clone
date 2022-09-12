@@ -7,9 +7,8 @@ import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
 import { useStateValue } from '../StateProvider';
 
 const Sidebar = () => {
-  // pull from useContext
+  // const [playlists, setPlaylists] = useState([]);
   const [{ playlists }, dispatch] = useStateValue();
-  // console.log(playlists.items);
 
   return (
     <div className="Sidebar">
@@ -28,12 +27,9 @@ const Sidebar = () => {
 
       {/* extract items value from returned playlist object and map over playlist names 
       usees optional chaining*/}
-      {playlists?.items?.map(playlist => (
+      {playlists?.map(playlist => (
         <SidebarOption title={playlist.name} />
       ))}
-      {/* <SidebarOption title="Hip Hop" />
-      <SidebarOption title="RnB" />
-      <SidebarOption title="Jazz" /> */}
     </div>
   );
 };

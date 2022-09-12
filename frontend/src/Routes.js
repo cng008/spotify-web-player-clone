@@ -23,7 +23,7 @@ const Routes = () => {
       <Route path="/library">
         <Library />
       </Route>
-      <Route exact path="/playlist/:path">
+      <Route exact path="/playlists/:handle">
         <Playlist />
       </Route>
     </Switch>

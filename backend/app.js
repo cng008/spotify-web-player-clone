@@ -1,6 +1,7 @@
 /** Express backend for spotify_clone. */
 
 const express = require('express');
+const cors = require('cors'); // allow requests from domain
 
 const { NotFoundError } = require('./expressError');
 
@@ -12,6 +13,7 @@ const morgan = require('morgan');
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(authenticateJWT);
