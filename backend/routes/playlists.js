@@ -68,7 +68,7 @@ router.get('/', async function (req, res, next) {
 /** GET /[handle]  =>  { playlist }
  *
  *  Playlist is { name, userId, description, createdAt, image }
- *   where songs is [{ id, title, duration, dataAdded, artistId, albumId, image }, ...]
+ *   where songs is [{ id, name, duration, dataAdded, artistId, albumId, image }, ...]
  *
  * Authorization required: none
  */

@@ -23,7 +23,7 @@ VALUES ('Flower Boy', 1, 2017, 'https://images.complex.com/complex/images/c_fill
         ('Big Fish Theory', 2, 2015, 'http://images.genius.com/037801ff09afa2af7c8b9996efb048a8.1000x1000x1.jpg'),
         ('Fever', 4, 2014, 'https://upload.wikimedia.org/wikipedia/en/c/c2/Black_Keys_Fever_cover.png');
 
-INSERT INTO songs (title, duration, date_added, artist_id, album_id,image)
+INSERT INTO songs (name, duration, date_added, artist_id, album_id,image)
 VALUES ('Sometimes...', '0:36', '2022-09-02 04:06:06', 1, 1, 'https://images.complex.com/complex/images/c_fill,dpr_auto,f_auto,q_auto,w_1400/fl_lossy,pg_1/bebllwzjpsujz9ffwp6s/tyler-the-creator-scum-fuck-flower-boy-cover?fimg-ssr-default'),
         ('The Less I Know The Better', '3:36', '2022-09-01 14:26:16', 2, 2, 'https://www.billboard.com/wp-content/uploads/media/Tame-Impala-Currents-2017-billboard-1240.jpg?w=600'),
         ('Yeah Right', '3:09', '2022-09-01 14:26:16', 3, 3, 'http://images.genius.com/037801ff09afa2af7c8b9996efb048a8.1000x1000x1.jpg'),
@@ -49,7 +49,8 @@ VALUES (1,1),
         (2,2),
         (1,3),
         (2,4),
-        (2,5);
+        (2,5),
+        (1,4);
 
 INSERT INTO follows (user_following_id, artist_being_followed_id)
 VALUES (1,1),

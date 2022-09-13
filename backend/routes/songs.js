@@ -16,9 +16,9 @@ const router = express.Router({ mergeParams: true });
 
 /** POST / { song } => { song }
  *
- * Song should be { title, duration, artist_id, album_id, image }
+ * Song should be { name, duration, artist_id, album_id, image }
  *
- * Returns { id, title, duration, artist_id, album_id, image }
+ * Returns { id, name, duration, artist_id, album_id, image }
  *
  * Authorization required: admin
  */
@@ -39,20 +39,16 @@ router.post('/', ensureLoggedIn, async function (req, res, next) {
 });
 
 /** GET / =>
- *   { songs: [ { id, title, duration, artist_id, album_id, image }, ...] }
+ *   { songs: [ { id, name, duration, artist_id, album_id, image }, ...] }
  *
  * Can provide search filter in query:
- * - title (will find case-insensitive, partial matches)
+ * - name (will find case-insensitive, partial matches)
 
  * Authorization required: none
  */
 
 router.get('/', async function (req, res, next) {
   const q = req.query;
-  // arrive as strings from querystring, but we want as int/bool
-  if (q.minSalary !== undefined) q.minSalary = +q.minSalary;
-  q.hasEquity = q.hasEquity === 'true';
-
   try {
     const validator = jsonschema.validate(q, songSearch);
     if (!validator.valid) {
@@ -69,7 +65,7 @@ router.get('/', async function (req, res, next) {
 
 /** GET /[songId] => { song }
  *
- * Returns { id, title, duration, artist_id, album_id, image }
+ * Returns { id, name, duration, artist_id, album_id, image }
  *   where album is { id, name, artist_id, release_year, image }
  *
  * Authorization required: none

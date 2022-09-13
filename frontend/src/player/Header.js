@@ -27,7 +27,7 @@ const Header = () => {
             },
             disableUnderline: true,
             startAdornment: (
-              <InputAdornment>
+              <InputAdornment position="start">
                 <SearchIcon />
               </InputAdornment>
             )

@@ -28,7 +28,7 @@ CREATE TABLE playlists (
 
 CREATE TABLE songs (
   id SERIAL PRIMARY KEY,
-  title TEXT NOT NULL,
+  name TEXT NOT NULL,
   duration TEXT,
   date_added TEXT,
   artist_id INTEGER NOT NULL,
@@ -61,7 +61,6 @@ CREATE TABLE artists (
 );
 
 CREATE TABLE artist_songs (
-  id SERIAL PRIMARY KEY,
   artist_id INTEGER NOT NULL,
   song_id INTEGER NOT NULL
 );
@@ -76,16 +75,16 @@ ALTER TABLE songs ADD FOREIGN KEY (artist_id) REFERENCES artists (id);
 
 ALTER TABLE songs ADD FOREIGN KEY (album_id) REFERENCES albums (id);
 
-ALTER TABLE playlist_songs ADD FOREIGN KEY (playlist_id) REFERENCES playlists (id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE playlist_songs ADD FOREIGN KEY (playlist_id) REFERENCES playlists (id) ON DELETE CASCADE;
 
-ALTER TABLE playlist_songs ADD FOREIGN KEY (song_id) REFERENCES songs (id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE playlist_songs ADD FOREIGN KEY (song_id) REFERENCES songs (id) ON DELETE CASCADE;;
 
 ALTER TABLE albums ADD FOREIGN KEY (artist_id) REFERENCES artists (id);
 
-ALTER TABLE album_songs ADD FOREIGN KEY (song_id) REFERENCES songs (id) ON DELETE CASCADE ON UPDATE CASCADE;;
+ALTER TABLE album_songs ADD FOREIGN KEY (song_id) REFERENCES songs (id) ON DELETE CASCADE;
 
-ALTER TABLE album_songs ADD FOREIGN KEY (album_id) REFERENCES albums (id) ON DELETE CASCADE ON UPDATE CASCADE;;
+ALTER TABLE album_songs ADD FOREIGN KEY (album_id) REFERENCES albums (id) ON DELETE CASCADE;
 
-ALTER TABLE artist_songs ADD FOREIGN KEY (artist_id) REFERENCES artists (id) ON DELETE CASCADE ON UPDATE CASCADE;;
+ALTER TABLE artist_songs ADD FOREIGN KEY (artist_id) REFERENCES artists (id) ON DELETE CASCADE;
 
-ALTER TABLE artist_songs ADD FOREIGN KEY (song_id) REFERENCES songs (id) ON DELETE CASCADE ON UPDATE CASCADE;;
+ALTER TABLE artist_songs ADD FOREIGN KEY (song_id) REFERENCES songs (id) ON DELETE CASCADE;

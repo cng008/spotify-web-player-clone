@@ -67,7 +67,7 @@ class Playlist {
     }
 
     // Finalize query and return results
-    query += ' ORDER BY name';
+    query += ' ORDER BY created_at DESC';
     const playlistsRes = await db.query(query, queryValues);
     return playlistsRes.rows;
   }
@@ -75,7 +75,7 @@ class Playlist {
   /** Given a playlist name, return data about playlist.
    *
    * Returns { id, name, handle, userId, description, createdAt, image }
-   *   where songs is [{ title, duration, date_added, artist_id, album_id, image }, ...]
+   *   where songs is [{ name, duration, date_added, artist_id, album_id, image }, ...]
    *
    * Throws NotFoundError if not found.
    **/
@@ -93,24 +93,47 @@ class Playlist {
     if (!playlist) throw new NotFoundError(`No playlist: ${handle}`);
 
     const songRes = await db.query(
-      `SELECT s.id, s.title, s.duration, s.date_added AS "dateAdded", s.artist_id AS "artistId", ab.name AS "albumName", ab.release_year AS "albumReleaseYear", s.image
-      FROM playlists AS p
-        JOIN playlist_songs AS pls ON p.id = pls.playlist_id
-        JOIN songs AS s ON pls.song_id = s.id
-        JOIN albums AS ab ON s.album_id = ab.id
-        WHERE p.handle = $1`,
-      // `SELECT s.id, s.title, s.duration, s.date_added AS "dateAdded", at.name AS "artistName", ab.name AS "albumName", ab.release_year AS "albumReleaseYear", s.image
-      //   FROM playlists AS p
-      //   JOIN playlist_songs AS pls ON p.id = pls.playlist_id
-      //   JOIN songs AS s ON pls.song_id = s.id
-      //   JOIN albums AS ab ON s.album_id = ab.id
-      //   JOIN artist_songs AS ats ON s.id = ats.song_id
-      //   JOIN artists AS at ON ats.artist_id = at.id
-      //   WHERE p.handle = $1`,
+      `SELECT s.id, 
+              s.name, 
+              s.duration, 
+              s.date_added AS "dateAdded", 
+              at.name AS "artistName", 
+              at.image AS "artistImage", 
+              ab.name AS "albumName", 
+              ab.release_year AS "albumReleaseYear", 
+              ab.image
+        FROM playlists AS p
+          JOIN playlist_songs AS pls ON p.id = pls.playlist_id
+          JOIN songs AS s ON pls.song_id = s.id
+          JOIN albums AS ab ON s.album_id = ab.id
+          JOIN artists AS at ON s.artist_id = at.id      
+          WHERE p.handle = $1`,
       [handle]
     );
 
+    // const song = songRes.rows[0];
+
+    // const albumRes = await db.query(
+    //   `SELECT ab.id, ab.name, ab.artist_id AS "artistId", ab.release_year AS "releaseYear", ab.image
+    //     FROM albums AS ab
+    //     JOIN album_songs AS abs ON ab.id = abs.album_id
+    //     JOIN songs AS s ON abs.song_id = s.id
+    //     WHERE ab.id = $1`,
+    //   [song.albumId]
+    // );
+
+    // const artistRes = await db.query(
+    //   `SELECT at.id, at.name, at.image
+    //     FROM artists AS at
+    //     JOIN artist_songs AS ats ON at.id = ats.artist_id
+    //     JOIN songs AS s ON ats.song_id = s.id
+    //     WHERE at.id = $1`,
+    //   [song.artistId]
+    // );
+
     playlist.songs = songRes.rows;
+    // song.album = albumRes.rows[0];
+    // song.artist = artistRes.rows[0];
 
     return playlist;
   }

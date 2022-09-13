@@ -17,10 +17,10 @@ const Routes = () => {
       <Route exact path="/">
         <Home />
       </Route>
-      <Route path="/search">
+      <Route exact path="/search">
         <Search />
       </Route>
-      <Route path="/library">
+      <Route exact path="/library">
         <Library />
       </Route>
       <Route exact path="/playlists/:handle">

@@ -3,7 +3,6 @@ import { BrowserRouter } from 'react-router-dom';
 import { getTokenFromUrl } from './common/auth';
 import SpotifyWebApi from 'spotify-web-api-js';
 import SpotifyApi from './common/api';
-import Player from './Player';
 import { useStateValue } from './StateProvider';
 import Login from './Login';
 import Routes from './Routes';
@@ -56,7 +55,7 @@ function App() {
         });
       });
     }
-  }, []);
+  }, [dispatch]);
 
   /** FOR PRODUCTION
    * delete before deploying*/
@@ -76,7 +75,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         {/* Display different pages depending on if a user is logged in */}
-        {token ? <Player spotify={spotify} /> : <Login />}
+        {token ? null : <Login />}
         <Routes />
       </BrowserRouter>
     </div>
