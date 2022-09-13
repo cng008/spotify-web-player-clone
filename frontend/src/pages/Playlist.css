@@ -20,10 +20,12 @@
 }
 
 .Body-info > img {
-  height: 20vw;
+  width: 15em;
+  height: 15em;
   max-height: 15em;
   margin: 0 20px;
   box-shadow: rgba(0, 0, 0, 0.5);
+  object-fit: cover;
 }
 
 .Body-infoText > h2 {
