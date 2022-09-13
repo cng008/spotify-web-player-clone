@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Footer.css';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
@@ -8,9 +8,16 @@ import RepeatIcon from '@material-ui/icons/Repeat';
 import VolumeDownIcon from '@material-ui/icons/VolumeDown';
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
 import PlaylistPlayIcon from '@material-ui/icons/PlaylistPlay';
-import { Grid, Slider } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 const Footer = () => {
+  const [paused, setPaused] = useState(false);
+
+  const togglePause = () => {
+    let toggle = paused === true ? false : true;
+    setPaused(toggle);
+  };
+
   return (
     <div className="Footer">
       <div className="Footer-left">
@@ -28,7 +35,14 @@ const Footer = () => {
       <div className="Footer-center">
         <ShuffleIcon className="Footer-green" />
         <SkipPreviousIcon fontSize="large" className="Footer-icon" />
-        <PlayCircleFilledIcon fontSize="large" className="Footer-icon" />
+        {paused ? (
+          <PauseCircleFilledIcon
+            className="Footer-icon"
+            onClick={togglePause}
+          />
+        ) : (
+          <PlayCircleFilledIcon className="Footer-icon" onClick={togglePause} />
+        )}
         <SkipNextIcon fontSize="large" className="Footer-icon" />
         <RepeatIcon className="Footer-green" />
       </div>
@@ -43,7 +57,8 @@ const Footer = () => {
             <VolumeDownIcon />
           </Grid>
           <Grid item xs>
-            <Slider aria-labelledby="continuous-slider" />
+            <input type="range" name="volume" min="0" max="100" />
+            {/* <Slider aria-labelledby="continuous-slider" /> */}
           </Grid>
         </Grid>
       </div>

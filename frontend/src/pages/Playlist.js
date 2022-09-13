@@ -4,9 +4,11 @@ import SpotifyApi from '../common/api';
 import Sidebar from '../player/Sidebar';
 import Footer from '../player/Footer';
 import './Playlist.css';
+
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-// import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import SearchIcon from '@material-ui/icons/Search';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
@@ -20,11 +22,11 @@ import Song from '../player/Song';
 
 const Playlist = () => {
   const { handle } = useParams();
-  console.debug('PlaylistDetails', 'handle=', handle);
-
   const [playlist, setPlaylist] = useState('');
   const [sort, setSort] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [paused, setPaused] = useState(false);
+  const [liked, setLike] = useState(false);
 
   // GET PLAYLIST FROM PARAK
   useEffect(() => {
@@ -35,7 +37,6 @@ const Playlist = () => {
     }
     getPlaylistDetails();
   }, [handle]);
-  console.log('current playlist data', playlist);
 
   function msToMinutesAndSeconds(ms) {
     let minutes = Math.floor(ms / 60000);
@@ -43,8 +44,18 @@ const Playlist = () => {
     return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
   }
 
-  const handleChange = evt => {
+  const handleSort = evt => {
     setSort(evt.target.value);
+  };
+
+  const togglePause = () => {
+    let toggle = paused === true ? false : true;
+    setPaused(toggle);
+  };
+
+  const toggleLike = () => {
+    let toggle = liked === true ? false : true;
+    setLike(toggle);
   };
 
   if (isLoading) {
@@ -69,8 +80,23 @@ const Playlist = () => {
           <section>
             <div className="Body-controls">
               <div className="Body-icons">
-                <PlayCircleFilledIcon className="Body-shuffle" />
-                <FavoriteBorderIcon fontSize="large" />
+                {paused ? (
+                  <PauseCircleFilledIcon
+                    className="Body-shuffle"
+                    onClick={togglePause}
+                  />
+                ) : (
+                  <PlayCircleFilledIcon
+                    className="Body-shuffle"
+                    onClick={togglePause}
+                  />
+                )}
+                {liked ? (
+                  <FavoriteIcon fontSize="large" onClick={toggleLike} />
+                ) : (
+                  <FavoriteBorderIcon fontSize="large" onClick={toggleLike} />
+                )}
+
                 <MoreHorizIcon fontSize="large" />
               </div>
 
@@ -83,7 +109,7 @@ const Playlist = () => {
                     id="song-order"
                     value={sort ? sort : 'custom'}
                     label="Age"
-                    onChange={handleChange}
+                    onChange={handleSort}
                   >
                     <MenuItem value="" disabled>
                       <small>Sort By</small>
