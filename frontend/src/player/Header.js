@@ -1,38 +1,39 @@
 import React from 'react';
-import './Header.css';
+import { useLocation, useHistory } from 'react-router-dom';
 import { useStateValue } from '../StateProvider';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import SearchIcon from '@material-ui/icons/Search';
+import Searchbar from './Searchbar';
+import './Header.css';
+
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { Avatar } from '@material-ui/core';
 
 const Header = () => {
   const [{ user }, dispatch] = useStateValue();
+  const location = useLocation();
+  const history = useHistory();
+
+  // console.debug('Header', 'user=', user, 'location', location, 'history', history);
+
+  const goBack = () => {
+    history.goBack();
+  };
+
+  const goForward = () => {
+    history.goForward();
+  };
+
   return (
     <div className="Header">
       <div className="Header-left">
-        <TextField
-          placeholder="Search for Artists, Songs, or Albums"
-          type="text"
-          InputProps={{
-            style: {
-              border: 'none',
-              alignItems: 'center',
-              backgroundColor: 'white',
-              color: 'grey',
-              borderRadius: '30px',
-              minWidth: '80px',
-              width: '200%',
-              padding: '10px'
-            },
-            disableUnderline: true,
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            )
-          }}
-        />
+        {/* Back/Fwd Navigation */}
+        <button onClick={goBack}>
+          <ArrowForwardIosIcon className="back-btn" />
+        </button>
+        <button onClick={goForward}>
+          <ArrowForwardIosIcon className="forward-btn" />
+        </button>
+        {/* ONLY SHOW SEARCH BAR ON SEARCH ROUTE */}
+        {location.pathname === '/search' ? <Searchbar /> : null}
       </div>
       <div className="Header-right">
         <Avatar src={user?.images[0].url} alt={user?.display_name} />

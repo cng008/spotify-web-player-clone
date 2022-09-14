@@ -10,6 +10,20 @@
   flex: 0.5;
 }
 
+button {
+  color: white;
+  background-color: black;
+  height: 35px;
+  width: 35px;
+  border: none;
+  border-radius: 25em;
+  margin: 0 4px;
+  cursor: pointer;
+}
+
+.back-btn {
+  transform: rotate(180deg);
+}
 /* .Header-left > input {
   border: none;
   align-items: center;
