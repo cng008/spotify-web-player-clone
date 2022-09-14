@@ -76,11 +76,80 @@
 }
 
 /* override material ui slider color */
-.Footer-right * .MuiSlider-root {
-  color: white;
-  max-width: 100px;
+.progressBar {
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 
-.Footer-right * .MuiSlider-root:hover {
-  color: #1ed15e;
+.slider {
+  -webkit-appearance: none;
+  background-color: #535353;
+  height: 6px;
+  overflow: hidden;
+  width: auto;
+  border-radius: 50px;
+}
+
+.slider:hover {
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  height: 10px;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background: #b3b3b3;
+  border-radius: 50%;
+  box-shadow: -100px 0 0 100px #b3b3b3;
+  cursor: pointer;
+  height: 10px;
+  width: 10px;
+  border: 0;
+}
+
+.slider::-moz-range-thumb {
+  background: #b3b3b3;
+  border-radius: 50%;
+  box-shadow: -410px 0 0 408px #b3b3b3;
+  cursor: pointer;
+  height: 4px;
+  width: 4px;
+  border: 0;
+}
+
+.slider::-moz-range-track {
+  background-color: #535353;
+}
+.slider::-moz-range-progress {
+  background-color: #b3b3b3;
+  height: 4px;
+}
+.slider::-ms-fill-upper {
+  background-color: #535353;
+}
+.slider::-ms-fill-lower {
+  background-color: #b3b3b3;
+}
+
+.slider::-moz-range-thumb {
+  background: #b3b3b3;
+  border-radius: 50%;
+  box-shadow: -410px 0 0 408px #b3b3b3;
+  cursor: pointer;
+  height: 6px;
+  width: 6px;
+  border: 0;
+}
+
+.progressBar:hover .slider::-webkit-slider-thumb {
+  background: #1db954;
+  box-shadow: -410px 0 0 408px #1db954;
+}
+.progressBar:hover .slider::-moz-range-thumb {
+  background: #1db954;
+  box-shadow: -410px 0 0 408px #1db954;
 }
