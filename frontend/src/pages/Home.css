@@ -1,0 +1,20 @@
+.Home {
+  display: flex;
+}
+.Home-body {
+  flex: 0.8;
+  background: linear-gradient(rgb(91, 87, 115), rgb(0, 0, 0, 1));
+  height: 100vh;
+  overflow-y: overlay;
+}
+.Home-body::--webkit-scrollbar {
+  display: none;
+}
+.Home-playlists {
+  padding: 0 2em;
+}
+.Section-title > h2 {
+  font-size: 2em;
+  font-weight: 700;
+  color: white;
+}
