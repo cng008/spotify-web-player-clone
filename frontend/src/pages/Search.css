@@ -1,0 +1,46 @@
+.Search {
+  display: flex;
+  background-color: #121212;
+  color: #fff;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.Search-body {
+  flex: 0.8;
+  padding-bottom: 3em;
+  margin-bottom: 9em;
+}
+
+.Search-body::--webkit-scrollbar {
+  display: none;
+}
+
+.SearchCardGrid {
+  display: grid;
+  grid-gap: 2em;
+  grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
+  padding-top: 16px;
+}
+
+.Search-content {
+  padding: 0px 32px;
+}
+
+.Search-content > h2 {
+  font-size: 1.7em;
+  font-weight: 700;
+  color: white;
+}
+
+@media screen and (max-width: 640px) {
+  .Search-body {
+    padding: 16px;
+    margin-bottom: 180px;
+    margin-top: 24px;
+  }
+  .SearchCardGrid {
+    grid-gap: 16px;
+    grid-template-columns: 1fr 1fr;
+  }
+}

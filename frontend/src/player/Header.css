@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 30px;
-  padding: 10px 30px 0 0;
+  padding: 10px 30px 0 20px;
 }
 
 .Header-left {
@@ -24,17 +24,6 @@
 .back-btn {
   transform: rotate(180deg);
 }
-/* .Header-left > input {
-  border: none;
-  align-items: center;
-  background-color: white;
-  color: grey;
-  border-radius: 30px;
-  min-width: 80px;
-  width: 40%;
-  padding: 10px;
-  transform: scale(2);
-}  */
 
 .Header-right {
   display: flex;

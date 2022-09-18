@@ -14,11 +14,13 @@ const Searchbar = () => {
             border: 'none',
             alignItems: 'center',
             backgroundColor: 'white',
-            color: 'grey',
+            color: 'black',
             borderRadius: '30px',
             minWidth: '80px',
             width: '200%',
-            padding: '10px'
+            height: '2.5em',
+            padding: '10px',
+            marginLeft: '10px'
           },
           disableUnderline: true,
           startAdornment: (
