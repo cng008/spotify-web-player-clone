@@ -1,9 +1,10 @@
 .SidebarOption {
   display: flex;
   align-items: center;
-  height: 40px;
+  height: 35px;
   cursor: pointer;
-  transition: 0.1s color ease-in;
+  transition: 0.2s color ease-in;
+  color: rgba(255, 255, 255, 0.686);
 }
 
 .SidebarOption:hover {
@@ -12,10 +13,17 @@
 
 .SidebarOption-icon {
   padding: 0 10px;
+  z-index: 1;
 }
 
 .SidebarOption > p {
   margin-top: 10px;
   margin-left: 20px;
   font-size: 14px;
+}
+
+.SidebarOption-liked {
+  position: absolute;
+  width: 1.9em;
+  padding: 0 10px 0 12px;
 }

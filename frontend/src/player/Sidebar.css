@@ -1,16 +1,21 @@
 .Sidebar {
+  /* position: fixed;
+  top: 0;
+  bottom: 0;
+  overflow: scroll; */
   flex: 0.2;
   background-color: #040404;
   min-width: 230px;
-  height: 100vh;
-  padding: 0 10px;
+  min-height: 100vh;
+  padding: 0 10px 100px 10px;
   overflow-y: overlay;
+  /* -webkit-overflow-scrolling: touch; */
 }
 
 .Sidebar-logo {
   height: 70px;
   padding: 10px;
-  margin-right: auto;
+  margin: auto;
 }
 
 .Sidebar-title {

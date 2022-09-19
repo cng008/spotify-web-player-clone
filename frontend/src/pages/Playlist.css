@@ -1,25 +1,25 @@
-.Playlist-body {
+.Playlist {
   display: flex;
 }
 
-.Body {
+.Playlist-body {
   flex: 0.8;
   background: linear-gradient(rgb(91, 87, 115), rgb(0, 0, 0, 1));
-  height: 100vh;
+  min-height: 100vh;
   overflow-y: overlay;
 }
 
-.Body::--webkit-scrollbar {
+.Playlist-body::--webkit-scrollbar {
   display: none;
 }
 
-.Body-info {
+.Playlist-info {
   display: flex;
   align-items: flex-end;
-  padding: 10px;
+  padding: 0 10px;
 }
 
-.Body-info > img {
+.Playlist-info > img {
   width: 15em;
   height: 15em;
   max-height: 15em;
@@ -28,68 +28,74 @@
   object-fit: cover;
 }
 
-.Body-infoText > h2 {
+.Playlist-infoText > h2 {
   font-size: 48px;
   margin-bottom: 10px;
   color: white;
 }
 
-.Body-infoText > p {
+.Playlist-infoText > p {
   font-size: 14px;
 }
 
-.Body-shuffle {
+.Playlist-shuffle {
   font-size: 80px !important;
+  color: #1ed15e !important;
   margin-left: 50px;
   margin-top: 20px;
   margin-bottom: 20px;
-  color: #1ed15e !important;
 }
 
-.Body-shuffle:hover {
+.Playlist-shuffle:hover {
+  color: #21df63 !important;
   transition: transform 0.1s ease-in-out;
   transform: scale(1.05);
 }
 
-.Body-controls {
+.Playlist-controls {
   display: flex;
   align-items: center;
   z-index: 1;
   margin: 20px -30px;
 }
 
-.Body-icons {
+.Playlist-icons {
   display: flex;
   flex: 0.8;
   align-items: center;
 }
 
-.Body-icons > .MuiSvgIcon-root:hover {
+.Playlist-icons > .MuiSvgIcon-root:hover {
   color: white;
 }
 
-.Body-icons > .MuiSvgIcon-root {
+.Playlist-icons > .MuiSvgIcon-root {
   margin-right: 20px;
 }
-.Body-filter {
+
+.Icon-filled-heart {
+  color: #21df63 !important;
+}
+
+.Playlist-filter {
   flex: 0.2;
   justify-content: space-between;
 }
 
-.Body-form {
+.Playlist-form {
   width: 11em;
   border: none;
 }
 
-section {
+.Playlist-body > section {
   background-color: rgb(0, 0, 0, 0.3);
 }
 
-.Body-songList {
+.Playlist-songList {
   color: rgba(255, 255, 255, 0.686) !important;
   font-size: 0.9em;
   text-align: left;
-  padding: 0 5em;
+  padding: 0 5em 5em 5em;
   margin: auto;
 }
 
@@ -100,6 +106,9 @@ table {
 
 thead > tr {
   border-bottom: 1px solid grey;
+}
+tbody > tr > td {
+  margin: 100px;
 }
 
 tbody > tr:hover {
@@ -113,4 +122,6 @@ td {
   white-space: nowrap;
   padding: 5px 0;
   max-width: 10em;
+  -webkit-line-clamp: 2;
+  word-break: break-word;
 }
