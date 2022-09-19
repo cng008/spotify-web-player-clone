@@ -1,0 +1,35 @@
+.Playlist-songList {
+  color: rgba(255, 255, 255, 0.686) !important;
+  font-size: 0.9em;
+  text-align: left;
+  padding: 0 5em 5em 5em;
+  margin: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead > tr {
+  border-bottom: 1px solid grey;
+}
+tbody > tr > td {
+  margin: 100px;
+}
+
+tbody > tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+th,
+td {
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 5px 0 5px 15px;
+  max-width: 10em;
+  -webkit-line-clamp: 2;
+  word-break: break-word;
+}

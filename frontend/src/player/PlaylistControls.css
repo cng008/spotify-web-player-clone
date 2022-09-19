@@ -1,0 +1,58 @@
+.Playlist-controls {
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  margin: 20px -30px;
+}
+
+.Playlist-icons {
+  display: flex;
+  flex: 0.8;
+  align-items: center;
+}
+
+.Playlist-icons > .MuiSvgIcon-root:hover {
+  color: white;
+}
+
+.Playlist-icons > .MuiSvgIcon-root {
+  margin-right: 20px;
+}
+
+.Playlist-shuffle {
+  font-size: 80px !important;
+  color: #1ed15e !important;
+  margin-left: 50px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.Playlist-shuffle:hover {
+  color: #21df63 !important;
+  transition: transform 0.1s ease-in-out;
+  transform: scale(1.05);
+}
+
+.Playlist-heart-filled {
+  color: #21df63 !important;
+}
+
+.Playlist-heart-filled:hover {
+  transition: transform 0.1s ease-in-out;
+  transform: scale(1.05);
+}
+
+.Playlist-heart-outline:hover {
+  transition: transform 0.1s ease-in-out;
+  transform: scale(1.05);
+}
+
+.Playlist-filter {
+  flex: 0.2;
+  justify-content: space-between;
+}
+
+.Playlist-form {
+  width: 11em;
+  border: none;
+}

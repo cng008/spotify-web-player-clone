@@ -1,32 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import SpotifyApi from '../common/api';
-import Sidebar from '../player/Sidebar';
-import Footer from '../player/Footer';
 import './Playlist.css';
 
-import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
-import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import SearchIcon from '@material-ui/icons/Search';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
-
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-
-import Song from '../player/Song';
+import SpotifyApi from '../common/api';
+import Header from '../player/Header';
+import Sidebar from '../player/Sidebar';
+import Footer from '../player/Footer';
+import PlaylistControls from '../player/PlaylistControls';
+import SongList from '../player/SongList';
 
 const Playlist = () => {
   const { handle } = useParams();
   const [playlist, setPlaylist] = useState('');
-  const [sort, setSort] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [paused, setPaused] = useState(false);
-  const [liked, setLike] = useState(false);
+
+  // console.debug('Playlist', 'handle=',handle,'playlist=',playlist,'sort=',sort, 'isLoading=', isLoading, 'paused=', paused, 'liked=', liked);
 
   // GET PLAYLIST FROM PARAK
   useEffect(() => {
@@ -34,43 +22,25 @@ const Playlist = () => {
       let result = await SpotifyApi.getPlaylist(handle);
       setPlaylist(result);
       setIsLoading(false);
+      document.body.style.cursor = 'default';
     }
     getPlaylistDetails();
   }, [handle]);
 
-  function msToMinutesAndSeconds(ms) {
-    let minutes = Math.floor(ms / 60000);
-    let seconds = ((ms % 60000) / 1000).toFixed(0);
-    return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-  }
-
-  const handleSort = evt => {
-    setSort(evt.target.value);
-  };
-
-  const togglePause = () => {
-    let toggle = paused === true ? false : true;
-    setPaused(toggle);
-  };
-
-  const toggleLike = () => {
-    let toggle = liked === true ? false : true;
-    setLike(toggle);
-  };
-
   if (isLoading) {
+    document.body.style.cursor = 'progress';
     return 'Loading...';
   }
 
   return (
-    <div className="Playlist">
-      <div className="Playlist-body">
+    <>
+      <div className="Playlist">
         <Sidebar />
-        <div className="Body">
-          <div className="Body-info">
+        <div className="Playlist-body">
+          <Header />
+          <div className="Playlist-info">
             <img src={playlist?.image} alt="" />
-            {/* <img src="https://i.scdn.co/image/6682aad217c1" alt="" /> */}
-            <div className="Body-infoText">
+            <div className="Playlist-infoText">
               <strong>PLAYLIST</strong>
               <h2>{playlist?.name}</h2>
               <p>{playlist?.description}</p>
@@ -78,82 +48,14 @@ const Playlist = () => {
           </div>
 
           <section>
-            <div className="Body-controls">
-              <div className="Body-icons">
-                {paused ? (
-                  <PauseCircleFilledIcon
-                    className="Body-shuffle"
-                    onClick={togglePause}
-                  />
-                ) : (
-                  <PlayCircleFilledIcon
-                    className="Body-shuffle"
-                    onClick={togglePause}
-                  />
-                )}
-                {liked ? (
-                  <FavoriteIcon fontSize="large" onClick={toggleLike} />
-                ) : (
-                  <FavoriteBorderIcon fontSize="large" onClick={toggleLike} />
-                )}
-
-                <MoreHorizIcon fontSize="large" />
-              </div>
-
-              <div className="Body-filter">
-                <SearchIcon />
-                <FormControl sx={{ m: 1, minWidth: 80 }} className="Body-form">
-                  <InputLabel id="song-order"></InputLabel>
-                  <Select
-                    labelId="song-order"
-                    id="song-order"
-                    value={sort ? sort : 'custom'}
-                    label="Age"
-                    onChange={handleSort}
-                  >
-                    <MenuItem value="" disabled>
-                      <small>Sort By</small>
-                    </MenuItem>
-                    <MenuItem value="custom">Custom Order</MenuItem>
-                    <MenuItem value="title">Title</MenuItem>
-                    <MenuItem value="artist">Artist</MenuItem>
-                    <MenuItem value="album">Album</MenuItem>
-                    <MenuItem value="dateAdded">Date added</MenuItem>
-                    <MenuItem value="duration">Duration</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-            </div>
-
-            {/* List of songs */}
-            <div className="Body-songList">
-              <table>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>TITLE</th>
-                    <th>ALBUM</th>
-                    <th>DATE ADDED</th>
-                    <th>
-                      <AccessTimeIcon />
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {playlist?.songs.map((track, id) => (
-                    <tr>
-                      <Song track={track} id={id} />
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <PlaylistControls />
+            <SongList playlist={playlist} />
           </section>
         </div>
       </div>
 
       <Footer />
-    </div>
+    </>
   );
 };
 
