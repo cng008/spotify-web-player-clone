@@ -19,7 +19,7 @@ const router = new express.Router();
  *
  * playlist should be { name, userId, description, createdAt, image }
  *
- * Returns { name, userId, description, createdAt, image }
+ * Returns { name,handle, userId, description, createdAt, image }
  *
  * Authorization required: ensureLoggedIn
  */
@@ -40,7 +40,7 @@ router.post('/', ensureLoggedIn, async function (req, res, next) {
 });
 
 /** GET /  =>
- *   { playlists: [ { name, userId, description, createdAt, image }, ...] }
+ *   { playlists: [ { name, handle, userId, description, createdAt, image }, ...] }
  *
  * Can filter on provided search filters:
  * - nameLike (will find case-insensitive, partial matches)
@@ -67,7 +67,7 @@ router.get('/', async function (req, res, next) {
 
 /** GET /[handle]  =>  { playlist }
  *
- *  Playlist is { name, userId, description, createdAt, image }
+ *  Playlist is { name, handle, userId, description, createdAt, image }
  *   where songs is [{ id, name, duration, dataAdded, artistId, albumId, image }, ...]
  *
  * Authorization required: none
@@ -88,7 +88,7 @@ router.get('/:handle', async function (req, res, next) {
  *
  * fields can be: { name, description, image }
  *
- * Returns { name, userId, description, createdAt, image }
+ * Returns { name, handle, userId, description, createdAt, image }
  *
  * Authorization required: admin
  */

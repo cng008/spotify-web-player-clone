@@ -3,19 +3,16 @@
   "$id": "http://our.playlist.com/playlistSearch.schema.json",
   "type": "object",
   "properties": {
-    "title": {
+    "name": {
       "type": "string"
     },
-    "duration": {
-      "type": "string"
-    },
-    "date_added": {
+    "handle": {
       "type": "string"
     },
     "artist_id": {
-      "type": "integer"
+      "type": "string"
     },
-    "album_id": {
+    "release_year": {
       "type": "integer"
     },
     "image": {
@@ -23,5 +20,5 @@
     }
   },
   "additionalProperties": false,
-  "required": []
+  "required": ["name", "artist_id", "release_year", "image"]
 }

@@ -4,7 +4,6 @@ import { getTokenFromUrl } from './common/auth';
 import SpotifyWebApi from 'spotify-web-api-js';
 import SpotifyApi from './common/api';
 import { useStateValue } from './StateProvider';
-import Login from './Login';
 import Routes from './Routes';
 
 // Connect Spotify API to our React App
@@ -13,6 +12,7 @@ const spotify = new SpotifyWebApi();
 function App() {
   // pull from useContext
   const [{ token }, dispatch] = useStateValue();
+  console.debug('App', 'token', token);
 
   // runs when app component loads and every time variable changes
   useEffect(() => {
@@ -38,7 +38,7 @@ function App() {
         });
       });
 
-      // /** get playlists
+      /** GET PLAYLISTS *************************
       //  * returns a promise
       //  */
       // SpotifyApi.getPlaylists().then(playlists => {
@@ -57,10 +57,10 @@ function App() {
     }
   }, [dispatch]);
 
-  /** FOR PRODUCTION
+  /** FOR PRODUCTION ***********************************
    * delete before deploying*/
   useEffect(() => {
-    /** get playlists
+    /** GET PLAYLISTS *************************
      * returns a promise
      */
     SpotifyApi.getPlaylists().then(playlists => {
@@ -69,13 +69,31 @@ function App() {
         playlists: playlists
       });
     });
-  }, []);
+
+    /** GET ARTISTS *************************
+     * returns a promise
+     */
+    SpotifyApi.getArtists().then(artists => {
+      dispatch({
+        type: 'SET_ARTISTS',
+        artists: artists
+      });
+    });
+
+    /** GET ALBUMS *************************
+     * returns a promise
+     */
+    SpotifyApi.getAlbums().then(albums => {
+      dispatch({
+        type: 'SET_ALBUMS',
+        albums: albums
+      });
+    });
+  }, [dispatch]);
 
   return (
     <div className="App">
       <BrowserRouter>
-        {/* Display different pages depending on if a user is logged in */}
-        {token ? null : <Login />}
         <Routes />
       </BrowserRouter>
     </div>

@@ -1,0 +1,29 @@
+.TabNav {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 24px;
+}
+
+.tabBtn {
+  font-size: 11px;
+  color: #fff;
+  border-radius: 4px;
+  padding: 15px 15px;
+  margin: 0 5px;
+}
+
+.tabBtn:hover {
+  background: hsla(0, 0%, 35%, 0.3);
+  /* -webkit-backdrop-filter: blur(60px);
+  backdrop-filter: blur(60px); */
+}
+
+.activeTabBtn {
+  background: hsla(0, 0%, 35%, 0.3);
+}
+
+@media screen and (max-width: 640px) {
+  .tabBtn {
+    padding: 8px 12px;
+  }
+}

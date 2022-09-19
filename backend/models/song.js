@@ -6,25 +6,26 @@ const { NotFoundError } = require('../expressError');
 /** Related functions for songs. */
 
 class Song {
-  /** Add a song (from data), update db, return new song data.
+  /** Add a song (from data)
+   * update db (playlists_songs, artist_songs, album_songs, artists, songs, albums)
    *
-   * data should be { title, duration, date_added, artist_id, album_id, image }
+   * data should be { name, duration, date_added, artist_id, album_id, image }
    *
-   * Returns { id, title, duration, date_added, artist_id, album_id, image }
+   * Returns new song data { id, name, duration, date_added, artist_id, album_id, image }
    **/
 
   static async add(data) {
     const result = await db.query(
-      `INSERT INTO songs (title, duration, date_added, artist_id, album_id, image)
+      `INSERT INTO songs (name, duration, date_added, artist_id, album_id, image)
            VALUES ($1, $2, now(), $3, $4, $5)
            RETURNING id, 
-                    title, 
+                    name, 
                     duration, 
                     date_added AS "dateAdded", 
                     artist_id AS "artistId", 
                     album_id AS "albumId", 
                     image`,
-      [data.title, data.duration, data.artist_id, data.album_id, data.image]
+      [data.name, data.duration, data.artist_id, data.album_id, data.image]
     );
     let song = result.rows[0];
 
@@ -34,15 +35,15 @@ class Song {
   /** Find all songs (optional filter on searchFilters).
    *
    * searchFilters (all optional):
-   * - title (will find case-insensitive, partial matches)
+   * - name (will find case-insensitive, partial matches)
    *
-   * Returns [{ id, title, duration, date_added, artist_id, album_id, image }, ...]
+   * Returns [{ id, name, duration, date_added, artist_id, album_id, image }, ...]
    *   where album is { id, name, artist_id, release_year, image }
    *   where artist is { id, name, image }
    * */
 
   static async findAll(searchFilters = {}) {
-    let query = `SELECT s.id, s.title, s.duration, s.date_added AS "dateAdded", at.name AS "artistName", ab.name AS "albumName", ab.release_year AS "albumReleaseYear", s.image
+    let query = `SELECT s.id, s.name, s.duration, s.date_added AS "dateAdded", at.name AS "artistName", ab.name AS "albumName", ab.release_year AS "albumReleaseYear", s.image
                  FROM songs AS s
                    JOIN albums AS ab ON s.album_id = ab.id
                    JOIN artist_songs AS ats ON s.id = ats.song_id
@@ -55,9 +56,9 @@ class Song {
     // For each possible search term, add to whereExpressions and
     // queryValues so we can generate the right SQL
 
-    // if (title !== undefined) {
-    //   queryValues.push(`%${title}%`);
-    //   whereExpressions.push(`title ILIKE $${queryValues.length}`);
+    // if (name !== undefined) {
+    //   queryValues.push(`%${name}%`);
+    //   whereExpressions.push(`name ILIKE $${queryValues.length}`);
     // }
 
     // if (whereExpressions.length > 0) {
@@ -73,7 +74,7 @@ class Song {
 
   //   /** Given a song id, return data about song and start playing audio.
   //    *
-  //    * Returns { id, title, duration, date_added, artist_id, album_id, image }
+  //    * Returns { id, name, duration, date_added, artist_id, album_id, image }
   //    *   where album is { id, name, artist_id, release_year, image }
   //    *   where artist is { id, name, image }
   //    *
@@ -82,7 +83,7 @@ class Song {
 
   static async get(id) {
     const songRes = await db.query(
-      `SELECT id, title, duration, date_added AS "dateAdded", artist_id AS "artistId", album_id AS "albumId", image
+      `SELECT id, name, duration, date_added AS "dateAdded", artist_id AS "artistId", album_id AS "albumId", image
         FROM songs
         WHERE id = $1`,
       [id]
@@ -121,13 +122,13 @@ class Song {
    * Throws NotFoundError if album not found.
    **/
 
-  static async remove(id) {
+  static async remove(playlistId, songId) {
     const result = await db.query(
       `DELETE
-           FROM songs
-           WHERE id = $1
+           FROM playlist_songs
+           WHERE playlist_id = $1 AND song_id = $2
            RETURNING id`,
-      [id]
+      [playlistId, songId]
     );
     const song = result.rows[0];
 

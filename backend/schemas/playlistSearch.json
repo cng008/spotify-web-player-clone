@@ -23,6 +23,6 @@
       "format": "uri"
     }
   },
-  "additionalProperties": true,
+  "additionalProperties": false,
   "required": []
 }

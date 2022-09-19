@@ -1,0 +1,44 @@
+.Library {
+  display: flex;
+  background-color: #121212;
+  color: #fff;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.Library-body {
+  flex: 0.8;
+  padding-bottom: 3em;
+  margin-bottom: 9em;
+}
+
+.Library-body::--webkit-scrollbar {
+  display: none;
+}
+
+.Library-content {
+  display: flex;
+  padding: 0px 32px;
+}
+
+.Library-content h2 {
+  font-size: 1.7em;
+  font-weight: 700;
+  color: white;
+}
+
+.Grid > p {
+  margin-top: 24px;
+}
+
+/* @media screen and (max-width: 640px) {
+  .Library {
+    padding: 16px;
+    margin-bottom: 180px;
+    margin-top: 42px;
+  }
+  .Grid {
+    grid-gap: 16px;
+    grid-template-columns: 1fr 1fr;
+  }
+} */

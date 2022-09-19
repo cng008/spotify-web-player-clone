@@ -8,6 +8,8 @@ const { NotFoundError } = require('./expressError');
 const { authenticateJWT } = require('./middleware/auth');
 const playlistsRoutes = require('./routes/playlists');
 const songsRoutes = require('./routes/songs');
+const artistsRoutes = require('./routes/artists');
+const albumsRoutes = require('./routes/albums');
 
 const morgan = require('morgan');
 
@@ -20,6 +22,8 @@ app.use(authenticateJWT);
 
 app.use('/playlists', playlistsRoutes);
 app.use('/songs', songsRoutes);
+app.use('/artists', artistsRoutes);
+app.use('/albums', albumsRoutes);
 
 /** Handle 404 errors -- this matches everything */
 app.use(function (req, res, next) {

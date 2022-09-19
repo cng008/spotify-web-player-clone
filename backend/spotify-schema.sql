@@ -43,7 +43,8 @@ CREATE TABLE playlist_songs (
 
 CREATE TABLE albums (
   id SERIAL PRIMARY KEY,
-  name TEXT NOT NULL,
+  name TEXT NOT NULL,  
+  handle TEXT,
   artist_id INTEGER NOT NULL,
   release_year INTEGER,
   image TEXT
@@ -56,7 +57,8 @@ CREATE TABLE album_songs (
 
 CREATE TABLE artists (
   id SERIAL PRIMARY KEY,
-  name TEXT NOT NULL,
+  name TEXT NOT NULL,  
+  handle TEXT,
   image TEXT
 );
 

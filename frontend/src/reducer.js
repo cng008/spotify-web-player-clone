@@ -1,11 +1,13 @@
 export const INITIAL_STATE = {
   user: null,
-  playlists: [],
+  // token: null
+  // 'BQCcuMrX2ibx2djgcGHYXQWpBxEw04bZ9GPdpp8aHMiVD02odVgL-JDMmXkNbQxhpxNO3G_fNIXEHQDioqiN3jE3MpWCChMJOxiJcOi_A-ho-6Z_BlFK5_bNHoHTbpKwLpj5zVYcmSYURSwA1-xaF7bynWKlT-oTyrki-pGL1lZLtC8H8ZO7'
   playing: false,
   volume: 50,
-  item: null
-  // token:
-  //   'BQCcuMrX2ibx2djgcGHYXQWpBxEw04bZ9GPdpp8aHMiVD02odVgL-JDMmXkNbQxhpxNO3G_fNIXEHQDioqiN3jE3MpWCChMJOxiJcOi_A-ho-6Z_BlFK5_bNHoHTbpKwLpj5zVYcmSYURSwA1-xaF7bynWKlT-oTyrki-pGL1lZLtC8H8ZO7'
+  playlists: [],
+  artist: [],
+  albums: [],
+  trackData: null
 };
 
 // Listens to actions
@@ -31,6 +33,7 @@ const reducer = (state, action) => {
     case 'SET_PLAYING':
       return {
         ...state,
+        trackData: action.trackData,
         playing: action.playing
       };
 
@@ -44,6 +47,18 @@ const reducer = (state, action) => {
       return {
         ...state,
         playlists: action.playlists
+      };
+
+    case 'SET_ARTISTS':
+      return {
+        ...state,
+        artists: action.artists
+      };
+
+    case 'SET_ALBUMS':
+      return {
+        ...state,
+        albums: action.albums
       };
 
     case 'SET_DISCOVER_WEEKLY':

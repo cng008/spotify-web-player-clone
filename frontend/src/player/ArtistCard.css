@@ -1,0 +1,56 @@
+.ArtistCardMBox {
+  display: inline-flex;
+  position: relative;
+  overflow: hidden;
+  margin: 2em 0;
+  padding-right: 1.5em;
+}
+.ArtistCardM {
+  width: 150px;
+  position: relative;
+  padding: 16px;
+  background: #181818;
+  border-radius: 4px;
+  -webkit-transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
+}
+.ArtistCardM-ImgBox {
+  width: 150px;
+  height: 150px;
+  /* -webkit-box-shadow: 0 -4px 12px rgb(0 0 0 / 50%);
+    box-shadow: 0 -4px 12px rgb(0 0 0 / 50%); */
+}
+.ArtistCardM-ImgBox img {
+  width: 100%;
+  height: 100%;
+  border-radius: 100px;
+  object-fit: cover;
+}
+
+.ArtistCardM-Title {
+  display: block;
+  margin-top: 16px;
+  color: white;
+  /* min-height: 62px; */
+}
+.ArtistCardM-Title > p {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5em;
+  margin-bottom: 1em;
+  color: rgb(179, 179, 179);
+  margin-top: 8px;
+  /* Show max 2 lines of text */
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}
+
+.ArtistCardM:hover {
+  background: hsla(0, 0%, 35%, 0.3);
+  -webkit-backdrop-filter: blur(60px);
+  backdrop-filter: blur(60px);
+}
