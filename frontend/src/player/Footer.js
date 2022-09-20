@@ -1,6 +1,8 @@
 import React from 'react';
 import { useStateValue } from '../StateProvider';
+import Slider from './Slider';
 import './Footer.css';
+
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
@@ -13,19 +15,22 @@ import PlaylistPlayIcon from '@material-ui/icons/PlaylistPlay';
 import { Grid } from '@material-ui/core';
 
 const Footer = () => {
-  const [{ playing, volume }, dispatch] = useStateValue();
-  // console.debug('Footer', 'playing=', playing, 'volume=', volume);
+  const [{ isPlaying, volume }, dispatch] = useStateValue();
+  // console.debug('Footer', 'isPlaying=', isPlaying, 'volume=', volume);
 
-  // SET PLAY/PAUSE GLOBALLY
+  /** SETS PLAY/PAUSE GLOBALLY */
   const togglePause = () => {
-    let toggle = playing === false ? true : false;
+    let toggle = isPlaying === false ? true : false;
     dispatch({
       type: 'SET_PLAYING',
-      playing: toggle
+      isPlaying: toggle
     });
   };
 
-  // SET VOLUME GLOBALLY
+  /** SETS VOLUME GLOBALLY
+   * Saves volume before setting to 0
+   * allows input to toggle mute/unmute by saving to localStorage
+   */
   const handleVolume = e => {
     dispatch({
       type: 'SET_VOLUME',
@@ -68,7 +73,7 @@ const Footer = () => {
       <div className="Footer-center">
         <ShuffleIcon className="Footer-green" />
         <SkipPreviousIcon fontSize="large" className="Footer-icon" />
-        {playing ? (
+        {isPlaying ? (
           <PauseCircleFilledIcon
             className="Footer-icon"
             onClick={togglePause}
@@ -94,16 +99,7 @@ const Footer = () => {
             )}
           </Grid>
           <Grid item xs className="progressBar">
-            <input
-              className="slider"
-              key="volume-slider"
-              type="range"
-              name="volume"
-              value={volume}
-              min="0"
-              max="100"
-              onChange={handleVolume}
-            />
+            <Slider volume={volume} handleVolume={handleVolume} />
           </Grid>
         </Grid>
       </div>
