@@ -7,10 +7,6 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import SearchIcon from '@material-ui/icons/Search';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 
 const PlaylistControls = () => {
   const [sort, setSort] = useState('');
@@ -64,26 +60,25 @@ const PlaylistControls = () => {
 
       <div className="Playlist-filter">
         <SearchIcon />
-        <FormControl sx={{ m: 1, minWidth: 80 }} className="Playlist-form">
-          <InputLabel id="song-order"></InputLabel>
-          <Select
+        <form sx={{ m: 1, minWidth: 80 }} className="Playlist-form">
+          <select
             labelId="song-order"
             id="song-order"
             value={sort ? sort : 'custom'}
             label="Age"
             onChange={handleSort}
           >
-            <MenuItem value="" disabled>
-              <small>Sort By</small>
-            </MenuItem>
-            <MenuItem value="custom">Custom Order</MenuItem>
-            <MenuItem value="title">Title</MenuItem>
-            <MenuItem value="artist">Artist</MenuItem>
-            <MenuItem value="album">Album</MenuItem>
-            <MenuItem value="dateAdded">Date added</MenuItem>
-            <MenuItem value="duration">Duration</MenuItem>
-          </Select>
-        </FormControl>
+            <option value="" className="sort-by" disabled>
+              Sort by
+            </option>
+            <option value="custom">Custom order</option>
+            <option value="title">Title</option>
+            <option value="artist">Artist</option>
+            <option value="album">Album</option>
+            <option value="dateAdded">Date added</option>
+            <option value="duration">Duration</option>
+          </select>
+        </form>
       </div>
     </div>
   );

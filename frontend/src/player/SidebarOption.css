@@ -20,6 +20,17 @@
   margin-top: 10px;
   margin-left: 20px;
   font-size: 14px;
+  max-width: 15vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* If the screen size is 1315px wide or less, set the max-width of <p> to 200px */
+@media screen and (max-width: 1315px) {
+  .SidebarOption > p {
+    max-width: 200px;
+  }
 }
 
 .SidebarOption-liked {

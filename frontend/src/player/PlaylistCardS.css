@@ -38,8 +38,13 @@
 }
 
 .PlaylistCardS-Title h3 {
-  -webkit-line-clamp: 2;
-  word-break: break-word;
+  text-overflow: ellipsis;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  white-space: normal;
 }
 
 /* .IconBox {

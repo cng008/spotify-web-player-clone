@@ -7,7 +7,7 @@
 }
 
 .Library-body {
-  flex: 0.8;
+  flex: 1;
   padding-bottom: 3em;
   margin-bottom: 9em;
 }
@@ -25,6 +25,10 @@
   font-size: 1.7em;
   font-weight: 700;
   color: white;
+}
+
+.Grid {
+  padding-top: 16px;
 }
 
 .Grid > p {

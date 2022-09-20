@@ -76,15 +76,22 @@
   /* min-height: 62px; */
 }
 
+.PlaylistCardM-Title > h3 {
+  margin-bottom: 0.7em;
+  margin-top: 1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .PlaylistCardM-Title > p {
   font-size: 13px;
-  font-weight: 600;
-  line-height: 1.5em;
+  line-height: 1.7em;
   margin-bottom: 1em;
   color: rgb(179, 179, 179);
-  margin-top: 8px;
   /* Show max 2 lines of text */
   text-overflow: ellipsis;
+  overflow-wrap: break-word;
   overflow: hidden;
   display: -webkit-box !important;
   -webkit-line-clamp: 2;

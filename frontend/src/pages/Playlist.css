@@ -5,8 +5,6 @@
 .Playlist-body {
   flex: 1;
   background: linear-gradient(rgb(91, 87, 115), rgb(0, 0, 0, 1));
-  min-height: 100vh;
-  overflow-y: overlay;
 }
 
 .Playlist-body::--webkit-scrollbar {
@@ -29,16 +27,20 @@
 }
 
 .Playlist-infoText > h2 {
-  font-size: 48px;
-  margin-bottom: 10px;
+  font-size: 8vh;
+  margin: 0.2em 0 0.4em 0;
   color: white;
 }
 
 .Playlist-infoText > p {
   font-size: 14px;
+  inline-size: 45vw;
+  max-height: 9em;
+  overflow-wrap: break-word;
+  overflow: hidden;
 }
 
 .Playlist-body > section {
   background-color: rgb(0, 0, 0, 0.3);
-  height: 50%;
+  min-height: 100%;
 }
