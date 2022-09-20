@@ -18,6 +18,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: rgba(255, 255, 255, 0.686);
   background-color: black;
+  min-height: 400px;
+  margin-bottom: 60px;
+  clear: both;
 }
 
 code {

@@ -20,7 +20,7 @@ const Searchbar = () => {
             width: '200%',
             height: '2.5em',
             padding: '10px',
-            marginLeft: '10px'
+            margin: '5px 10px'
           },
           disableUnderline: true,
           startAdornment: (

@@ -2,8 +2,8 @@
   display: inline-flex;
   position: relative;
   overflow: hidden;
-  margin: 2em 0;
   padding-right: 1.5em;
+  margin-bottom: 1.5em;
 }
 .ArtistCardM {
   width: 150px;

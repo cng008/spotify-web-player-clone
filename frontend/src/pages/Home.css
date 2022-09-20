@@ -7,7 +7,7 @@
 }
 
 .Home-body {
-  flex: 0.8;
+  flex: 1;
   background: linear-gradient(rgb(91, 87, 115), rgb(0, 0, 0, 1));
   min-height: 100vh;
   overflow-y: overlay;
@@ -25,4 +25,8 @@
   font-size: 2em;
   font-weight: 700;
   color: white;
+}
+
+.Section-cards {
+  margin: 2em 0;
 }
