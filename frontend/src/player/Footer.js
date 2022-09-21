@@ -15,7 +15,7 @@ import PlaylistPlayIcon from '@material-ui/icons/PlaylistPlay';
 import { Grid } from '@material-ui/core';
 
 const Footer = () => {
-  const [{ isPlaying, volume }, dispatch] = useStateValue();
+  const [{ isPlaying, volume, trackData }, dispatch] = useStateValue();
   // console.debug('Footer', 'isPlaying=', isPlaying, 'volume=', volume);
 
   /** SETS PLAY/PAUSE GLOBALLY */
@@ -59,14 +59,12 @@ const Footer = () => {
   return (
     <div className="Footer">
       <div className="Footer-left">
-        <img
-          className="Footer-albumLogo"
-          src="https://i.scdn.co/image/ab67616d000048513984f95048773ff35971aa40"
-          alt=""
-        />
+        {trackData?.image ? (
+          <img className="Footer-albumLogo" src={trackData.image} alt="" />
+        ) : null}
         <div className="Footer-songInfo">
-          <h4>Gasoline</h4>
-          <p>Alpine</p>
+          <h4>{trackData?.name}</h4>
+          <p>{trackData?.artistName}</p>
         </div>
       </div>
 
