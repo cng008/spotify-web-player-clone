@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import UserContext from '../UserContext';
 import { useStateValue } from '../StateProvider';
 import Slider from './Slider';
 import './Footer.css';
@@ -15,8 +16,21 @@ import PlaylistPlayIcon from '@material-ui/icons/PlaylistPlay';
 import { Grid } from '@material-ui/core';
 
 const Footer = () => {
-  const [{ isPlaying, volume, trackData }, dispatch] = useStateValue();
-  // console.debug('Footer', 'isPlaying=', isPlaying, 'volume=', volume);
+  const [{ isPlaying, volume, trackData, playerTime }, dispatch] =
+    useStateValue();
+  const { getSongDuration } = useContext(UserContext);
+
+  // console.debug(
+  //   'Footer',
+  //   'isPlaying=',
+  //   isPlaying,
+  //   'volume=',
+  //   volume,
+  //   'trackData',
+  //   trackData,
+  //   'playerTime',
+  //   playerTime
+  // );
 
   /** SETS PLAY/PAUSE GLOBALLY */
   const togglePause = () => {
@@ -27,19 +41,27 @@ const Footer = () => {
     });
   };
 
+  /** SAVES SONG TIME GLOBALLY */
+  const handleTimeline = evt => {
+    dispatch({
+      type: 'SET_SONG_TIME',
+      playerTime: parseInt(evt.target.value)
+    });
+  };
+
   /** SETS VOLUME GLOBALLY
    * Saves volume before setting to 0
    * allows input to toggle mute/unmute by saving to localStorage
    */
-  const handleVolume = e => {
+  const handleVolume = evt => {
     dispatch({
       type: 'SET_VOLUME',
-      volume: parseInt(e.target.value)
+      volume: parseInt(evt.target.value)
     });
-    localStorage.setItem('unMuteVariable', JSON.stringify(e.target.value));
+    localStorage.setItem('unMuteVariable', JSON.stringify(evt.target.value));
   };
 
-  const handleMute = e => {
+  const handleMute = () => {
     dispatch({
       type: 'SET_VOLUME',
       volume: 0
@@ -59,7 +81,7 @@ const Footer = () => {
   return (
     <div className="Footer">
       <div className="Footer-left">
-        {trackData?.image ? (
+        {trackData ? (
           <img className="Footer-albumLogo" src={trackData.image} alt="" />
         ) : null}
         <div className="Footer-songInfo">
@@ -69,18 +91,41 @@ const Footer = () => {
       </div>
 
       <div className="Footer-center">
-        <ShuffleIcon className="Footer-green" />
-        <SkipPreviousIcon fontSize="large" className="Footer-icon" />
-        {isPlaying ? (
-          <PauseCircleFilledIcon
-            className="Footer-icon"
-            onClick={togglePause}
-          />
-        ) : (
-          <PlayCircleFilledIcon className="Footer-icon" onClick={togglePause} />
-        )}
-        <SkipNextIcon fontSize="large" className="Footer-icon" />
-        <RepeatIcon className="Footer-green" />
+        <div className="Footer-center-controls">
+          <ShuffleIcon activeClassName="Footer-green" />
+          <SkipPreviousIcon fontSize="large" className="Footer-icon" />
+          {isPlaying ? (
+            <PauseCircleFilledIcon
+              className="Footer-icon"
+              onClick={togglePause}
+            />
+          ) : (
+            <PlayCircleFilledIcon
+              className="Footer-icon"
+              onClick={togglePause}
+            />
+          )}
+          <SkipNextIcon fontSize="large" className="Footer-icon" />
+          <RepeatIcon activeClassName="Footer-green" />
+        </div>
+        <div className="Footer-control-timeline">
+          <div>
+            <span>{trackData ? getSongDuration(playerTime) : null}</span>
+          </div>
+          <div className="Footer-control-slider">
+            <Slider
+              value={playerTime}
+              minValue={0}
+              maxValue={trackData?.duration}
+              handleChange={handleTimeline}
+            />
+          </div>
+          <div>
+            <span>
+              {trackData ? getSongDuration(trackData?.duration) : null}
+            </span>
+          </div>
+        </div>
       </div>
 
       <div className="Footer-right">
@@ -97,7 +142,12 @@ const Footer = () => {
             )}
           </Grid>
           <Grid item xs className="progressBar">
-            <Slider volume={volume} handleVolume={handleVolume} />
+            <Slider
+              value={volume}
+              minValue={0}
+              maxValue={100}
+              handleChange={handleVolume}
+            />
           </Grid>
         </Grid>
       </div>

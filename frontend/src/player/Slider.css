@@ -3,7 +3,7 @@
   background-color: #535353;
   height: 4px;
   overflow: hidden;
-  width: auto;
+  width: inherit;
   border-radius: 50px;
 }
 
@@ -20,7 +20,7 @@
   -webkit-appearance: none;
   background: #b3b3b3;
   border-radius: 50%;
-  box-shadow: -100px 0 0 100px #b3b3b3;
+  box-shadow: -410px 0 0 408px #b3b3b3;
   cursor: pointer;
   height: 10px;
   width: 1px;
@@ -61,10 +61,12 @@
   border: 0;
 }
 
+.Footer-control-slider:hover .slider::-webkit-slider-thumb,
 .progressBar:hover .slider::-webkit-slider-thumb {
   background: #1db954;
   box-shadow: -410px 0 0 408px #1db954;
 }
+.Footer-control-slider:hover slider::-moz-range-thumb,
 .progressBar:hover .slider::-moz-range-thumb {
   background: #1db954;
   box-shadow: -410px 0 0 408px #1db954;

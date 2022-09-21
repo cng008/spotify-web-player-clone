@@ -1,11 +1,12 @@
 .Footer {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   position: fixed;
   bottom: 0;
   height: 40px;
   width: 100%;
-  background-color: #282828;
+  background-color: rgb(24, 24, 24);
   padding: 20px;
 }
 
@@ -25,13 +26,29 @@
 }
 
 .Footer-center {
-  display: flex;
+  display: block;
   flex: 0.5;
+  text-align: center;
+}
+
+.Footer-center-controls {
+  display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   color: white;
   max-width: 200px;
   padding: 0 100px;
+}
+
+.Footer-control-timeline {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.Footer-control-slider {
+  width: 27em;
+  margin: 0 1em;
 }
 
 .Footer-green:active {
@@ -69,17 +86,16 @@
 }
 
 .Footer-right {
-  display: flex;
   flex: 0.2;
-  justify-content: space-between;
-  align-items: center;
+  display: flex;
+  justify-content: end;
   color: white;
 }
 
 /* override material ui slider color */
 .progressBar {
   display: flex;
-  width: 50px;
+  max-width: 50px;
   align-items: center;
   position: relative;
 }

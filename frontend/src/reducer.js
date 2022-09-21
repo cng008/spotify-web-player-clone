@@ -1,13 +1,15 @@
 export const INITIAL_STATE = {
   user: null,
-  // token: null
-  // 'BQCcuMrX2ibx2djgcGHYXQWpBxEw04bZ9GPdpp8aHMiVD02odVgL-JDMmXkNbQxhpxNO3G_fNIXEHQDioqiN3jE3MpWCChMJOxiJcOi_A-ho-6Z_BlFK5_bNHoHTbpKwLpj5zVYcmSYURSwA1-xaF7bynWKlT-oTyrki-pGL1lZLtC8H8ZO7'
-  playing: false,
+  // token:
+  //   'BQCT3LyULhqahXLPHQKSlo98eDWUg9GeCBXP5MneAAiyGBAGnwUTEjm4l71OwrH7B2aVjDQGkHLZFVcM-JZ_qWL62ILrOq1E7liTZQhvWDRGNUWaUudSyUI8QmTXkdtSuw9xed_se9Ukx3aW-oRijAItctY1-ElDqDRMNWnaP-2RGo1tVsyR',
+  isPlaying: false,
+  playerTime: 0,
   volume: 50,
   playlists: [],
   artist: [],
   albums: [],
-  trackData: null
+  trackData: null,
+  discover_weekly: []
 };
 
 // Listens to actions
@@ -33,8 +35,19 @@ const reducer = (state, action) => {
     case 'SET_PLAYING':
       return {
         ...state,
-        trackData: action.trackData,
-        playing: action.playing
+        isPlaying: action.isPlaying
+      };
+
+    case 'SET_SONG':
+      return {
+        ...state,
+        trackData: action.trackData
+      };
+
+    case 'SET_SONG_TIME':
+      return {
+        ...state,
+        playerTime: action.playerTime
       };
 
     case 'SET_VOLUME':

@@ -1,7 +1,7 @@
 import React from 'react';
 import './Slider.css';
 
-const Slider = ({ volume, handleVolume }) => {
+const Slider = ({ value, minValue, maxValue, handleChange }) => {
   return (
     <>
       <input
@@ -9,10 +9,10 @@ const Slider = ({ volume, handleVolume }) => {
         key="volume-slider"
         type="range"
         name="volume"
-        value={volume}
-        min="0"
-        max="100"
-        onChange={handleVolume}
+        value={value}
+        min={minValue}
+        max={maxValue}
+        onChange={handleChange}
       />
     </>
   );

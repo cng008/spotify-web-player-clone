@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
+import { useStateValue } from './StateProvider';
 import { BrowserRouter } from 'react-router-dom';
+import UserContext from './UserContext';
 import { getTokenFromUrl } from './common/auth';
 import SpotifyWebApi from 'spotify-web-api-js';
 import SpotifyApi from './common/api';
-import { useStateValue } from './StateProvider';
 import Routes from './Routes';
 
 // Connect Spotify API to our React App
@@ -91,10 +92,35 @@ function App() {
     });
   }, [dispatch]);
 
+  /** Handles milliseconds to minutes:seconds conversion.
+   * https://stackoverflow.com/a/21294619
+   */
+  function getSongDuration(ms) {
+    let minutes = Math.floor(ms / 60000);
+    let seconds = ((ms % 60000) / 1000).toFixed(0);
+    return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+  }
+
+  /** Calculates days since song was added to playlist.
+   * https://stackoverflow.com/a/4929629
+   */
+  function daysAgo(dateAdded, currentDate) {
+    const date1 = new Date(dateAdded);
+    const date2 = currentDate;
+
+    const oneDay = 1000 * 60 * 60 * 24; // One day in milliseconds
+    const diffInTime = date2.getTime() - date1.getTime(); // Calculating the time difference between two dates
+    const diffInDays = Math.round(diffInTime / oneDay); // Calculating the no. of days between two dates
+
+    return diffInDays;
+  }
+
   return (
     <div className="App">
       <BrowserRouter>
-        <Routes />
+        <UserContext.Provider value={{ getSongDuration, daysAgo }}>
+          <Routes />
+        </UserContext.Provider>
       </BrowserRouter>
     </div>
   );
