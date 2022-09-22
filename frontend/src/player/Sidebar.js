@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useStateValue } from '../StateProvider';
 import { NavLink } from 'react-router-dom';
 import SidebarOption from './SidebarOption';
-import NewPlaylistForm from './NewPlaylistForm';
+// import NewPlaylistForm from './NewPlaylistForm'; //not used
+import SpotifyApi from '../common/api';
 import './Sidebar.css';
 
 import HomeIcon from '@material-ui/icons/Home';
@@ -12,17 +13,46 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const Sidebar = () => {
-  const [{ playlists, user }] = useStateValue();
-  const [showModal, setShowModal] = useState(false);
+  const [{ playlists }, dispatch] = useStateValue();
+  const playlistsCount = Object.keys(playlists).length;
+  // const [showModal, setShowModal] = useState(false);
+  /** Sets default playlist name and image if inputs are left empty */
+  const INITIAL_DATA = {
+    name: `My Playlist #${playlistsCount + 1}`,
+    description: '',
+    user_id: 1,
+    image:
+      'https://assets.audiomack.com/jojo-1264/82a10a07eff76040ec325e3498c6d6c7.jpeg?type=song&width=280&height=280&max=true'
+  };
 
-  const openModal = () => {
-    setShowModal(true);
-  };
-  const closeModal = () => {
-    setShowModal(false);
-  };
+  // const openModal = () => {
+  //   setShowModal(true);
+  // };
+  // const closeModal = () => {
+  // setShowModal(false);
+  // };
 
   // console.debug('Sidebar', 'playlists=', playlists);
+
+  const createNewPlaylist = async evt => {
+    evt.preventDefault();
+
+    try {
+      /** Makes a POST request to Api.js and adds corresponding data to matching category in db.json */
+      await SpotifyApi.newPlaylist(INITIAL_DATA);
+      // for refreshing playlist name in sidebar
+      SpotifyApi.getPlaylists().then(playlists => {
+        dispatch({
+          type: 'SET_PLAYLISTS',
+          playlists: playlists
+        });
+      });
+      // history.push(`/playlists/${result.handle}`); // redirect to newly-made playlist
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+  };
 
   return (
     <div className="Sidebar">
@@ -42,7 +72,7 @@ const Sidebar = () => {
           <SidebarOption title="Your Library" Icon={LibraryMusicIcon} />
         </NavLink>
         <br />
-        <button onClick={openModal}>
+        <button onClick={createNewPlaylist}>
           <SidebarOption title="Create Playlist" Icon={AddBoxIcon} />
         </button>
         <SidebarOption
@@ -61,11 +91,11 @@ const Sidebar = () => {
           </NavLink>
         ))}
       </div>
-      {showModal ? (
+      {/* {showModal ? (
         <div>
           <NewPlaylistForm closeModal={closeModal} />
         </div>
-      ) : null}
+      ) : null} */}
     </div>
   );
 };

@@ -2,7 +2,6 @@ import axios from 'axios';
 // import { useStateValue } from '../StateProvider';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3001';
-// the token for interactive with the API will be stored here.
 
 /** API Class.
  *
@@ -32,6 +31,12 @@ class SpotifyApi {
   }
 
   /*********************** PLAYLISTS **********************/
+
+  static async newPlaylist(data) {
+    let res = await this.request('playlists', data, 'post');
+    return res.playlist;
+  }
+
   /** Get playlists (filtered by name if not undefined) */
   static async getPlaylists() {
     let res = await this.request('playlists', {});

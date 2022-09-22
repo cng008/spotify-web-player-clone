@@ -1,4 +1,4 @@
-const { BadRequestError } = require("../expressError");
+const { BadRequestError } = require('../expressError');
 
 /**
  * Helper for making selective update queries.
@@ -8,27 +8,27 @@ const { BadRequestError } = require("../expressError");
  *
  * @param dataToUpdate {Object} {field1: newVal, field2: newVal, ...}
  * @param jsToSql {Object} maps js-style data fields to database column names,
- *   like { firstName: "first_name", age: "age" }
+ *   like { name: "name", description: "description", "image": image}
  *
  * @returns {Object} {sqlSetCols, dataToUpdate}
  *
- * @example {firstName: 'Aliya', age: 32} =>
- *   { setCols: '"first_name"=$1, "age"=$2',
- *     values: ['Aliya', 32] }
+ * @example {name: 'Christien', description: 'liked songs', image: 'uri'} =>
+ *   { setCols: '"name"=$1, "description"=$2', "image"=$3,
+ *     values: ['Christien', 'liked songs', 'uri'] }
  */
 
 function sqlForPartialUpdate(dataToUpdate, jsToSql) {
   const keys = Object.keys(dataToUpdate);
-  if (keys.length === 0) throw new BadRequestError("No data");
+  if (keys.length === 0) throw new BadRequestError('No data');
 
-  // {firstName: 'Aliya', age: 32} => ['"first_name"=$1', '"age"=$2']
-  const cols = keys.map((colName, idx) =>
-      `"${jsToSql[colName] || colName}"=$${idx + 1}`,
+  // {name: 'Christien', description: 'liked songs', image: 'uri'} => ['"name"=$1', '"description"=$2', '"image"=$3']
+  const cols = keys.map(
+    (colName, idx) => `"${jsToSql[colName] || colName}"=$${idx + 1}`
   );
 
   return {
-    setCols: cols.join(", "),
-    values: Object.values(dataToUpdate),
+    setCols: cols.join(', '),
+    values: Object.values(dataToUpdate)
   };
 }
 

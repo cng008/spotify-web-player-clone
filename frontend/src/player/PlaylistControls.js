@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
+import { useStateValue } from '../StateProvider';
+import SpotifyApi from '../common/api';
+import EditPlaylistForm from './EditPlaylistForm';
 import './PlaylistControls.css';
 
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
@@ -7,11 +11,17 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import SearchIcon from '@material-ui/icons/Search';
+import Popover from '@material-ui/core/Popover';
 
-const PlaylistControls = () => {
+const PlaylistControls = ({ playlist }) => {
+  const { handle } = useParams();
+  const history = useHistory();
+  const [{}, dispatch] = useStateValue();
   const [sort, setSort] = useState('');
   const [paused, setPaused] = useState(false);
   const [liked, setLike] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
 
   const handleSort = evt => {
     setSort(evt.target.value);
@@ -25,6 +35,42 @@ const PlaylistControls = () => {
   const toggleLike = () => {
     let toggle = liked === true ? false : true;
     setLike(toggle);
+  };
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const handleMouseOver = () => {
+    let toggle = isHovering === true ? false : true;
+    setIsHovering(toggle);
+  };
+
+  const deletePlaylist = async () => {
+    if (window.confirm('Are you sure you want to delete this playlist?')) {
+      try {
+        /** Makes a POST request to Api.js and deletes playlist from db */
+        await SpotifyApi.deletePlaylist(handle);
+        // for refreshing playlist name in sidebar
+        SpotifyApi.getPlaylists().then(playlists => {
+          dispatch({
+            type: 'SET_PLAYLISTS',
+            playlists: playlists
+          });
+        });
+        history.goBack(); // redirect to previous page
+      } catch (err) {
+        console.log(err);
+        return;
+      }
+      console.log('Playlist successfully deleted.');
+    } else {
+      // Do nothing!
+      console.log('Delete cancelled.');
+    }
   };
 
   return (
@@ -55,14 +101,27 @@ const PlaylistControls = () => {
           />
         )}
 
-        <MoreHorizIcon fontSize="large" />
+        <div className="Playlist-edit-toggle">
+          <div onClick={handleMouseOver}>
+            <MoreHorizIcon fontSize="large" />
+            {isHovering && (
+              <div className="Playlist-edit-buttons">
+                <button title="Edit playlist" onClick={openModal}>
+                  Edit
+                </button>
+                <button title="Delete playlist" onClick={deletePlaylist}>
+                  Delete
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       <div className="Playlist-filter">
         <SearchIcon />
         <form sx={{ m: 1, minWidth: 80 }} className="Playlist-form">
           <select
-            labelId="song-order"
             id="song-order"
             value={sort ? sort : 'custom'}
             label="Age"
@@ -80,6 +139,11 @@ const PlaylistControls = () => {
           </select>
         </form>
       </div>
+      {showModal ? (
+        <div>
+          <EditPlaylistForm playlist={playlist} closeModal={closeModal} />
+        </div>
+      ) : null}
     </div>
   );
 };

@@ -15,7 +15,7 @@ class Artist {
    **/
 
   static async add(name, image) {
-    const handle = name.toLowerCase().replace(' ', '-');
+    const handle = name.toLowerCase().split(' ').join('-');
 
     const result = await db.query(
       `INSERT INTO artists (name, handle, image)

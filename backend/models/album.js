@@ -15,7 +15,7 @@ class Album {
    **/
 
   static async add(data) {
-    const handle = name.toLowerCase().replace(' ', '-');
+    const handle = data.name.toLowerCase().split(' ').join('-');
 
     const result = await db.query(
       `INSERT INTO albums (name, handle, artist_id, release_year, image)

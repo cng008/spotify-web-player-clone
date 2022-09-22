@@ -2,30 +2,31 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useStateValue } from '../StateProvider';
 import SpotifyApi from '../common/api';
-import './NewPlaylistForm.css';
+import './EditPlaylistForm.css';
 
-/** CREATE NEW PLAYLIST
+/** EDIT PLAYLIST DETAILS
  * with default values
  */
-const NewPlaylistForm = ({ closeModal }) => {
+const EditPlaylistForm = ({ playlist, closeModal }) => {
   const history = useHistory();
   const [{ playlists }, dispatch] = useStateValue();
-  const playlistsCount = Object.keys(playlists).length;
-  const INITIAL_DATA = {
-    name: '',
-    description: '',
-    user_id: 1,
+
+  const INITIAL_STATE = {
+    name: playlist.name,
+    description: playlist.description,
     image: ''
   };
-  const [formData, setFormData] = useState(INITIAL_DATA);
+  const [formData, setFormData] = useState(INITIAL_STATE);
 
-  // console.debug(
-  //   'NewPlaylistForm',
-  //   'formData=',
-  //   formData,
-  //   'formErrors=',
-  //   formErrors
-  // );
+  //   console.debug(
+  //     'EditPlaylistForm',
+  //     'playlist=',
+  //     playlist,
+  //     'formData=',
+  //     formData,
+  //     'formErrors=',
+  //     formErrors
+  //   );
 
   /** Update form fields */
   const handleChange = evt => {
@@ -36,18 +37,26 @@ const NewPlaylistForm = ({ closeModal }) => {
     }));
   };
 
+  /** on form submit:
+   * - attempt save to backend & report any errors
+   * - if successful
+   *   - close modal and show new changes
+   */
+
   const handleSubmit = async evt => {
     evt.preventDefault();
 
-    /** Sets default playlist name and image if inputs are left empty */
-    if (formData.name === '')
-      formData.name = `My Playlist #${playlistsCount + 1}`;
-    if (formData.image === '')
-      formData.image = `https://assets.audiomack.com/jojo-1264/82a10a07eff76040ec325e3498c6d6c7.jpeg?type=song&width=280&height=280&max=true`;
+    let playlistData = {
+      name: formData.name,
+      handle: formData.name.toLowerCase().split(' ').join('-').replace('#', ''),
+      description: formData.description,
+      image: formData.image ? formData.image : playlist.image
+    };
 
+    // sets default playlist name if name input is left empty
     try {
-      /** Makes a POST request to Api.js and adds corresponding data to matching category in db.json */
-      await SpotifyApi.newPlaylist(formData);
+      // makes a POST request to Api.js and adds corresponding data to matching category in db.json
+      let result = await SpotifyApi.savePlaylist(playlist.handle, playlistData);
       // for refreshing playlist name in sidebar
       SpotifyApi.getPlaylists().then(playlists => {
         dispatch({
@@ -55,7 +64,7 @@ const NewPlaylistForm = ({ closeModal }) => {
           playlists: playlists
         });
       });
-      // history.push(`/playlists/${result.handle}`); // redirect to newly-made playlist
+      history.push(`/playlists/${result.handle}`); // redirect to newly-named playlist
       closeModal();
     } catch (err) {
       console.log(err);
@@ -65,13 +74,13 @@ const NewPlaylistForm = ({ closeModal }) => {
 
   return (
     <>
-      <div className="NewPlaylistForm-background" onClick={closeModal}></div>
-      <div className="NewPlaylistForm-child">
-        <form onSubmit={handleSubmit} className="NewPlaylistForm-child">
-          <div className="create-playlist-title">Create New Playlist</div>
+      <div className="EditPlaylistForm-background" onClick={closeModal}></div>
+      <div className="EditPlaylistForm-child">
+        <form onSubmit={handleSubmit} className="EditPlaylistForm-child">
+          <div className="create-playlist-title">Edit {playlist.name}</div>
           <div className="create-playlist-grey">
             <div className="playlist-inputs">
-              <div className="playlist-inputs-left">
+              <div className="playlist-inputs-name">
                 <div className="input-name">Playlist name</div>
                 <input
                   name="name"
@@ -82,9 +91,10 @@ const NewPlaylistForm = ({ closeModal }) => {
                   maxLength="100"
                   autoComplete="off"
                   autoFocus="autofocus"
+                  required
                 />
               </div>
-              <div className="playlist-inputs-right">
+              <div className="playlist-inputs-description">
                 <div className="input-name">Description</div>
                 <textarea
                   name="description"
@@ -110,12 +120,12 @@ const NewPlaylistForm = ({ closeModal }) => {
               </div>
             </div>
           </div>
-          <div className="NewPlaylistForm-buttons">
-            <div className="NewPlaylistForm-cancel" onClick={closeModal}>
+          <div className="EditPlaylistForm-buttons">
+            <div className="EditPlaylistForm-cancel" onClick={closeModal}>
               CANCEL
             </div>
-            <button type="submit" className="NewPlaylistForm-create">
-              CREATE
+            <button type="submit" className="EditPlaylistForm-create">
+              SAVE
             </button>
           </div>
         </form>
@@ -124,4 +134,4 @@ const NewPlaylistForm = ({ closeModal }) => {
   );
 };
 
-export default NewPlaylistForm;
+export default EditPlaylistForm;

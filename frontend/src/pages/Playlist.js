@@ -16,7 +16,7 @@ const Playlist = () => {
 
   // console.debug('Playlist', 'handle=',handle,'playlist=',playlist,'sort=',sort, 'isLoading=', isLoading, 'paused=', paused, 'liked=', liked);
 
-  // GET PLAYLIST FROM PARAK
+  // GET PLAYLIST FROM DB
   useEffect(() => {
     async function getPlaylistDetails() {
       let result = await SpotifyApi.getPlaylist(handle);
@@ -48,7 +48,7 @@ const Playlist = () => {
           </div>
 
           <section>
-            <PlaylistControls />
+            <PlaylistControls playlist={playlist} />
             <SongList playlist={playlist} />
           </section>
         </div>

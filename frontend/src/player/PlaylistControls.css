@@ -19,6 +19,16 @@
   margin-right: 20px;
 }
 
+/* .Playlist-icons > button {
+  color: rgba(255, 255, 255, 0.686);
+  background: none;
+  border: none;
+} */
+
+.Playlist-icons > button:hover {
+  color: white;
+}
+
 .Playlist-shuffle {
   font-size: 80px !important;
   color: #1ed15e !important;
@@ -45,6 +55,33 @@
 .Playlist-heart-outline:hover {
   transition: transform 0.1s ease-in-out;
   transform: scale(1.05);
+}
+
+.Playlist-edit-toggle:hover {
+  color: white;
+  cursor: pointer;
+}
+.Playlist-edit-buttons {
+  position: absolute;
+  z-index: 2;
+  transform: translate(40px, -50px);
+}
+.Playlist-edit-buttons > button {
+  display: flex;
+  font-size: 1em;
+  color: white;
+  background-color: rgb(18, 18, 18);
+  width: 100%;
+  border-radius: 4px;
+  border: none;
+  padding: 5px 10px;
+  margin: 4px 0;
+}
+.Playlist-edit-buttons > button:first-child:hover {
+  background-color: rgb(50, 50, 50);
+}
+.Playlist-edit-buttons > button:last-child:hover {
+  background-color: rgb(75, 6, 6);
 }
 
 .Playlist-filter {

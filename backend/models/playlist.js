@@ -17,7 +17,7 @@ class Playlist {
    * */
 
   static async create({ name, userId, description, image }) {
-    const handle = name.toLowerCase().replace(' ', '-');
+    const handle = name.toLowerCase().split(' ').join('-').replace('#', '');
 
     const duplicateCheck = await db.query(
       `SELECT handle

@@ -1,4 +1,4 @@
-.NewPlaylistForm-background {
+.EditPlaylistForm-background {
   position: fixed;
   top: 0;
   bottom: 0;
@@ -8,7 +8,7 @@
   z-index: 2;
 }
 
-.NewPlaylistForm-child {
+.EditPlaylistForm-child {
   text-align: center;
   position: absolute;
   top: 50%;
@@ -27,7 +27,7 @@
 .create-playlist-grey {
   background-color: rgb(42, 42, 42);
   border-radius: 20px;
-  height: 12em;
+  height: 18em;
   padding: 5em;
 }
 
@@ -57,18 +57,21 @@
 .playlist-input-image::placeholder {
   color: rgb(95, 95, 95);
 }
+.playlist-input-image {
+  font-size: 1.3em;
+}
 
-.NewPlaylistForm-formErrors {
+.EditPlaylistForm-formErrors {
   color: red;
   font-size: 0.5em;
 }
 
-.NewPlaylistForm-buttons {
+.EditPlaylistForm-buttons {
   display: flex;
   justify-content: center;
 }
 
-.NewPlaylistForm-buttons > * {
+.EditPlaylistForm-buttons > * {
   padding: 1em;
   color: #fff;
   background-color: #1db954;
@@ -94,15 +97,15 @@
   width: 5em;
 }
 
-.NewPlaylistForm-cancel {
+.EditPlaylistForm-cancel {
   border: 2px solid white;
   background-color: black;
 }
 
-.NewPlaylistForm-cancel:hover {
+.EditPlaylistForm-cancel:hover {
   background-color: rgb(49, 49, 49);
 }
 
-.NewPlaylistForm-create:hover {
+.EditPlaylistForm-create:hover {
   background-color: #39d46f;
 }
