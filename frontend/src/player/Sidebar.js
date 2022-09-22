@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useStateValue } from '../StateProvider';
 import { NavLink } from 'react-router-dom';
 import SidebarOption from './SidebarOption';
-// import NewPlaylistForm from './NewPlaylistForm'; //not used
+// import NewPlaylistForm from './NewPlaylistForm'; // for pop-out modal (not used)
 import SpotifyApi from '../common/api';
 import './Sidebar.css';
 

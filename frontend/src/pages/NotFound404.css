@@ -1,0 +1,33 @@
+.NotFound {
+  display: flex;
+  background-color: #121212;
+  color: #fff;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.NotFound-body {
+  flex: 1;
+  background: linear-gradient(rgb(29, 28, 37), rgb(0, 0, 0, 1));
+  min-height: 100vh;
+  overflow-y: overlay;
+}
+
+.NotFound-body::--webkit-scrollbar {
+  display: none;
+}
+
+.NotFound-content {
+  text-align: center;
+  padding: 0 2em;
+}
+
+.NotFound-icon {
+  font-size: 8em !important;
+  color: #1ed15e !important;
+  margin-bottom: 20px;
+}
+
+.NotFound-content > p {
+  margin: 1em 0;
+}

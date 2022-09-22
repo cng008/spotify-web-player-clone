@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import './Playlist.css';
 
 import SpotifyApi from '../common/api';
@@ -11,6 +11,7 @@ import SongList from '../player/SongList';
 
 const Playlist = () => {
   const { handle } = useParams();
+  const history = useHistory();
   const [playlist, setPlaylist] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
@@ -19,17 +20,24 @@ const Playlist = () => {
   // GET PLAYLIST FROM DB
   useEffect(() => {
     async function getPlaylistDetails() {
-      let result = await SpotifyApi.getPlaylist(handle);
-      setPlaylist(result);
-      setIsLoading(false);
-      document.body.style.cursor = 'default';
+      try {
+        let result = await SpotifyApi.getPlaylist(handle);
+        setPlaylist(result);
+        setIsLoading(false);
+        document.body.style.cursor = 'default';
+      } catch (err) {
+        console.log(err);
+        history.push('/404');
+        setIsLoading(false);
+        document.body.style.cursor = 'default';
+      }
     }
     getPlaylistDetails();
   }, [handle]);
 
   if (isLoading) {
     document.body.style.cursor = 'progress';
-    return 'Loading...';
+    return '';
   }
 
   return (

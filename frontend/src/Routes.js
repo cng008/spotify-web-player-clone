@@ -1,11 +1,12 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import Home from './pages/Home';
 import Search from './pages/Search';
 import Library from './pages/Library';
 import Playlist from './pages/Playlist';
 import Login from './Login';
+import NotFound404 from './pages/NotFound404';
 
 /** Site-wide routes.
  *
@@ -14,12 +15,12 @@ import Login from './Login';
 const Routes = () => {
   return (
     <Switch>
-      <Route exact path="/">
-        <Home />
-      </Route>
-
       <Route exact path="/welcome">
         <Login />
+      </Route>
+
+      <Route exact path="/">
+        <Home />
       </Route>
 
       <Route exact path="/search">
@@ -34,7 +35,9 @@ const Routes = () => {
         <Playlist />
       </Route>
 
-      <Redirect to="/" />
+      <Route>
+        <NotFound404 />
+      </Route>
     </Switch>
   );
 };
