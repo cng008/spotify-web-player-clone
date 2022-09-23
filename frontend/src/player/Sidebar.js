@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useStateValue } from '../StateProvider';
 import { NavLink } from 'react-router-dom';
 import SidebarOption from './SidebarOption';
@@ -13,9 +13,11 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const Sidebar = () => {
-  const [{ playlists }, dispatch] = useStateValue();
-  const playlistsCount = Object.keys(playlists).length;
+  const [{ playlists, token }, dispatch] = useStateValue();
+  const playlistsCount = playlists[0]?.id; // Object.keys(playlists).length can cause errors if a playlist is deleted and My Playlist #{len} already exists
+  // const playlistsCount = Object.keys(playlists).length;
   // const [showModal, setShowModal] = useState(false);
+
   /** Sets default playlist name and image if inputs are left empty */
   const INITIAL_DATA = {
     name: `My Playlist #${playlistsCount + 1}`,
@@ -85,6 +87,12 @@ const Sidebar = () => {
       {/* extract items value from returned playlist object and map over playlist names 
       usees optional chaining*/}
       <div className="Sidebar-playlists">
+        {token ? (
+          <NavLink to={`/playlist/discover`}>
+            <SidebarOption title="Discover Weekly" />
+          </NavLink>
+        ) : null}
+
         {playlists?.map(playlist => (
           <NavLink to={`/playlists/${playlist.handle}`} key={playlist.id}>
             <SidebarOption title={playlist.name} />
