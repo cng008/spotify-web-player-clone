@@ -33,7 +33,7 @@ const Playlist = () => {
       }
     }
     getPlaylistDetails();
-  }, [handle]);
+  }, [handle, history]);
 
   if (isLoading) {
     document.body.style.cursor = 'progress';

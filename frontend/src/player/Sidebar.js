@@ -87,18 +87,19 @@ const Sidebar = () => {
       {/* extract items value from returned playlist object and map over playlist names 
       usees optional chaining*/}
       <div className="Sidebar-playlists">
-        {token ? (
-          <NavLink to={`/playlist/discover`}>
-            <SidebarOption title="Discover Weekly" />
-          </NavLink>
-        ) : null}
-
         {playlists?.map(playlist => (
           <NavLink to={`/playlists/${playlist.handle}`} key={playlist.id}>
             <SidebarOption title={playlist.name} />
           </NavLink>
         ))}
       </div>
+
+      {token ? (
+        <NavLink to={`/playlist/discover`}>
+          <SidebarOption title="Discover Weekly" />
+        </NavLink>
+      ) : null}
+
       {/* {showModal ? (
         <div>
           <NewPlaylistForm closeModal={closeModal} />

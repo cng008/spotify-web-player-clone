@@ -1,27 +1,41 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://our.playlist.com/playlistSearch.schema.json",
+  "$id": "http://our.playlist.com/songNew.schema.json",
   "type": "object",
   "properties": {
-    "title": {
+    "id": {
       "type": "string"
     },
-    "duration": {
+    "name": {
       "type": "string"
     },
-    "date_added": {
+    "duration_ms": {
+      "type": "integer"
+    },
+    "explicit": {
+      "type": "boolean"
+    },
+    "added_at": {
       "type": "string"
     },
     "artist_id": {
-      "type": "integer"
+      "type": "string"
     },
     "album_id": {
-      "type": "integer"
+      "type": "string"
     },
     "image": {
       "type": "string"
     }
   },
   "additionalProperties": false,
-  "required": ["title", "duration", "artist_id", "album_id", "image"]
+  "required": [
+    "id",
+    "name",
+    "duration_ms",
+    "explicit",
+    "artist_id",
+    "album_id",
+    "image"
+  ]
 }

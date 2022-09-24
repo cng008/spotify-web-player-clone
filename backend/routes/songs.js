@@ -16,9 +16,9 @@ const router = express.Router({ mergeParams: true });
 
 /** POST / { song } => { song }
  *
- * Song should be { name, duration, artist_id, album_id, image }
+ * Song should be { name, duration_ms, artist_id, album_id, image }
  *
- * Returns { id, name, duration, artist_id, album_id, image }
+ * Returns { id, name, duration_ms, artist_id, album_id, image }
  *
  * Authorization required: admin
  */
@@ -39,7 +39,7 @@ router.post('/', ensureLoggedIn, async function (req, res, next) {
 });
 
 /** GET / =>
- *   { songs: [ { id, name, duration, artist_id, album_id, image }, ...] }
+ *   { songs: [ { id, name, duration_ms, artist_id, album_id, image }, ...] }
  *
  * Can provide search filter in query:
  * - name (will find case-insensitive, partial matches)
@@ -65,8 +65,8 @@ router.get('/', async function (req, res, next) {
 
 /** GET /[songId] => { song }
  *
- * Returns { id, name, duration, artist_id, album_id, image }
- *   where album is { id, name, artist_id, release_year, image }
+ * Returns { id, name, duration_ms, artist_id, album_id, image }
+ *   where album is { id, name, artist_id, release_date, image }
  *
  * Authorization required: none
  */

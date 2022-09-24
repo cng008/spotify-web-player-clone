@@ -8,14 +8,15 @@
   width: 100%;
   background-color: rgb(24, 24, 24);
   padding: 20px;
+  z-index: 99;
 }
 
 .Footer-left {
   display: flex;
-  flex: 0.3;
+  flex: 0.4;
   align-items: center;
   color: white;
-  width: 300px;
+  /* width: 4em; */
 }
 
 .Footer-albumLogo {
@@ -25,10 +26,14 @@
   object-fit: contain;
 }
 
+.Footer-songInfo {
+  width: 100%;
+}
+
 .Footer-center {
   display: block;
   flex: 0.5;
-  text-align: center;
+  /* text-align: center; */
 }
 
 .Footer-center-controls {
@@ -43,7 +48,7 @@
 .Footer-control-timeline {
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 .Footer-control-slider {
@@ -88,7 +93,6 @@
 .Footer-right {
   flex: 0.2;
   display: flex;
-  justify-content: end;
   color: white;
 }
 

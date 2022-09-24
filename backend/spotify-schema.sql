@@ -11,82 +11,54 @@ CREATE TABLE users (
   email TEXT NOT NULL
 );
 
-CREATE TABLE follows (
-  user_following_id INTEGER NOT NULL,
-  artist_being_followed_id INTEGER NOT NULL
-);
-
 CREATE TABLE playlists (
   id SERIAL PRIMARY KEY,
   name TEXT,
   handle TEXT,
-  user_id INTEGER,
+  user_id INTEGER REFERENCES users,
   description TEXT,
   created_at timestamp,
   image TEXT
 );
 
+CREATE TABLE artists (
+  id TEXT PRIMARY KEY,
+  name TEXT,  
+  handle TEXT,
+  image TEXT
+);
+
+CREATE TABLE albums (
+  id TEXT PRIMARY KEY,
+  name TEXT,  
+  handle TEXT,
+  artist_id TEXT REFERENCES artists,
+  release_date TEXT,
+  image TEXT
+);
+
 CREATE TABLE songs (
-  id SERIAL PRIMARY KEY,
-  name TEXT NOT NULL,
-  duration TEXT,
-  date_added TEXT,
-  artist_id INTEGER NOT NULL,
-  album_id INTEGER,
+  id TEXT PRIMARY KEY,
+  name TEXT,
+  duration_ms INTEGER,
+  explicit BOOLEAN,
+  added_at TEXT,
+  artist_id TEXT REFERENCES artists,
+  album_id TEXT REFERENCES albums,
   image TEXT
 );
 
 CREATE TABLE playlist_songs (
-  playlist_id INTEGER,
-  song_id INTEGER NOT NULL
-);
-
-CREATE TABLE albums (
-  id SERIAL PRIMARY KEY,
-  name TEXT NOT NULL,  
-  handle TEXT,
-  artist_id INTEGER NOT NULL,
-  release_year INTEGER,
-  image TEXT
+  playlist_id INTEGER REFERENCES playlists,
+  song_id TEXT REFERENCES songs
 );
 
 CREATE TABLE album_songs (
-  album_id INTEGER,
-  song_id INTEGER NOT NULL
-);
-
-CREATE TABLE artists (
-  id SERIAL PRIMARY KEY,
-  name TEXT NOT NULL,  
-  handle TEXT,
-  image TEXT
+  album_id TEXT REFERENCES albums,
+  song_id TEXT REFERENCES songs
 );
 
 CREATE TABLE artist_songs (
-  artist_id INTEGER NOT NULL,
-  song_id INTEGER NOT NULL
+  artist_id TEXT REFERENCES artists,
+  song_id TEXT REFERENCES songs
 );
-
-ALTER TABLE follows ADD FOREIGN KEY (artist_being_followed_id) REFERENCES artists (id);
-
-ALTER TABLE follows ADD FOREIGN KEY (user_following_id) REFERENCES users (id);
-
-ALTER TABLE playlists ADD FOREIGN KEY (user_id) REFERENCES users (id);
-
-ALTER TABLE songs ADD FOREIGN KEY (artist_id) REFERENCES artists (id);
-
-ALTER TABLE songs ADD FOREIGN KEY (album_id) REFERENCES albums (id);
-
-ALTER TABLE playlist_songs ADD FOREIGN KEY (playlist_id) REFERENCES playlists (id) ON DELETE CASCADE;
-
-ALTER TABLE playlist_songs ADD FOREIGN KEY (song_id) REFERENCES songs (id) ON DELETE CASCADE;;
-
-ALTER TABLE albums ADD FOREIGN KEY (artist_id) REFERENCES artists (id);
-
-ALTER TABLE album_songs ADD FOREIGN KEY (song_id) REFERENCES songs (id) ON DELETE CASCADE;
-
-ALTER TABLE album_songs ADD FOREIGN KEY (album_id) REFERENCES albums (id) ON DELETE CASCADE;
-
-ALTER TABLE artist_songs ADD FOREIGN KEY (artist_id) REFERENCES artists (id) ON DELETE CASCADE;
-
-ALTER TABLE artist_songs ADD FOREIGN KEY (song_id) REFERENCES songs (id) ON DELETE CASCADE;

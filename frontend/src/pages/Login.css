@@ -1,0 +1,38 @@
+.Login {
+  display: grid;
+  justify-content: center;
+  background-color: black;
+  text-align: center;
+}
+
+.Spotify-logo {
+  width: 100%;
+}
+@media screen and (min-width: 640px) {
+  .Spotify-logo {
+    margin-top: 12vh;
+  }
+}
+
+.Spotify-logo > img {
+  width: 20em;
+}
+
+.Login-options > a {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  border-radius: 90px;
+  background-color: #1db954;
+  font-weight: 800;
+  color: white;
+  margin: 3em 0;
+  width: 20em;
+  /* transform: translate(40px, 0px); */
+}
+
+.Login-options > a:last-child {
+  background-color: #1db954b3;
+  padding: 10px;
+  transform: translate(5px, 0px);
+}

@@ -7,23 +7,33 @@ const { NotFoundError } = require('../expressError');
 
 class Artist {
   /** Add an artist (from data)
-   * update db (name, handle, image)
+   * update db (id, name, handle, image)
    *
-   * data should be { name, handle, image }
+   * data should be { id, name, handle, image }
    *
    * Returns new artist data { id, name, handle, image }
    **/
 
-  static async add(name, image) {
-    const handle = name.toLowerCase().split(' ').join('-');
+  static async add(data) {
+    const handle = data.name.toLowerCase().split(' ').join('-');
+
+    const duplicateCheck = await db.query(
+      `SELECT id, name, handle, image
+           FROM artists
+           WHERE handle = $1`,
+      [handle]
+    );
+
+    if (duplicateCheck.rows[0]) return;
 
     const result = await db.query(
-      `INSERT INTO artists (name, handle, image)
-           VALUES ($1, $2, $3)
+      `INSERT INTO artists (id, name, handle, image)
+           VALUES ($1, $2, $3, $4)
            RETURNING id, 
-                    name, 
+                    name,
+                    handle,
                     image`,
-      [name, handle, image]
+      [data.id, data.name, handle, data.image]
     );
     let artist = result.rows[0];
 
@@ -37,8 +47,8 @@ class Artist {
    *
    * Returns [{ id, name, handle, image }, ...]
    *   where artist is { id, name, handle, image }
-//    *   where albums is { id, name, handle, artist_id, release_year, image }
-//    *   where songs is { id, name, duration, date_added, artist_id, album_id, image }
+//    *   where albums is { id, name, handle, artist_id, release_date, image }
+//    *   where songs is { id, name, duration_ms, explicit, added_at, artist_id, album_id, image }
    * */
 
   static async findAll(searchFilters = {}) {
@@ -63,16 +73,17 @@ class Artist {
 
     // Finalize query and return results
 
-    // query += ' ORDER BY date_added DESC';
+    // query += ' ORDER BY added_at DESC';
     const artistsRes = await db.query(query, queryValues);
     return artistsRes.rows;
   }
 
   //   /** Given an artist id, return data about artist.
   //    *
-  //    * Returns { id, name, duration, date_added, artist_id, album_id, image }
-  //    *   where album is { id, name, artist_id, release_year, image }
-  //    *   where artist is { id, name, image }
+  //    * Returns [{ id, name, handle, image }, ...]
+  //    *   where artist is { id, name, handle, image }
+  //    *   where albums is { id, name, handle, artist_id, release_date, image }
+  //    *   where songs is { id, name, duration_ms, added_at, artist_id, album_id, image }
   //    *
   //    * Throws NotFoundError if not found.
   //    **/
@@ -90,7 +101,7 @@ class Artist {
     if (!artist) throw new NotFoundError(`No artist: ${id}`);
 
     const albumRes = await db.query(
-      `SELECT ab.id, ab.name, ab.handle, ab.artist_id AS "artistId", ab.release_year AS "releaseYear", ab.image
+      `SELECT ab.id, ab.name, ab.handle, ab.artist_id, ab.release_date, ab.image
         FROM albums AS ab
         JOIN artists AS at ON ab.artist_id = at.id
         WHERE at.handle = $1`,
@@ -98,7 +109,7 @@ class Artist {
     );
 
     const songRes = await db.query(
-      `SELECT DISTINCT s.id, s.name, s.duration, s.date_added AS "dateAdded", s.artist_id AS "artistId", s.album_id AS "albumId", s.image
+      `SELECT DISTINCT s.id, s.name, s.duration_ms, s.explicit, s.added_at, s.artist_id, s.album_id, s.image
           FROM songs AS s
           JOIN albums AS ab ON s.album_id = ab.id
           JOIN artists AS at ON s.artist_id = at.id

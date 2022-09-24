@@ -66,8 +66,8 @@ router.get('/', async function (req, res, next) {
 /** GET /[artistId] => { artist }
  *
  * Returns { id, name, handle, image }
- *   where albums is { id, name, handle, artist_id, release_year, image }
- *   where songs is { id, name, handle, duration, date_added, artist_id, album_id, image }
+ *   where albums is { id, name, handle, artist_id, release_date, image }
+ *   where songs is { id, name, handle, duration_ms, date_added, artist_id, album_id, image }
  *
  * Authorization required: none
  */

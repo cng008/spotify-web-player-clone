@@ -5,7 +5,7 @@ import Header from '../player/Header';
 import Sidebar from '../player/Sidebar';
 import Footer from '../player/Footer';
 import PlaylistCardM from '../player/PlaylistCardM';
-import ArtistCard from '../player/ArtistCard';
+import InfoCard from '../player/InfoCard';
 import './Library.css';
 
 const Library = () => {
@@ -70,7 +70,13 @@ const ArtistTab = () => {
       <h2>Artists</h2>
       <div className="Grid">
         {artists.map(item => {
-          return <ArtistCard key={item.name} data={item} />;
+          return (
+            <InfoCard
+              key={item.name}
+              data={item}
+              borderRadius={'InfoCardM-ImgBox-Artist'}
+            />
+          );
         })}
       </div>
     </div>
@@ -85,7 +91,13 @@ const AlbumTab = () => {
       <h2>Albums</h2>
       <div className="Grid">
         {albums.map(item => {
-          return <PlaylistCardM key={item.name} data={item} />;
+          return (
+            <InfoCard
+              key={item.name}
+              data={item}
+              borderRadius={'InfoCardM-ImgBox-Album'}
+            />
+          );
         })}
       </div>
     </div>

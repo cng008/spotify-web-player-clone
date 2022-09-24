@@ -9,9 +9,9 @@ const { sqlForPartialUpdate } = require('../helpers/sql');
 class Playlist {
   /** Create a playlist (from data), update db, return new playlist data.
    *
-   * data should be { name, userId, createdAt, image }
+   * data should be { name, userId, created_at, image }
    *
-   * Returns { id, name, handle, userId, createdAt, image }
+   * Returns { id, name, handle, userId, created_at, image }
    *
    * Throws BadRequestError if playlist already in database.
    * */
@@ -33,8 +33,40 @@ class Playlist {
       `INSERT INTO playlists
            (name, handle, user_id, description, created_at, image)
            VALUES ($1, $2, $3, $4, now(), $5)
-           RETURNING id, name, handle, user_id AS "userId", description, created_at AS "createdAt", image`,
+           RETURNING id, name, handle, user_id, description, created_at AS "created_at", image`,
       [name, handle, userId, description, image]
+    );
+    const playlist = result.rows[0];
+
+    return playlist;
+  }
+
+  /** Create a playlist (from data), update db, return new playlist data.
+   *
+   * data should be { name, userId, created_at, image }
+   *
+   * Returns { id, name, handle, userId, created_at, image }
+   *
+   * Throws BadRequestError if playlist already in database.
+   * */
+
+  static async addToPlaylist(playlistID, songID) {
+    const duplicateCheck = await db.query(
+      `SELECT playlist_id, song_id
+           FROM playlist_songs
+           WHERE playlist_id = $1 AND song_id = $2`,
+      [playlistID, songID]
+    );
+
+    if (duplicateCheck.rows[0])
+      throw new BadRequestError(`Duplicate song in playlist`);
+
+    const result = await db.query(
+      `INSERT INTO playlist_songs
+           (playlist_id, song_id)
+           VALUES ($1, $2)
+           RETURNING playlist_id, song_id`,
+      [playlistID, songID]
     );
     const playlist = result.rows[0];
 
@@ -46,11 +78,11 @@ class Playlist {
    * searchFilters (all optional):
    * - name (will find case-insensitive, partial matches)
    *
-   * Returns [{ id, name, handle, userId, description, createdAt, image }, ...]
+   * Returns [{ id, name, handle, user_id, description, created_at, image }, ...]
    * */
 
   static async findAll(searchFilters = {}) {
-    let query = `SELECT id, name, handle, user_id AS "userId", description, to_char(created_at, 'yyyy-mm-dd hh:mi:ss AM') AS "createdAt", image
+    let query = `SELECT id, name, handle, user_id, description, to_char(created_at, 'yyyy-mm-dd hh:mi:ss AM') AS "created_at", image
                  FROM playlists`;
     let whereExpressions = [];
     let queryValues = [];
@@ -67,22 +99,22 @@ class Playlist {
     }
 
     // Finalize query and return results
-    query += ' ORDER BY created_at DESC';
+    query += ' ORDER BY id DESC';
     const playlistsRes = await db.query(query, queryValues);
     return playlistsRes.rows;
   }
 
   /** Given a playlist name, return data about playlist.
    *
-   * Returns { id, name, handle, userId, description, createdAt, image }
-   *   where songs is [{ name, duration, date_added, artist_id, album_id, image }, ...]
+   * Returns { id, name, handle, user_id, description, created_at, image }
+   *   where songs is [{ name, duration_ms, explicit, added_at, artist_id, album_id, image }, ...]
    *
    * Throws NotFoundError if not found.
    **/
 
   static async get(handle) {
     const playlistRes = await db.query(
-      `SELECT id, name, handle, user_id AS "userId", description, to_char(created_at, 'yyyy-mm-dd hh:mi:ss AM') AS "createdAt", image
+      `SELECT id, name, handle, user_id, description, to_char(created_at, 'yyyy-mm-dd hh:mi:ss AM') AS "created_at", image
            FROM playlists
            WHERE handle = $1`,
       [handle]
@@ -95,12 +127,13 @@ class Playlist {
     const songRes = await db.query(
       `SELECT s.id, 
               s.name, 
-              s.duration, 
-              s.date_added AS "dateAdded", 
-              at.name AS "artistName", 
-              at.image AS "artistImage", 
-              ab.name AS "albumName", 
-              ab.release_year AS "albumReleaseYear", 
+              s.duration_ms, 
+              s.explicit, 
+              s.added_at ,
+              at.name AS "artist_name", 
+              at.image,
+              ab.name AS "album_name",
+              ab.release_date AS "album_release_date",
               ab.image
         FROM playlists AS p
           JOIN playlist_songs AS pls ON p.id = pls.playlist_id
@@ -114,7 +147,7 @@ class Playlist {
     // const song = songRes.rows[0];
 
     // const albumRes = await db.query(
-    //   `SELECT ab.id, ab.name, ab.artist_id AS "artistId", ab.release_year AS "releaseYear", ab.image
+    //   `SELECT ab.id, ab.name, ab.artist_id AS "artistId", ab.release_date AS "releaseYear", ab.image
     //     FROM albums AS ab
     //     JOIN album_songs AS abs ON ab.id = abs.album_id
     //     JOIN songs AS s ON abs.song_id = s.id
@@ -143,9 +176,9 @@ class Playlist {
    * This is a "partial update" --- it's fine if data doesn't contain all the
    * fields; this only changes provided ones.
    *
-   * Data can include: {name, userId, description, createdAt, image}
+   * Data can include: {name, userId, description, createdSt, image}
    *
-   * Returns { id, name, handle, userId, description, createdAt, image }
+   * Returns { id, name, handle, user_id, description, created_at, image }
    *
    * Throws NotFoundError if not found.
    */
@@ -161,7 +194,7 @@ class Playlist {
     const querySql = `UPDATE playlists 
                       SET ${setCols} 
                       WHERE handle = ${handleVarIdx} 
-                      RETURNING id, name, handle, user_id AS "userId", description, created_at AS "createdAt", image`;
+                      RETURNING id, name, handle, user_id, description, created_at, image`;
     const result = await db.query(querySql, [...values, handle]);
     const playlist = result.rows[0];
 

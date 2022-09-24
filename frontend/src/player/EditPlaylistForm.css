@@ -1,10 +1,11 @@
 .EditPlaylistForm-background {
   position: fixed;
+  background: rgba(0, 0, 0, 0.93);
+  height: 100vh;
   top: 0;
   bottom: 0;
   right: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.93);
   z-index: 2;
 }
 
@@ -50,6 +51,7 @@
   margin-bottom: 1em;
   text-align: center;
   width: 98%;
+  resize: none;
 }
 
 .playlist-input-name::placeholder,
@@ -57,6 +59,7 @@
 .playlist-input-image::placeholder {
   color: rgb(95, 95, 95);
 }
+
 .playlist-input-image {
   font-size: 1.3em;
 }

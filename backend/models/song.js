@@ -9,23 +9,41 @@ class Song {
   /** Add a song (from data)
    * update db (playlists_songs, artist_songs, album_songs, artists, songs, albums)
    *
-   * data should be { name, duration, date_added, artist_id, album_id, image }
+   * data should be { name, duration_ms, explicit, added_at, artist_id, album_id, image }
    *
-   * Returns new song data { id, name, duration, date_added, artist_id, album_id, image }
+   * Returns new song data { id, name, duration_ms, explicit, added_at, artist_id, album_id, image }
    **/
 
   static async add(data) {
+    const duplicateCheck = await db.query(
+      `SELECT id, name, duration_ms, explicit, added_at, artist_id, album_id, image
+           FROM songs
+           WHERE id = $1`,
+      [data.id]
+    );
+
+    if (duplicateCheck.rows[0]) return;
+
     const result = await db.query(
-      `INSERT INTO songs (name, duration, date_added, artist_id, album_id, image)
-           VALUES ($1, $2, now(), $3, $4, $5)
+      `INSERT INTO songs (id, name, duration_ms, explicit, added_at, artist_id, album_id, image)
+           VALUES ($1, $2, $3, $4, now(), $5, $6, $7)
            RETURNING id, 
                     name, 
-                    duration, 
-                    date_added AS "dateAdded", 
-                    artist_id AS "artistId", 
-                    album_id AS "albumId", 
+                    duration_ms, 
+                    explicit, 
+                    added_at,
+                    artist_id,
+                    album_id, 
                     image`,
-      [data.name, data.duration, data.artist_id, data.album_id, data.image]
+      [
+        data.id,
+        data.name,
+        data.duration_ms,
+        data.explicit,
+        data.artist_id,
+        data.album_id,
+        data.image
+      ]
     );
     let song = result.rows[0];
 
@@ -37,13 +55,13 @@ class Song {
    * searchFilters (all optional):
    * - name (will find case-insensitive, partial matches)
    *
-   * Returns [{ id, name, duration, date_added, artist_id, album_id, image }, ...]
-   *   where album is { id, name, artist_id, release_year, image }
+   * Returns [{ id, name, duration_ms, explicit, added_at, artist_id, album_id, image }, ...]
+   *   where album is { id, name, artist_id, release_date, image }
    *   where artist is { id, name, image }
    * */
 
   static async findAll(searchFilters = {}) {
-    let query = `SELECT s.id, s.name, s.duration, s.date_added AS "dateAdded", at.name AS "artistName", ab.name AS "albumName", ab.release_year AS "albumReleaseYear", s.image
+    let query = `SELECT s.id, s.name, s.duration_ms, s.explicit, s.added_at, at.name AS "artist_name", ab.name AS "album_name", ab.release_date AS "album_release_date", s.image
                  FROM songs AS s
                    JOIN albums AS ab ON s.album_id = ab.id
                    JOIN artist_songs AS ats ON s.id = ats.song_id
@@ -67,15 +85,15 @@ class Song {
 
     // Finalize query and return results
 
-    query += ' ORDER BY date_added DESC';
+    query += ' ORDER BY added_at DESC';
     const songsRes = await db.query(query, queryValues);
     return songsRes.rows;
   }
 
   //   /** Given a song id, return data about song and start playing audio.
   //    *
-  //    * Returns { id, name, duration, date_added, artist_id, album_id, image }
-  //    *   where album is { id, name, artist_id, release_year, image }
+  //    * Returns { id, name, duration_ms, explicit, added_at, artist_id, album_id, image }
+  //    *   where album is { id, name, artist_id, release_date, image }
   //    *   where artist is { id, name, image }
   //    *
   //    * Throws NotFoundError if not found.
@@ -83,7 +101,7 @@ class Song {
 
   static async get(id) {
     const songRes = await db.query(
-      `SELECT id, name, duration, date_added AS "dateAdded", artist_id AS "artistId", album_id AS "albumId", image
+      `SELECT id, name, duration_ms, explicit, added_at, artist_id, album_id, image
         FROM songs
         WHERE id = $1`,
       [id]
@@ -94,7 +112,7 @@ class Song {
     if (!song) throw new NotFoundError(`No song: ${id}`);
 
     const albumRes = await db.query(
-      `SELECT ab.id, ab.name, ab.artist_id AS "artistId", ab.release_year AS "releaseYear", ab.image
+      `SELECT ab.id, ab.name, ab.artist_id, ab.release_date, ab.image
         FROM albums AS ab
         JOIN album_songs AS abs ON ab.id = abs.album_id
         JOIN songs AS s ON abs.song_id = s.id

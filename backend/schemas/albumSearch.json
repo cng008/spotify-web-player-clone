@@ -1,16 +1,19 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://our.playlist.com/playlistSearch.schema.json",
+  "$id": "http://our.playlist.com/albumSearch.schema.json",
   "type": "object",
   "properties": {
+    "id": {
+      "type": "string"
+    },
     "name": {
       "type": "string"
     },
     "artist_id": {
       "type": "string"
     },
-    "release_year": {
-      "type": "integer"
+    "release_date": {
+      "type": "string"
     },
     "image": {
       "type": "string"

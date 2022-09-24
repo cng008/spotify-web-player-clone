@@ -10,7 +10,7 @@ import './NewPlaylistForm.css';
 const NewPlaylistForm = ({ closeModal }) => {
   const history = useHistory();
   const [{ playlists }, dispatch] = useStateValue();
-  const playlistsCount = Object.keys(playlists).length;
+  const playlistsCount = playlists[0].id;
   const INITIAL_DATA = {
     name: '',
     description: '',

@@ -50,6 +50,7 @@
   margin-bottom: 1em;
   text-align: center;
   width: 98%;
+  resize: none;
 }
 
 .playlist-input-name::placeholder,

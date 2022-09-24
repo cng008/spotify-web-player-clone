@@ -1,8 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://our.playlist.com/playlistSearch.schema.json",
+  "$id": "http://our.playlist.com/artistNew.schema.json",
   "type": "object",
   "properties": {
+    "id": {
+      "type": "string"
+    },
     "name": {
       "type": "string"
     },
@@ -14,5 +17,5 @@
     }
   },
   "additionalProperties": false,
-  "required": ["name", "image"]
+  "required": ["id", "name", "image"]
 }

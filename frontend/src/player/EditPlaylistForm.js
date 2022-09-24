@@ -9,7 +9,7 @@ import './EditPlaylistForm.css';
  */
 const EditPlaylistForm = ({ playlist, closeModal }) => {
   const history = useHistory();
-  const [{ playlists }, dispatch] = useStateValue();
+  const [{}, dispatch] = useStateValue();
 
   const INITIAL_STATE = {
     name: playlist.name,

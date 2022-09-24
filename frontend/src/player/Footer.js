@@ -44,7 +44,7 @@ const Footer = () => {
   /** SAVES SONG TIME GLOBALLY */
   const handleTimeline = evt => {
     dispatch({
-      type: 'SET_SONG_TIME',
+      type: 'SET_PLAYER_TIMELINE',
       playerTime: parseInt(evt.target.value)
     });
   };
@@ -86,13 +86,13 @@ const Footer = () => {
         ) : null}
         <div className="Footer-songInfo">
           <h4>{trackData?.name}</h4>
-          <p>{trackData?.artistName}</p>
+          <p>{trackData?.artist_name}</p>
         </div>
       </div>
 
       <div className="Footer-center">
         <div className="Footer-center-controls">
-          <ShuffleIcon activeClassName="Footer-green" />
+          <ShuffleIcon className="Footer-green" />
           <SkipPreviousIcon fontSize="large" className="Footer-icon" />
           {isPlaying ? (
             <PauseCircleFilledIcon
@@ -106,7 +106,7 @@ const Footer = () => {
             />
           )}
           <SkipNextIcon fontSize="large" className="Footer-icon" />
-          <RepeatIcon activeClassName="Footer-green" />
+          <RepeatIcon className="Footer-green" />
         </div>
         <div className="Footer-control-timeline">
           <div>
@@ -116,13 +116,13 @@ const Footer = () => {
             <Slider
               value={playerTime}
               minValue={0}
-              maxValue={trackData?.duration}
+              maxValue={trackData?.duration_ms}
               handleChange={handleTimeline}
             />
           </div>
           <div>
             <span>
-              {trackData ? getSongDuration(trackData?.duration) : null}
+              {trackData ? getSongDuration(trackData?.duration_ms) : null}
             </span>
           </div>
         </div>

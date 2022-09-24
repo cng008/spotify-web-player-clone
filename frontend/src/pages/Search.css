@@ -2,8 +2,8 @@
   display: flex;
   background-color: #121212;
   color: #fff;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  /* overflow-y: scroll;
+  overflow-x: hidden; */
 }
 
 .Search-body {
@@ -13,13 +13,6 @@
 
 .Search-body::--webkit-scrollbar {
   display: none;
-}
-
-.SearchCardGrid {
-  display: grid;
-  grid-gap: 2em;
-  grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
-  padding-top: 16px;
 }
 
 .Search-content {
@@ -32,8 +25,23 @@
   color: white;
 }
 
+.SearchCardGrid {
+  display: grid;
+  grid-gap: 2em;
+  grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
+  padding-top: 16px;
+}
+
+.ResultsCardGrid {
+  display: grid;
+  grid-gap: 2em;
+  grid-template-columns: repeat(auto-fill, minmax(27em, 1fr));
+  padding-top: 16px;
+}
+
 @media screen and (max-width: 640px) {
   .Search-body {
+    flex: 0.4;
     padding: 16px;
     margin-bottom: 180px;
     margin-top: 24px;

@@ -3,6 +3,9 @@
   "$id": "http://our.playlist.com/playlistNew.schema.json",
   "type": "object",
   "properties": {
+    "id": {
+      "type": "integer"
+    },
     "name": {
       "type": "string",
       "minLength": 1,
@@ -22,8 +25,7 @@
       "type": "string"
     },
     "image": {
-      "type": "string",
-      "format": "uri"
+      "type": "string"
     }
   },
   "additionalProperties": false,

@@ -1,63 +1,69 @@
--- test users have the password "password"
+-- test users have the password 'password'
 
 INSERT INTO users (username, password, first_name, last_name, email)
 VALUES ('testuser',
         '$2b$12$AZH7virni5jlTTiGgEg4zu3lSvAw68qVEfSIOjJ3RqtbJbdW/Oi5q',
         'Test',
         'User',
-        'christien@christienng.com');
+        'christien@spotifyclone.com');
 
 INSERT INTO playlists (name, handle, user_id, description, created_at, image)
-VALUES ('Workout', 'workout', 1, 'A playlist that will pump you up for the gym','2022-09-02 04:05:06','https://images.unsplash.com/photo-1558017487-06bf9f82613a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1070&q=80'),
-        ('Study', 'study', 1, 'To help you get some work done','2022-09-01 14:25:16','https://images.unsplash.com/photo-1558021212-51b6ecfa0db9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=883&q=80');
+VALUES ('Workout', 'workout', 1, 'For pumping some metal','2022-09-02 04:05:06','https://images.unsplash.com/photo-1558017487-06bf9f82613a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1070&q=80'),
+        ('Study', 'study', 1, 'Some tunes to help you get some work done','2022-09-01 14:25:16','https://images.unsplash.com/photo-1558021212-51b6ecfa0db9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=883&q=80');
 
-INSERT INTO artists (name, handle, image)
-VALUES ('Tyler the Creator', 'tyler-the-creator','https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Tyler_the_Creator_2022_cropped.png/220px-Tyler_the_Creator_2022_cropped.png'),
-        ('Tame Impala', 'tame-impala','https://pbs.twimg.com/profile_images/1188863090646904832/2fi9Reuh_400x400.jpg'),
-        ('Vince Staples', 'vince-staples','https://i1.sndcdn.com/avatars-XjO8ubSPDobu7eGa-f2HAHQ-t500x500.jpg'),
-        ('The Black Keys', 'the-black-keys','https://www.billboard.com/wp-content/uploads/media/the-back-keys-press-billboard-650.jpg?w=650');
+INSERT INTO artists (id, name, handle, image)
+VALUES ('0aA1GTrIMutjIh4GlPPUVN', 'Crooked Colours', 'crooked-colors', 'https://i.scdn.co/image/ab67616100005174fe59f29735cfca0256767031'),
+        ('5INjqkS1o8h1imAzPqGZBb', 'Tame Impala', 'tame-impala','https://i.scdn.co/image/ab6761610000517490357ef28b3a012a1d1b2fa2'),
+        ('68kEuyFKyqrdQQLLsmiatm', 'Vince Staples', 'vince-staples','https://i.scdn.co/image/ab6761610000517453054f8bc7e0153daefe12cc'),
+        ('7mnBLXK823vNxN3UWB7Gfz', 'The Black Keys', 'the-black-keys','https://i.scdn.co/image/ab67616100005174ae537808bd15be9f7031e99b'),
+        ('4oLeXFyACqeem2VImYeBFe', 'Fred again..', 'fred-again...', 'https://i.scdn.co/image/ab67616100005174c3631d90ebc9440d6fd63755'),
+        ('3eUpxakSdjFZ5ROQKgfL2W', 'Tentendo', 'tentendo', 'https://i.scdn.co/image/ab676161000051741d153931d70b23894b2be2f6');
 
-INSERT INTO albums (name, handle, artist_id, release_year, image)
-VALUES ('Flower Boy','flower-boy', 1, 2017, 'https://images.complex.com/complex/images/c_fill,dpr_auto,f_auto,q_auto,w_1400/fl_lossy,pg_1/bebllwzjpsujz9ffwp6s/tyler-the-creator-scum-fuck-flower-boy-cover?fimg-ssr-default'),
-        ('Currents','currents', 2, 2015, 'https://www.billboard.com/wp-content/uploads/media/Tame-Impala-Currents-2017-billboard-1240.jpg?w=600'),
-        ('Big Fish Theory','big-fish-theory', 3, 2015, 'http://images.genius.com/037801ff09afa2af7c8b9996efb048a8.1000x1000x1.jpg'),
-        ('Fever','fever', 4, 2014, 'https://upload.wikimedia.org/wikipedia/en/c/c2/Black_Keys_Fever_cover.png'),
-        ('The Slow Rush','the-slow-rush', 2, 2020, 'https://upload.wikimedia.org/wikipedia/en/5/54/Tame_Impala_-_The_Slow_Rush.png');
+INSERT INTO albums (id, name, handle, artist_id, release_date, image)
+VALUES ('1zDkevWz3xdsqVAYbdANiN', 'Love Language',' love-language', '0aA1GTrIMutjIh4GlPPUVN', '2020-08-27', 'https://i.scdn.co/image/ab67616d00001e02a61351f4ac889baa329881e5'),
+        ('79dL7FLiJFOO0EoehUHQBv', 'Currents','currents', '5INjqkS1o8h1imAzPqGZBb', '2015-07-17', 'https://i.scdn.co/image/ab67616d00001e029e1cfc756886ac782e363d79'),
+        ('5h3WJG0aZjNOrayFu3MhCS', 'Big Fish Theory','big-fish-theory', '68kEuyFKyqrdQQLLsmiatm', '2017-06-23', 'https://i.scdn.co/image/ab67616d00001e027ba7b4d23c717f3211717946'),
+        ('6TvxpBzf9c8H1fsrAaQ8t3', 'Turn Blue', 'turn-blue', '7mnBLXK823vNxN3UWB7Gfz', '2014-05-09', 'https://i.scdn.co/image/ab67616d00001e021af8fb0d8859055d35d2290f'),
+        ('31qVWUdRrlb8thMvts0yYL', 'The Slow Rush','the-slow-rush', '5INjqkS1o8h1imAzPqGZBb', '2020-02-14', 'https://i.scdn.co/image/ab67616d00001e0258267bd34420a00d5cf83a49'),
+        ('2eQW56txcEoh0iG0bC0gDr', 'Actual Life', 'actual-life', '4oLeXFyACqeem2VImYeBFe', '2020-06-12', 'https://i.scdn.co/image/ab67616d00001e02e67f2c3d40ed4148168d6bd2'),
+        ('2LtnuQprMk03gZYi4eUFVP', 'Make Me High', 'make-me-high', '3eUpxakSdjFZ5ROQKgfL2W', '2020-11-27', 'https://i.scdn.co/image/ab67616d00001e0258500d4ab511675dc2970ae5');
 
-INSERT INTO songs (name, duration, date_added, artist_id, album_id,image)
-VALUES ('Sometimes...', '36000', '2022-09-02 04:06:06', 1, 1, 'https://images.complex.com/complex/images/c_fill,dpr_auto,f_auto,q_auto,w_1400/fl_lossy,pg_1/bebllwzjpsujz9ffwp6s/tyler-the-creator-scum-fuck-flower-boy-cover?fimg-ssr-default'),
-        ('The Less I Know The Better', '216000', '2022-09-01 14:26:16', 2, 2, 'https://www.billboard.com/wp-content/uploads/media/Tame-Impala-Currents-2017-billboard-1240.jpg?w=600'),
-        ('Yeah Right', '189000', '2022-09-01 14:26:16', 3, 3, 'http://images.genius.com/037801ff09afa2af7c8b9996efb048a8.1000x1000x1.jpg'),
-        ('Fever', '246000', '2022-09-01 14:26:16', 4, 4, 'https://upload.wikimedia.org/wikipedia/en/c/c2/Black_Keys_Fever_cover.png'),
-        ('Eventually', '318000', '2022-09-08 15:43:42', 2, 2, 'https://www.billboard.com/wp-content/uploads/media/Tame-Impala-Currents-2017-billboard-1240.jpg?w=600'),
-        ('Lost In Yesterday', '246000', '2022-09-18 15:08:08', 2, 5, 'https://upload.wikimedia.org/wikipedia/en/5/54/Tame_Impala_-_The_Slow_Rush.png');
+INSERT INTO songs (id, name, duration_ms, explicit, added_at, artist_id, album_id,image)
+VALUES ('2kII74W6BvQZSOwXBotukX', 'Love Language', 198961, false, '2022-09-01 14:26:16', '0aA1GTrIMutjIh4GlPPUVN', '1zDkevWz3xdsqVAYbdANiN', 'https://i.scdn.co/image/ab67616d00001e02a61351f4ac889baa329881e5'),
+        ('6K4t31amVTZDgR3sKmwUJJ', 'The Less I Know The Better', 216320, true, '2022-09-01 14:26:16', '5INjqkS1o8h1imAzPqGZBb', '79dL7FLiJFOO0EoehUHQBv', 'https://i.scdn.co/image/ab67616d00001e029e1cfc756886ac782e363d79'),
+        ('35tWhD29yvWwB0IDRr6zsL', 'Yeah Right', 188946, true, '2022-09-01 14:26:16', '68kEuyFKyqrdQQLLsmiatm', '5h3WJG0aZjNOrayFu3MhCS', 'https://i.scdn.co/image/ab67616d00001e027ba7b4d23c717f3211717946'),
+        ('3Hx7RXqCS7Kzjy2ot2q1Gk', 'Fever', 246306, false,'2022-09-01 14:26:16', '7mnBLXK823vNxN3UWB7Gfz', '6TvxpBzf9c8H1fsrAaQ8t3', 'https://i.scdn.co/image/ab67616d00001e021af8fb0d8859055d35d2290f'),
+        ('5M4yti0QxgqJieUYaEXcpw', 'Eventually', 318591, false,'2022-09-08 15:43:42', '5INjqkS1o8h1imAzPqGZBb', '79dL7FLiJFOO0EoehUHQBv', 'https://i.scdn.co/image/ab67616d00001e029e1cfc756886ac782e363d79'),
+        ('5JWPUEov2wlX7c0jhYZpeB', 'Lost In Yesterday', 249586, false, '2022-09-18 15:08:08', '5INjqkS1o8h1imAzPqGZBb', '31qVWUdRrlb8thMvts0yYL', 'https://i.scdn.co/image/ab67616d00001e0258267bd34420a00d5cf83a49'),
+        ('6tNDYeDmysMdXnH6agTz3v', 'Kyle (i found you)', 196071, false, '2022-09-22 17:43:08', '4oLeXFyACqeem2VImYeBFe', '2eQW56txcEoh0iG0bC0gDr', 'https://i.scdn.co/image/ab67616d00001e02e67f2c3d40ed4148168d6bd2'),
+        ('6utNem2fRNIoANRLvyjGRw', 'Make Me High', 170515, false, '2022-09-22 17:54:40', '3eUpxakSdjFZ5ROQKgfL2W', '2LtnuQprMk03gZYi4eUFVP', 'https://i.scdn.co/image/ab67616d00001e0258500d4ab511675dc2970ae5');
 
 INSERT INTO artist_songs (artist_id, song_id)
-VALUES (1,1),
-        (2,2),
-        (3,3),
-        (4,4),
-        (2,5),
-        (2,6);
+VALUES ('0aA1GTrIMutjIh4GlPPUVN', '2kII74W6BvQZSOwXBotukX'),
+        ('5INjqkS1o8h1imAzPqGZBb', '6K4t31amVTZDgR3sKmwUJJ'),
+        ('68kEuyFKyqrdQQLLsmiatm', '35tWhD29yvWwB0IDRr6zsL'),
+        ('7mnBLXK823vNxN3UWB7Gfz', '3Hx7RXqCS7Kzjy2ot2q1Gk'),
+        ('5INjqkS1o8h1imAzPqGZBb', '5M4yti0QxgqJieUYaEXcpw'),
+        ('5INjqkS1o8h1imAzPqGZBb', '5JWPUEov2wlX7c0jhYZpeB'),
+        ('4oLeXFyACqeem2VImYeBFe', '6tNDYeDmysMdXnH6agTz3v'),
+        ('3eUpxakSdjFZ5ROQKgfL2W', '6utNem2fRNIoANRLvyjGRw');
 
 INSERT INTO album_songs (album_id, song_id)
-VALUES (1,1),
-        (2,2),
-        (3,3),
-        (4,4),
-        (2,5),
-        (5,6);
+VALUES ('1zDkevWz3xdsqVAYbdANiN', '2kII74W6BvQZSOwXBotukX'),
+        ('79dL7FLiJFOO0EoehUHQBv', '6K4t31amVTZDgR3sKmwUJJ'),
+        ('5h3WJG0aZjNOrayFu3MhCS', '35tWhD29yvWwB0IDRr6zsL'),
+        ('6TvxpBzf9c8H1fsrAaQ8t3', '3Hx7RXqCS7Kzjy2ot2q1Gk'),
+        ('79dL7FLiJFOO0EoehUHQBv', '5M4yti0QxgqJieUYaEXcpw'),
+        ('79dL7FLiJFOO0EoehUHQBv', '5JWPUEov2wlX7c0jhYZpeB'),
+        ('2eQW56txcEoh0iG0bC0gDr', '6tNDYeDmysMdXnH6agTz3v'),
+        ('2LtnuQprMk03gZYi4eUFVP', '6utNem2fRNIoANRLvyjGRw');
 
 INSERT INTO playlist_songs (playlist_id, song_id)
-VALUES (1,1),
-        (2,2),
-        (1,3),
-        (2,4),
-        (2,5),
-        (1,4),
-        (2,6);
-
-INSERT INTO follows (user_following_id, artist_being_followed_id)
-VALUES (1,1),
-        (1,2);
-
+VALUES (1,'2kII74W6BvQZSOwXBotukX'),
+        (2,'6K4t31amVTZDgR3sKmwUJJ'),
+        (1,'35tWhD29yvWwB0IDRr6zsL'),
+        (2,'3Hx7RXqCS7Kzjy2ot2q1Gk'),
+        (2,'5M4yti0QxgqJieUYaEXcpw'),
+        (1,'5JWPUEov2wlX7c0jhYZpeB'),
+        (2,'6tNDYeDmysMdXnH6agTz3v'),
+        (2, '6utNem2fRNIoANRLvyjGRw');

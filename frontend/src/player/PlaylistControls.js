@@ -11,7 +11,6 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import SearchIcon from '@material-ui/icons/Search';
-import Popover from '@material-ui/core/Popover';
 
 const PlaylistControls = ({ playlist }) => {
   const { handle } = useParams();

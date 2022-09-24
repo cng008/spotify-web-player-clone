@@ -1,12 +1,14 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
+import Login from './pages/Login';
 import Home from './pages/Home';
 import Search from './pages/Search';
 import Library from './pages/Library';
 import Playlist from './pages/Playlist';
-import Login from './Login';
+import DiscoverPlaylist from './pages/DiscoverPlaylist';
 import NotFound404 from './pages/NotFound404';
+// import Protected from './ProtectedRoute';
 
 /** Site-wide routes.
  *
@@ -29,6 +31,10 @@ const Routes = () => {
 
       <Route path="/library">
         <Library />
+      </Route>
+
+      <Route exact path="/playlist/discover">
+        <DiscoverPlaylist />
       </Route>
 
       <Route exact path="/playlists/:handle">

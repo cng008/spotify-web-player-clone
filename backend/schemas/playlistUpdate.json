@@ -3,6 +3,9 @@
   "$id": "http://our.playlist.com/playlistUpdate.schema.json",
   "type": "object",
   "properties": {
+    "id": {
+      "type": "integer"
+    },
     "name": {
       "type": "string",
       "minLength": 1,
@@ -16,8 +19,7 @@
       "maxLength": 200
     },
     "image": {
-      "type": "string",
-      "format": "uri"
+      "type": "string"
     }
   },
   "additionalProperties": false,

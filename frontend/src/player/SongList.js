@@ -5,7 +5,7 @@ import './SongList.css';
 
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 
-const SongList = ({ playlist }) => {
+const SongList = ({ playlist, playerTime }) => {
   const [{}, dispatch] = useStateValue();
 
   /** SETS SONG IN FOOTER */
@@ -17,6 +17,10 @@ const SongList = ({ playlist }) => {
     dispatch({
       type: 'SET_PLAYING',
       isPlaying: false
+    });
+    dispatch({
+      type: 'SET_PLAYER_TIMELINE',
+      playerTime: 0
     });
   };
 

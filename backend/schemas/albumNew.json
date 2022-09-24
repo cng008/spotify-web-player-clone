@@ -1,8 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://our.playlist.com/playlistSearch.schema.json",
+  "$id": "http://our.playlist.com/albumNew.schema.json",
   "type": "object",
   "properties": {
+    "id": {
+      "type": "string"
+    },
     "name": {
       "type": "string"
     },
@@ -12,13 +15,13 @@
     "artist_id": {
       "type": "string"
     },
-    "release_year": {
-      "type": "integer"
+    "release_date": {
+      "type": "string"
     },
     "image": {
       "type": "string"
     }
   },
   "additionalProperties": false,
-  "required": ["name", "artist_id", "release_year", "image"]
+  "required": ["id", "name", "artist_id", "release_date", "image"]
 }

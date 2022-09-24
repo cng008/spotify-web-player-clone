@@ -87,7 +87,7 @@
 .Playlist-filter {
   flex: 0.2;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   margin: 30px;
 }
 

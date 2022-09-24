@@ -1,7 +1,8 @@
 export const INITIAL_STATE = {
   user: null,
-  // token:
-  //   'BQCT3LyULhqahXLPHQKSlo98eDWUg9GeCBXP5MneAAiyGBAGnwUTEjm4l71OwrH7B2aVjDQGkHLZFVcM-JZ_qWL62ILrOq1E7liTZQhvWDRGNUWaUudSyUI8QmTXkdtSuw9xed_se9Ukx3aW-oRijAItctY1-ElDqDRMNWnaP-2RGo1tVsyR',
+  token: null,
+  searchTerm: '',
+  searchResults: [],
   isPlaying: false,
   playerTime: 0,
   volume: 50,
@@ -15,6 +16,7 @@ export const INITIAL_STATE = {
 // Listens to actions
 const reducer = (state, action) => {
   console.log(action);
+  console.log(INITIAL_STATE);
 
   //   action -> type, [payload]
 
@@ -32,6 +34,18 @@ const reducer = (state, action) => {
         token: action.token
       };
 
+    case 'SET_SEARCHTERM':
+      return {
+        ...state,
+        searchTerm: action.searchTerm
+      };
+
+    case 'SET_SEARCH_RESULTS':
+      return {
+        ...state,
+        searchResults: action.searchResults
+      };
+
     case 'SET_PLAYING':
       return {
         ...state,
@@ -44,7 +58,7 @@ const reducer = (state, action) => {
         trackData: action.trackData
       };
 
-    case 'SET_SONG_TIME':
+    case 'SET_PLAYER_TIMELINE':
       return {
         ...state,
         playerTime: action.playerTime
@@ -85,4 +99,5 @@ const reducer = (state, action) => {
       return state;
   }
 };
+
 export default reducer;

@@ -2,6 +2,8 @@ import axios from 'axios';
 // import { useStateValue } from '../StateProvider';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3001';
+// the token for interactive with the API will be stored here.
+// const [{ token }] = useStateValue();
 
 /** API Class.
  *
@@ -10,6 +12,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3001';
  * be any API-aware stuff elsewhere in the frontend.
  *
  */
+
 class SpotifyApi {
   // static token;
   static async request(endpoint, data = {}, method = 'get') {
@@ -29,6 +32,14 @@ class SpotifyApi {
       // throw Array.isArray(message) ? message : [message];
     }
   }
+
+  // Individual API routes
+
+  // /** Get the current user. */
+  // static async getCurrentUser(username) {
+  //   let res = await this.request(`users/${username}`);
+  //   return res.user;
+  // }
 
   /*********************** PLAYLISTS **********************/
 
@@ -61,7 +72,19 @@ class SpotifyApi {
     await this.request(`playlists/${handle}`, {}, 'delete');
   }
 
+  // /** Get songs by title (filtered by name if not undefined) */
+  // static async getSongs(title) {
+  //   let res = await this.request('songs', { title });
+  //   return res.jobs;
+  // }
+
   /*********************** SONGS **********************/
+  /** Add song to db*/
+  static async addSong(data) {
+    let res = await this.request('songs', data, 'post');
+    return res.song;
+  }
+
   /** Get song by id */
   static async getSongsByID(id) {
     let res = await this.request(`songs/${id}`);
@@ -79,6 +102,12 @@ class SpotifyApi {
   }
 
   /*********************** ALBUMS **********************/
+  /** Add album to db*/
+  static async addAlbum(data) {
+    let res = await this.request('albums', data, 'post');
+    return res.album;
+  }
+
   /** Get albums (filtered by name if not undefined) */
   static async getAlbums() {
     let res = await this.request('albums', {});
@@ -93,6 +122,12 @@ class SpotifyApi {
   }
 
   /*********************** ARTISTS **********************/
+  /** Add artist to db*/
+  static async addArtist(data) {
+    let res = await this.request('artists', data, 'post');
+    return res.artist;
+  }
+
   /** Get artists (filtered by name if not undefined) */
   static async getArtists() {
     let res = await this.request('artists', {});
@@ -105,6 +140,29 @@ class SpotifyApi {
     let res = await this.request(`artists/${handle}`);
     return res.artist;
   }
+
+  // /** Signup for site. */
+  // static async signup(data) {
+  //   let res = await this.request('auth/register', data, 'post');
+  //   return res.token;
+  // }
+
+  // /** Get token for login from username, password. */
+  // static async login(data) {
+  //   let res = await this.request('auth/token', data, 'post');
+  //   return res.token;
+  // }
+
+  // /** Save user profile edits. */
+  // static async saveProfile(username, data) {
+  //   let res = await this.request(`users/${username}`, data, 'patch');
+  //   return res.user;
+  // }
+
+  // /** Delete user profile. */
+  // static async deleteProfile(username) {
+  //   await this.request(`users/${username}`, {}, 'delete');
+  // }
 }
 
 export default SpotifyApi;

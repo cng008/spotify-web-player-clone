@@ -19,12 +19,12 @@ const router = new express.Router();
  *
  * playlist should be { name, userId, description, createdAt, image }
  *
- * Returns { name,handle, userId, description, createdAt, image }
+ * Returns { name, handle, user_id, description, created_at, image }
  *
  * Authorization required: ensureLoggedIn
  */
 
-router.post('/', ensureLoggedIn, async function (req, res, next) {
+router.post('/', async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, playlistNew);
     if (!validator.valid) {
@@ -39,8 +39,29 @@ router.post('/', ensureLoggedIn, async function (req, res, next) {
   }
 });
 
+/** POST / { playlist } =>  { playlist }
+ *
+ * playlist should be { name, userId, description, createdAt, image }
+ *
+ * Returns { name, handle, user_id, description, created_at, image }
+ *
+ * Authorization required: ensureLoggedIn
+ */
+
+router.post('/:playlistID/songs/:songID', async function (req, res, next) {
+  try {
+    const playlist = await Playlist.addToPlaylist(
+      req.params.playlistID,
+      req.params.songID
+    );
+    return res.status(201).json({ playlist });
+  } catch (err) {
+    return next(err);
+  }
+});
+
 /** GET /  =>
- *   { playlists: [ { name, handle, userId, description, createdAt, image }, ...] }
+ *   { playlists: [ { name, handle, user_id, description, created_at, image }, ...] }
  *
  * Can filter on provided search filters:
  * - nameLike (will find case-insensitive, partial matches)
@@ -67,8 +88,8 @@ router.get('/', async function (req, res, next) {
 
 /** GET /[handle]  =>  { playlist }
  *
- *  Playlist is { name, handle, userId, description, createdAt, image }
- *   where songs is [{ id, name, duration, dataAdded, artistId, albumId, image }, ...]
+ *  Playlist is { name, handle, user_id, description, created_at, image }
+ *   where songs is [{ id, name, duration_ms, data_added, artist_id, album_id, image }, ...]
  *
  * Authorization required: none
  */
@@ -88,7 +109,7 @@ router.get('/:handle', async function (req, res, next) {
  *
  * fields can be: { name, description, image }
  *
- * Returns { name, handle, userId, description, createdAt, image }
+ * Returns { name, handle, user_id, description, created_at, image }
  *
  * Authorization required: admin
  */

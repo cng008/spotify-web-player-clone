@@ -9,7 +9,7 @@ function SearchPageCard({ cardData }) {
       style={{ backgroundColor: `${cardData.bgcolor}` }}
     >
       <div className="SearchCard">
-        <img src={cardData.imgurl} />
+        <img src={cardData.imgurl} alt={`${cardData.title} cover`} />
         <h2>{cardData.title}</h2>
       </div>
     </div>
