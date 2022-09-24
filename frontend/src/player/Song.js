@@ -6,6 +6,19 @@ import ExplicitIcon from '@material-ui/icons/Explicit';
 
 const Song = ({ track = 'test', id }) => {
   const { getSongDuration, daysAgo } = useContext(UserContext);
+  const numOfDays = daysAgo(track.added_at, new Date());
+
+  console.debug('Song', 'numOfDays', numOfDays);
+
+  const days = numOfDays => {
+    if (numOfDays > 1) {
+      return 'days ago';
+    } else if (numOfDays === 1) {
+      return 'day ago';
+    } else {
+      return 'Today';
+    }
+  };
 
   return (
     <>
@@ -30,7 +43,9 @@ const Song = ({ track = 'test', id }) => {
         </div>
       </td>
       <td>{track.album_name}</td>
-      <td>{daysAgo(track.added_at, new Date())} days ago</td>
+      <td>
+        {numOfDays > 0 ? numOfDays : null} {days(numOfDays)}
+      </td>
       <td>{getSongDuration(track.duration_ms)}</td>
     </>
   );
