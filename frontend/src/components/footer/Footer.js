@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import UserContext from '../UserContext';
-import { useStateValue } from '../StateProvider';
+import UserContext from '../../UserContext';
+import { useStateValue } from '../../StateProvider';
 import Slider from './Slider';
 import './Footer.css';
 
@@ -15,22 +15,19 @@ import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
 import PlaylistPlayIcon from '@material-ui/icons/PlaylistPlay';
 import { Grid } from '@material-ui/core';
 
+/** Is rendered on every page (except login)
+ *
+ * - useStateValue: access globally stored state
+ * - useContext: common data that can be accessed throughout the component hierarchy without passing the props down manually to each level
+ *
+ *  */
+
 const Footer = () => {
   const [{ isPlaying, volume, trackData, playerTime }, dispatch] =
     useStateValue();
   const { getSongDuration } = useContext(UserContext);
 
-  // console.debug(
-  //   'Footer',
-  //   'isPlaying=',
-  //   isPlaying,
-  //   'volume=',
-  //   volume,
-  //   'trackData',
-  //   trackData,
-  //   'playerTime',
-  //   playerTime
-  // );
+  // console.debug( 'Footer', 'isPlaying=', isPlaying,'volume=',volume, 'trackData=', trackData, 'playerTime=', playerTime );
 
   /** SETS PLAY/PAUSE GLOBALLY */
   const togglePause = () => {

@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { useStateValue } from '../StateProvider';
+import { useStateValue } from '../../StateProvider';
 import SpotifyWebApi from 'spotify-web-api-js';
-import SpotifyApi from '../common/api';
-import UserContext from '../UserContext';
+import SpotifyCloneApi from '../../common/api';
+import UserContext from '../../UserContext';
 import './SearchResultCard.css';
 
 import ExplicitIcon from '@material-ui/icons/Explicit';
@@ -10,12 +10,22 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
+/** Song results for SearchBar
+ *
+ * - useState: state variables in functional components
+ * - useStateValue: access globally stored state
+ * - useContext: common data that can be accessed throughout the component hierarchy without passing the props down manually to each level
+ *
+ * App -> Routes -> Header -> Searchbar
+ *                  Search -> SearchResultCard
+ */
+
 const SearchResultCard = ({ trackData = 'test' }) => {
   const spotify = new SpotifyWebApi();
   const [{ playlists }, dispatch] = useStateValue();
   const { getSongDuration } = useContext(UserContext);
   const [liked, setLike] = useState(false);
-  const [isCicked, setIsClicked] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
   const [songID, setSongID] = useState('');
   const [artistImg, setArtistImg] = useState('');
 
@@ -23,26 +33,24 @@ const SearchResultCard = ({ trackData = 'test' }) => {
   //   'SearchResultCard',
   //   'liked',
   //   liked,
-  //   'isCicked',
-  //   isCicked,
+  //   'isClicked',
+  //   isClicked,
   //   'songID',
-  //   songID
+  //   songID,
+  //   'artistImg',
+  //   artistImg
   // );
-  /** Triggered by song add to playlist */
-  async function getArtistImg() {
-    let res = await spotify.getArtist(trackData.artists[0].id);
-    setArtistImg(res.images[1].url);
-  }
-  getArtistImg();
+
   const addSongToPlaylist = async playlistID => {
     try {
       /** Makes a POST request to common > api.js and adds song, album, artist data to db */
-      await SpotifyApi.addArtist(artistData);
-      await SpotifyApi.addAlbum(albumData);
-      await SpotifyApi.addSong(songData);
+      await SpotifyCloneApi.addArtist(artistData);
+      await SpotifyCloneApi.addAlbum(albumData);
+      await SpotifyCloneApi.addSong(songData);
+
       /** Makes a POST request to common > api.js and adds song to selected playlist */
       console.log('playlistID', playlistID, 'songID', songID);
-      await SpotifyApi.addSongToPlaylist(playlistID, songID);
+      await SpotifyCloneApi.addSongToPlaylist(playlistID, songID);
     } catch (err) {
       console.log(err);
       return;
@@ -99,10 +107,14 @@ const SearchResultCard = ({ trackData = 'test' }) => {
     setLike(toggle);
   };
 
-  const handleMoreClick = () => {
-    let toggle = isCicked === true ? false : true;
+  const handleMoreClick = async () => {
+    let toggle = isClicked === true ? false : true;
     setIsClicked(toggle);
     setSongID(trackData.id);
+
+    // gets artist img (which needs a separate api call)
+    let artist = await spotify.getArtist(trackData.artists[0].id);
+    setArtistImg(artist.images[1].url);
   };
 
   return (
@@ -147,12 +159,13 @@ const SearchResultCard = ({ trackData = 'test' }) => {
               }}
             >
               <MoreHorizIcon />
-              {isCicked && (
+              {isClicked && (
                 <div className="Playlist-add">
                   Add to playlist:
                   {playlists.map(playlist => {
                     return (
                       <button
+                        key={playlist.handle}
                         title="Add to this playlist"
                         onClick={() => {
                           addSongToPlaylist(playlist.id);

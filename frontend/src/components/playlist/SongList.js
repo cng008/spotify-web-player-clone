@@ -1,14 +1,23 @@
 import React from 'react';
-import { useStateValue } from '../StateProvider';
-import Song from '../player/Song';
+import { useStateValue } from '../../StateProvider';
+import Song from './Song';
 import './SongList.css';
 
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 
+/** View Playlist with songs related to playlist.
+ *
+ * - useStateValue: access globally stored state
+ *
+ * App -> Routes -> Playlist -> SongList -> Song
+ */
+
 const SongList = ({ playlist, playerTime }) => {
   const [{}, dispatch] = useStateValue();
 
-  /** SETS SONG IN FOOTER */
+  // console.debug('Song', 'playlist=', playlist, 'playerTime=', playerTime);
+
+  /** "PLAYS" SONG IN FOOTER */
   const setSong = track => {
     dispatch({
       type: 'SET_SONG',

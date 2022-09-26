@@ -1,10 +1,15 @@
 import React from 'react';
-import Sidebar from '../player/Sidebar';
-import Footer from '../player/Footer';
-import Header from '../player/Header';
+import Header from '../components/header/Header';
+import Sidebar from '../components/sidebar/Sidebar';
+import Footer from '../components/footer/Footer';
 import './NotFound404.css';
 
 import NewReleasesRoundedIcon from '@material-ui/icons/NewReleasesRounded';
+
+/** 404 redirect for missing urls or lost routes
+ *
+ * App -> Routes -> NotFound404
+ */
 
 const NotFound404 = () => {
   return (

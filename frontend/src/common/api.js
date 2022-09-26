@@ -2,8 +2,6 @@ import axios from 'axios';
 // import { useStateValue } from '../StateProvider';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3001';
-// the token for interactive with the API will be stored here.
-// const [{ token }] = useStateValue();
 
 /** API Class.
  *
@@ -13,36 +11,33 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3001';
  *
  */
 
-class SpotifyApi {
+class SpotifyCloneApi {
   // static token;
   static async request(endpoint, data = {}, method = 'get') {
     console.debug('API Call:', endpoint, data, method);
 
     //there are multiple ways to pass an authorization token, this is how you pass it in the header.
-    //this has been provided to show you another way to pass the token. you are only expected to read this code for this project.
     const url = `${BASE_URL}/${endpoint}`;
-    const headers = { Authorization: `Bearer ${SpotifyApi.token}` };
+    const headers = { Authorization: `Bearer ${SpotifyCloneApi.token}` };
     const params = method === 'get' ? data : {};
 
     try {
       return (await axios({ url, method, data, headers, params })).data;
     } catch (err) {
       console.error('API Error:', err.response);
-      // let message = err.response.data.error.message;
-      // throw Array.isArray(message) ? message : [message];
     }
   }
 
-  // Individual API routes
+  /*********************** Individual API routes **********************/
 
-  // /** Get the current user. */
-  // static async getCurrentUser(username) {
-  //   let res = await this.request(`users/${username}`);
-  //   return res.user;
-  // }
+  /** Add newly logged in user. */
+  static async addNewUser(data) {
+    let res = await this.request('users', data, 'post');
+    return res.user;
+  }
 
   /*********************** PLAYLISTS **********************/
-
+  /** Add playlist to db */
   static async newPlaylist(data) {
     let res = await this.request('playlists', data, 'post');
     return res.playlist;
@@ -50,8 +45,8 @@ class SpotifyApi {
 
   /** Get playlists (filtered by name if not undefined) */
   static async getPlaylists() {
-    let res = await this.request('playlists', {});
-    console.log('getPlaylists results', res);
+    let res = await this.request('playlists');
+    // console.log('getPlaylists results', res);
     return res.playlists;
   }
 
@@ -72,24 +67,18 @@ class SpotifyApi {
     await this.request(`playlists/${handle}`, {}, 'delete');
   }
 
-  // /** Get songs by title (filtered by name if not undefined) */
-  // static async getSongs(title) {
-  //   let res = await this.request('songs', { title });
-  //   return res.jobs;
-  // }
-
   /*********************** SONGS **********************/
-  /** Add song to db*/
+  /** Add song to db */
   static async addSong(data) {
     let res = await this.request('songs', data, 'post');
     return res.song;
   }
 
   /** Get song by id */
-  static async getSongsByID(id) {
-    let res = await this.request(`songs/${id}`);
-    return res.job;
-  }
+  // static async getSongsByID(id) {
+  //   let res = await this.request(`songs/${id}`);
+  //   return res.job;
+  // }
 
   /** Save song to current playlist. */
   static async addSongToPlaylist(playlistID, songID) {
@@ -97,12 +86,12 @@ class SpotifyApi {
   }
 
   /** Delete song from playlist by id */
-  static async deleteSong(id) {
-    await this.request(`songs/${id}`, {}, 'delete');
-  }
+  // static async deleteSong(id) {
+  //   await this.request(`songs/${id}`, {}, 'delete');
+  // }
 
   /*********************** ALBUMS **********************/
-  /** Add album to db*/
+  /** Add album to db */
   static async addAlbum(data) {
     let res = await this.request('albums', data, 'post');
     return res.album;
@@ -110,8 +99,8 @@ class SpotifyApi {
 
   /** Get albums (filtered by name if not undefined) */
   static async getAlbums() {
-    let res = await this.request('albums', {});
-    console.log('getAlbums results', res);
+    let res = await this.request('albums');
+    // console.log('getAlbums results', res);
     return res.albums;
   }
 
@@ -122,7 +111,7 @@ class SpotifyApi {
   }
 
   /*********************** ARTISTS **********************/
-  /** Add artist to db*/
+  /** Add artist to db */
   static async addArtist(data) {
     let res = await this.request('artists', data, 'post');
     return res.artist;
@@ -131,7 +120,7 @@ class SpotifyApi {
   /** Get artists (filtered by name if not undefined) */
   static async getArtists() {
     let res = await this.request('artists', {});
-    console.log('getArtists results', res);
+    // console.log('getArtists results', res);
     return res.artists;
   }
 
@@ -140,29 +129,6 @@ class SpotifyApi {
     let res = await this.request(`artists/${handle}`);
     return res.artist;
   }
-
-  // /** Signup for site. */
-  // static async signup(data) {
-  //   let res = await this.request('auth/register', data, 'post');
-  //   return res.token;
-  // }
-
-  // /** Get token for login from username, password. */
-  // static async login(data) {
-  //   let res = await this.request('auth/token', data, 'post');
-  //   return res.token;
-  // }
-
-  // /** Save user profile edits. */
-  // static async saveProfile(username, data) {
-  //   let res = await this.request(`users/${username}`, data, 'patch');
-  //   return res.user;
-  // }
-
-  // /** Delete user profile. */
-  // static async deleteProfile(username) {
-  //   await this.request(`users/${username}`, {}, 'delete');
-  // }
 }
 
-export default SpotifyApi;
+export default SpotifyCloneApi;

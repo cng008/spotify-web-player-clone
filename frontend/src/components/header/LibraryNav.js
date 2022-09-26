@@ -2,6 +2,11 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './LibraryNav.css';
 
+/** Renders nav bar in /library
+ * *
+ * App -> Routes -> Library -> Header
+ */
+
 const LibraryNav = () => {
   const LIBRARYTABS = [
     { title: 'Playlists', path: '/library' },

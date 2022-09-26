@@ -16,7 +16,7 @@ class Song {
 
   static async add(data) {
     const duplicateCheck = await db.query(
-      `SELECT id, name, duration_ms, explicit, added_at, artist_id, album_id, image
+      `SELECT id
            FROM songs
            WHERE id = $1`,
       [data.id]

@@ -68,7 +68,7 @@
 }
 .Playlist-edit-buttons > button {
   display: flex;
-  font-size: 1em;
+  font-size: 1.2em;
   color: white;
   background-color: rgb(18, 18, 18);
   width: 100%;
@@ -81,7 +81,7 @@
   background-color: rgb(50, 50, 50);
 }
 .Playlist-edit-buttons > button:last-child:hover {
-  background-color: rgb(75, 6, 6);
+  background-color: rgb(114, 32, 32);
 }
 
 .Playlist-filter {

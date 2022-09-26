@@ -2,6 +2,8 @@ import React from 'react';
 import { loginUrl } from '../common/auth';
 import './Login.css';
 
+/** NOT USED */
+
 const Login = () => {
   return (
     <div className="Login">

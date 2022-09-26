@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { useStateValue } from '../StateProvider';
-import SpotifyApi from '../common/api';
+import { useStateValue } from '../../StateProvider';
+import SpotifyCloneApi from '../../common/api';
 import EditPlaylistForm from './EditPlaylistForm';
 import './PlaylistControls.css';
 
@@ -12,6 +12,16 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import SearchIcon from '@material-ui/icons/Search';
 
+/** Component for playlist play/pause, like, edit buttons
+ *
+ * - useParams: returns an object of key/value pairs of the dynamic params from the current URL that were matched by the <Route path>
+ * - useState: state variables in functional components
+ * - useHistory: lets you access the history instance used by React Router, useful for redirecting users to another page
+ * - useStateValue: access globally stored state
+ *
+ * App -> Routes -> Home/Library/Sidebar -> Playlist -> PlaylistControls
+ */
+
 const PlaylistControls = ({ playlist }) => {
   const { handle } = useParams();
   const history = useHistory();
@@ -21,6 +31,8 @@ const PlaylistControls = ({ playlist }) => {
   const [liked, setLike] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+
+  // console.debug('PlaylistControls', 'playlist=', playlist, 'handle=', handle ,'sort=',sort,'paused=',paused,'liked=',liked,'showModal=',showModal,'isHovering=',isHovering);
 
   const handleSort = evt => {
     setSort(evt.target.value);
@@ -52,9 +64,9 @@ const PlaylistControls = ({ playlist }) => {
     if (window.confirm('Are you sure you want to delete this playlist?')) {
       try {
         /** Makes a POST request to Api.js and deletes playlist from db */
-        await SpotifyApi.deletePlaylist(handle);
+        await SpotifyCloneApi.deletePlaylist(handle);
         // for refreshing playlist name in sidebar
-        SpotifyApi.getPlaylists().then(playlists => {
+        SpotifyCloneApi.getPlaylists().then(playlists => {
           dispatch({
             type: 'SET_PLAYLISTS',
             playlists: playlists

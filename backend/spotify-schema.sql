@@ -3,19 +3,17 @@
 -- psql spotify-schema
 
 CREATE TABLE users (
-  id SERIAL PRIMARY KEY,
-  username TEXT NOT NULL,
-  password TEXT NOT NULL,
-  first_name TEXT,
-  last_name TEXT,
-  email TEXT NOT NULL
+  username TEXT PRIMARY KEY,
+  display_name TEXT NOT NULL,
+  image TEXT,
+  profile_url TEXT NOT NULL
 );
 
 CREATE TABLE playlists (
   id SERIAL PRIMARY KEY,
   name TEXT,
   handle TEXT,
-  user_id INTEGER REFERENCES users,
+  username TEXT REFERENCES users (username),
   description TEXT,
   created_at timestamp,
   image TEXT

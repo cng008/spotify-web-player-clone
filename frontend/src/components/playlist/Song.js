@@ -1,14 +1,24 @@
 import React, { useContext } from 'react';
-import UserContext from '../UserContext';
+import UserContext from '../../UserContext';
 import './Song.css';
 
 import ExplicitIcon from '@material-ui/icons/Explicit';
+
+/** Reusable component for Playlist.js
+ * shows song details
+ *
+ * - useContext: common data that can be accessed throughout the component hierarchy without passing the props down manually to each level
+ * - getSongDuration: Handles milliseconds to minutes:seconds conversion
+ * - daysAgo: Calculates days since song was added to playlist
+ *
+ * App -> Routes -> Playlist -> SongList -> Song
+ */
 
 const Song = ({ track = 'test', id }) => {
   const { getSongDuration, daysAgo } = useContext(UserContext);
   const numOfDays = daysAgo(track.added_at, new Date());
 
-  console.debug('Song', 'numOfDays', numOfDays);
+  // console.debug('Song', 'track=', track, 'id=', id, 'numOfDays=', numOfDays);
 
   const days = numOfDays => {
     if (numOfDays > 1) {

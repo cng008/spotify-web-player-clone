@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useStateValue } from '../StateProvider';
-import SpotifyApi from '../common/api';
+import { useStateValue } from '../../StateProvider';
+import SpotifyCloneApi from '../../common/api';
 import './EditPlaylistForm.css';
 
-/** EDIT PLAYLIST DETAILS
- * with default values
+/** View Playlist and edit details with default values.
+ *
+ * - useHistory: lets you access the history instance used by React Router, useful for redirecting users to another page
+ * - useStateValue: access globally stored state
+ *
+ * App -> Routes -> Home/Library/Sidebar -> Playlist -> EditPlaylistForm
  */
+
 const EditPlaylistForm = ({ playlist, closeModal }) => {
   const history = useHistory();
   const [{}, dispatch] = useStateValue();
@@ -18,15 +23,7 @@ const EditPlaylistForm = ({ playlist, closeModal }) => {
   };
   const [formData, setFormData] = useState(INITIAL_STATE);
 
-  //   console.debug(
-  //     'EditPlaylistForm',
-  //     'playlist=',
-  //     playlist,
-  //     'formData=',
-  //     formData,
-  //     'formErrors=',
-  //     formErrors
-  //   );
+  //   console.debug('EditPlaylistForm',  'playlist=',  playlist, 'formData=', formData );
 
   /** Update form fields */
   const handleChange = evt => {
@@ -56,9 +53,12 @@ const EditPlaylistForm = ({ playlist, closeModal }) => {
     // sets default playlist name if name input is left empty
     try {
       // makes a POST request to Api.js and adds corresponding data to matching category in db.json
-      let result = await SpotifyApi.savePlaylist(playlist.handle, playlistData);
+      let result = await SpotifyCloneApi.savePlaylist(
+        playlist.handle,
+        playlistData
+      );
       // for refreshing playlist name in sidebar
-      SpotifyApi.getPlaylists().then(playlists => {
+      SpotifyCloneApi.getPlaylists().then(playlists => {
         dispatch({
           type: 'SET_PLAYLISTS',
           playlists: playlists

@@ -1,15 +1,22 @@
 import React from 'react';
 import { useStateValue } from '../StateProvider';
-import Header from '../player/Header';
-import Sidebar from '../player/Sidebar';
-import Footer from '../player/Footer';
-import PlaylistCardS from '../player/PlaylistCardS';
-import PlaylistCardM from '../player/PlaylistCardM';
+import Header from '../components/header/Header';
+import Sidebar from '../components/sidebar/Sidebar';
+import Footer from '../components/footer/Footer';
+import PlaylistCardS from '../components/cards/PlaylistCardS';
+import PlaylistCardM from '../components/cards/PlaylistCardM';
 import './Home.css';
+
+/** View short list of playlists stored in db.
+ *
+ * - useStateValue: access globally stored state
+ *
+ * App -> Routes -> Home -> Playlist
+ */
 
 const Home = () => {
   const [{ playlists }] = useStateValue();
-  // console.debug('Home', 'playlists', playlists);
+  // console.debug('Home', 'playlists=', playlists);
 
   return (
     <>

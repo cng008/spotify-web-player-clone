@@ -5,7 +5,8 @@ const cors = require('cors'); // allow requests from domain
 
 const { NotFoundError } = require('./expressError');
 
-const { authenticateJWT } = require('./middleware/auth');
+// const { authenticateJWT } = require('./middleware/auth');
+const usersRoutes = require('./routes/users');
 const playlistsRoutes = require('./routes/playlists');
 const songsRoutes = require('./routes/songs');
 const artistsRoutes = require('./routes/artists');
@@ -18,8 +19,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
-app.use(authenticateJWT);
+// app.use(authenticateJWT);
 
+app.use('/users', usersRoutes);
 app.use('/playlists', playlistsRoutes);
 app.use('/songs', songsRoutes);
 app.use('/artists', artistsRoutes);

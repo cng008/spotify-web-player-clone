@@ -8,7 +8,6 @@ import Library from './pages/Library';
 import Playlist from './pages/Playlist';
 import DiscoverPlaylist from './pages/DiscoverPlaylist';
 import NotFound404 from './pages/NotFound404';
-// import Protected from './ProtectedRoute';
 
 /** Site-wide routes.
  *

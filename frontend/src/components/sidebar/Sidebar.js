@@ -1,9 +1,9 @@
 import React from 'react';
-import { useStateValue } from '../StateProvider';
+import { useStateValue } from '../../StateProvider';
 import { NavLink } from 'react-router-dom';
 import SidebarOption from './SidebarOption';
 // import NewPlaylistForm from './NewPlaylistForm'; // for pop-out modal (not used)
-import SpotifyApi from '../common/api';
+import SpotifyCloneApi from '../../common/api';
 import './Sidebar.css';
 
 import HomeIcon from '@material-ui/icons/Home';
@@ -12,8 +12,14 @@ import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
+/** Is rendered on every page (except login)
+ *
+ * - useStateValue: access globally stored state
+ *
+ *  */
+
 const Sidebar = () => {
-  const [{ playlists, token }, dispatch] = useStateValue();
+  const [{ playlists, token, user }, dispatch] = useStateValue();
   const playlistsCount = playlists[0]?.id; // Object.keys(playlists).length can cause errors if a playlist is deleted and My Playlist #{len} already exists
   // const playlistsCount = Object.keys(playlists).length;
   // const [showModal, setShowModal] = useState(false);
@@ -22,7 +28,7 @@ const Sidebar = () => {
   const INITIAL_DATA = {
     name: `My Playlist #${playlistsCount + 1}`,
     description: '',
-    user_id: 1,
+    username: user?.id || 'testuser',
     image:
       'https://assets.audiomack.com/jojo-1264/82a10a07eff76040ec325e3498c6d6c7.jpeg?type=song&width=280&height=280&max=true'
   };
@@ -34,16 +40,16 @@ const Sidebar = () => {
   // setShowModal(false);
   // };
 
-  // console.debug('Sidebar', 'playlists=', playlists);
+  // console.debug('Sidebar', 'playlists=', playlists, 'user=', user);
 
   const createNewPlaylist = async evt => {
     evt.preventDefault();
 
     try {
       /** Makes a POST request to Api.js and adds corresponding data to matching category in db.json */
-      await SpotifyApi.newPlaylist(INITIAL_DATA);
+      await SpotifyCloneApi.newPlaylist(INITIAL_DATA);
       // for refreshing playlist name in sidebar
-      SpotifyApi.getPlaylists().then(playlists => {
+      SpotifyCloneApi.getPlaylists().then(playlists => {
         dispatch({
           type: 'SET_PLAYLISTS',
           playlists: playlists
@@ -92,13 +98,12 @@ const Sidebar = () => {
             <SidebarOption title={playlist.name} />
           </NavLink>
         ))}
+        {token ? (
+          <NavLink to={`/playlist/discover`}>
+            <SidebarOption title="Discover Weekly" />
+          </NavLink>
+        ) : null}
       </div>
-
-      {token ? (
-        <NavLink to={`/playlist/discover`}>
-          <SidebarOption title="Discover Weekly" />
-        </NavLink>
-      ) : null}
 
       {/* {showModal ? (
         <div>

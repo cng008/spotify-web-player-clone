@@ -1,22 +1,28 @@
 export const INITIAL_STATE = {
   user: null,
-  token: null,
+  token: localStorage.getItem('spotify_access_token') || null,
   searchTerm: '',
   searchResults: [],
   isPlaying: false,
   playerTime: 0,
   volume: 50,
   playlists: [],
-  artist: [],
+  artists: [],
   albums: [],
   trackData: null,
-  discover_weekly: []
+  discover_weekly:
+    JSON.parse(localStorage.getItem('spotify_discover_weekly_data')) || []
 };
 
-// Listens to actions
+/** Listens to actions and stores data as global variables
+ *
+ * - useLocalStorage: locally stores parameters that are received from Spotify API login
+ *
+ * StateProvider -> reducer
+ */
+
 const reducer = (state, action) => {
   console.log(action);
-  console.log(INITIAL_STATE);
 
   //   action -> type, [payload]
 

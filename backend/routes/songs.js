@@ -23,7 +23,7 @@ const router = express.Router({ mergeParams: true });
  * Authorization required: admin
  */
 
-router.post('/', ensureLoggedIn, async function (req, res, next) {
+router.post('/', async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, songNew);
     if (!validator.valid) {

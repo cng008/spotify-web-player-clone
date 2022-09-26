@@ -1,15 +1,24 @@
 import React from 'react';
 import { useStateValue } from '../StateProvider';
 import { SEARCHCARDS } from '../data/index';
-import Header from '../player/Header';
-import Sidebar from '../player/Sidebar';
-import Footer from '../player/Footer';
-import SearchPageCard from '../player/SearchPageCard';
-import SearchResultCard from '../player/SearchResultCard';
+import Header from '../components/header/Header';
+import Sidebar from '../components/sidebar/Sidebar';
+import Footer from '../components/footer/Footer';
+import SearchPageCard from '../components/cards/SearchPageCard';
+import SearchResultCard from '../components/cards/SearchResultCard';
 import './Search.css';
 
+/** View Playlist with songs related to playlist.
+ *
+ * - useStateValue: access globally stored state
+ *
+ * App -> Routes -> Search -> SearchPageCard/SearchResultCard
+ */
+
 const Search = () => {
-  const [{ searchTerm, searchResults }] = useStateValue();
+  const [{ token, searchTerm, searchResults }] = useStateValue();
+
+  // console.debug('PlaylistCardS', 'token=', token, 'searchTerm=', searchTerm,'searchResults=', searchResults);
 
   return (
     <>
@@ -20,7 +29,7 @@ const Search = () => {
           <div className="Search-content">
             <h2>Browse all</h2>
             <div className={searchTerm ? 'ResultsCardGrid' : 'SearchCardGrid'}>
-              {searchTerm
+              {searchTerm && token
                 ? searchResults?.tracks?.items.map((songs, i) => {
                     return <SearchResultCard key={i} trackData={songs} />;
                   })
@@ -36,6 +45,9 @@ const Search = () => {
                       />
                     );
                   })}
+              {searchResults?.tracks?.total === 0
+                ? `There are no results for "${searchTerm}"`
+                : null}
             </div>
           </div>
         </div>

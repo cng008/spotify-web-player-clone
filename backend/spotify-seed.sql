@@ -1,15 +1,11 @@
 -- test users have the password 'password'
 
-INSERT INTO users (username, password, first_name, last_name, email)
-VALUES ('testuser',
-        '$2b$12$AZH7virni5jlTTiGgEg4zu3lSvAw68qVEfSIOjJ3RqtbJbdW/Oi5q',
-        'Test',
-        'User',
-        'christien@spotifyclone.com');
+INSERT INTO users (username, display_name, image, profile_url)
+VALUES ('testuser','Tomie','https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1612999979l/57024270._SX318_.jpg','https://open.spotify.com/user/christienrenee');
 
-INSERT INTO playlists (name, handle, user_id, description, created_at, image)
-VALUES ('Workout', 'workout', 1, 'For pumping some metal','2022-09-02 04:05:06','https://images.unsplash.com/photo-1558017487-06bf9f82613a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1070&q=80'),
-        ('Study', 'study', 1, 'Some tunes to help you get some work done','2022-09-01 14:25:16','https://images.unsplash.com/photo-1558021212-51b6ecfa0db9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=883&q=80');
+INSERT INTO playlists (name, handle, username, description, created_at, image)
+VALUES ('Workout', 'workout', 'testuser', '100 push-ups per day','2022-09-02 04:05:06','https://cdn-www.comingsoon.net/assets/uploads/2022/06/one-punch-man-justin-lin.png'),
+        ('Study', 'study', 'testuser', 'Some beats to help you get some work done','2022-09-01 14:25:16','https://www.theanimedaily.com/wp-content/uploads/2021/07/36e522f1fdab091d58ac54cb88a88379.jpg');
 
 INSERT INTO artists (id, name, handle, image)
 VALUES ('0aA1GTrIMutjIh4GlPPUVN', 'Crooked Colours', 'crooked-colors', 'https://i.scdn.co/image/ab67616100005174fe59f29735cfca0256767031'),

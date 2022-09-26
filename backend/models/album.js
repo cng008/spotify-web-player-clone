@@ -54,30 +54,11 @@ class Album {
 //    *   where artist is { id, name, image }
    * */
 
-  static async findAll(searchFilters = {}) {
+  static async findAll() {
     let query = `SELECT id, name, handle, artist_id, release_date, image
-                 FROM albums`;
-    // let whereExpressions = [];
-    let queryValues = [];
-
-    // const { playlist, album } = searchFilters;
-
-    // For each possible search term, add to whereExpressions and
-    // queryValues so we can generate the right SQL
-
-    // if (name !== undefined) {
-    //   queryValues.push(`%${name}%`);
-    //   whereExpressions.push(`name ILIKE $${queryValues.length}`);
-    // }
-
-    // if (whereExpressions.length > 0) {
-    //   query += ' WHERE ' + whereExpressions.join(' AND ');
-    // }
-
-    // Finalize query and return results
-
-    // query += ' ORDER BY added_at DESC';
-    const albumsRes = await db.query(query, queryValues);
+                 FROM albums
+                 ORDER BY name ASC`;
+    const albumsRes = await db.query(query);
     return albumsRes.rows;
   }
 
@@ -93,7 +74,7 @@ class Album {
 
   static async get(handle) {
     const albumRes = await db.query(
-      `SELECT id, name, handle, artist_id, release_date
+      `SELECT handle
             FROM albums
             WHERE handle = $1`,
       [handle]

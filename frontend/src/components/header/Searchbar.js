@@ -1,14 +1,27 @@
 import React, { useState, useContext } from 'react';
-import UserContext from '../UserContext';
-import { useStateValue } from '../StateProvider';
+import UserContext from '../../UserContext';
+import { useStateValue } from '../../StateProvider';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
 
+/** Form for sending requests to Spotify API
+ *
+ * returns songs relevant to search term
+ *
+ * - useState: state variables in functional components
+ * - useStateValue: access globally stored state
+ * - useContext: common data that can be accessed throughout the component hierarchy without passing the props down manually to each level
+ *
+ * App -> Routes -> Home/Library/Sidebar -> Playlist
+ */
+
 const Searchbar = () => {
-  const { token, searchFor } = useContext(UserContext);
-  const [{}, dispatch] = useStateValue();
+  const { searchFor } = useContext(UserContext);
+  const [{ token }, dispatch] = useStateValue();
   const [searchText, setSearchText] = useState('');
+
+  // console.debug('Searchbar','searchFor=', searchFor, 'searchText=', searchText);
 
   /** Update form fields */
   const handleChange = evt => {
@@ -18,11 +31,12 @@ const Searchbar = () => {
   /** Tell parent to filter */
   const handleSubmit = evt => {
     evt.preventDefault();
-    // take care of accidentally trying to search for just spaces
     dispatch({
       type: 'SET_SEARCHTERM',
       searchTerm: searchText
     });
+
+    // take care of accidentally trying to search for just spaces
     searchFor(searchText.trim() || undefined);
     setSearchText(searchText.trim());
 
@@ -35,10 +49,23 @@ const Searchbar = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={
+          token
+            ? handleSubmit
+            : e => {
+                e.preventDefault();
+                alert('You must be logged in to do that');
+              }
+        }
+      >
         <TextField
           type="text"
-          placeholder="Search for Songs, Artists, or Albums"
+          placeholder={
+            token
+              ? 'Search for Songs, Artists, or Albums'
+              : 'You must login in order to search for songs'
+          }
           value={searchText}
           onChange={handleChange}
           InputProps={{

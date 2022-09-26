@@ -1,12 +1,19 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { useStateValue } from '../StateProvider';
-import Header from '../player/Header';
-import Sidebar from '../player/Sidebar';
-import Footer from '../player/Footer';
-import PlaylistCardM from '../player/PlaylistCardM';
-import InfoCard from '../player/InfoCard';
+import Header from '../components/header/Header';
+import Sidebar from '../components/sidebar/Sidebar';
+import Footer from '../components/footer/Footer';
+import PlaylistCardM from '../components/cards/PlaylistCardM';
+import InfoCard from '../components/cards/InfoCard';
 import './Library.css';
+
+/** View list of playlists, artist, albums stored in db
+ *
+ * - useStateValue: access globally stored state
+ *
+ * App -> Routes -> Library -> Playlist
+ */
 
 const Library = () => {
   return (
@@ -38,6 +45,7 @@ const Library = () => {
 
 const PlaylistTab = () => {
   const [{ playlists }] = useStateValue();
+  // console.debug('Library', 'playlists=', playlists);
 
   return (
     <div>
@@ -64,6 +72,7 @@ const PodcastTab = () => {
 
 const ArtistTab = () => {
   const [{ artists }] = useStateValue();
+  // console.debug('Library', 'artists=', artists);
 
   return (
     <div>
@@ -85,6 +94,7 @@ const ArtistTab = () => {
 
 const AlbumTab = () => {
   const [{ albums }] = useStateValue();
+  // console.debug('Library', 'albums=', albums);
 
   return (
     <div>

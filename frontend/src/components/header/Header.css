@@ -1,0 +1,77 @@
+.Header {
+  display: flex;
+  justify-content: space-between;
+  /* position: fixed; */
+  margin-bottom: 30px;
+  padding: 10px 30px 0 20px;
+}
+
+.Header-left {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.Header-left > button {
+  color: white;
+  background-color: black;
+  height: 35px;
+  width: 35px;
+  border: none;
+  border-radius: 25em;
+  margin: 5px 4px;
+  cursor: pointer;
+}
+
+.back-btn {
+  transform: rotate(180deg);
+}
+
+.Header-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.Header-right > a {
+  font-size: 12px;
+  font-weight: 800;
+  color: white;
+  background-color: #1db954;
+  border-radius: 90px;
+  padding: 12px;
+}
+
+.Header-right > h4 {
+  margin-left: 10px;
+}
+
+.Header-avatar {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.Header-avatar > h4 {
+  padding-left: 1em;
+}
+
+.Header-logout {
+  font-size: 12px;
+  border-radius: 8px;
+  position: absolute;
+  width: 10em;
+  transform: translate(0px, 38px);
+  z-index: 10;
+}
+.Header-logout > button {
+  color: white;
+  background-color: hsla(0, 0%, 100%, 0.1);
+  width: 96%;
+  border-radius: 4px;
+  border: none;
+  padding: 5px 3px;
+  margin: 4px 2px;
+}
+.Header-logout > button:hover {
+  background-color: hsla(0, 0%, 100%, 0.3);
+}

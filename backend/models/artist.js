@@ -18,10 +18,10 @@ class Artist {
     const handle = data.name.toLowerCase().split(' ').join('-');
 
     const duplicateCheck = await db.query(
-      `SELECT id, name, handle, image
+      `SELECT id
            FROM artists
-           WHERE handle = $1`,
-      [handle]
+           WHERE id = $1`,
+      [data.id]
     );
 
     if (duplicateCheck.rows[0]) return;
@@ -51,30 +51,11 @@ class Artist {
 //    *   where songs is { id, name, duration_ms, explicit, added_at, artist_id, album_id, image }
    * */
 
-  static async findAll(searchFilters = {}) {
+  static async findAll() {
     let query = `SELECT id, name, handle, image
-                 FROM artists`;
-    // let whereExpressions = [];
-    let queryValues = [];
-
-    // const { playlist, album } = searchFilters;
-
-    // For each possible search term, add to whereExpressions and
-    // queryValues so we can generate the right SQL
-
-    // if (name !== undefined) {
-    //   queryValues.push(`%${name}%`);
-    //   whereExpressions.push(`name ILIKE $${queryValues.length}`);
-    // }
-
-    // if (whereExpressions.length > 0) {
-    //   query += ' WHERE ' + whereExpressions.join(' AND ');
-    // }
-
-    // Finalize query and return results
-
-    // query += ' ORDER BY added_at DESC';
-    const artistsRes = await db.query(query, queryValues);
+                 FROM artists
+                 ORDER BY name ASC`;
+    const artistsRes = await db.query(query);
     return artistsRes.rows;
   }
 

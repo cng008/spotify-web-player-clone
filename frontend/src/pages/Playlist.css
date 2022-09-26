@@ -46,6 +46,24 @@
   overflow: hidden;
 }
 
+.Playlist-avatar {
+  display: flex;
+  align-items: center;
+  color: white;
+  height: 100%;
+  padding-top: 0.5em;
+}
+
+.Playlist-avatar > img {
+  width: 2em;
+  height: 2em;
+  border-radius: 50px;
+}
+
+.Playlist-avatar > h4 {
+  padding-left: 0.5em;
+}
+
 .Playlist-body > section {
   background-color: rgb(18, 18, 18, 0.3);
   min-height: 100%;

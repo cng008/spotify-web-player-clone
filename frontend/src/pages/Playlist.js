@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import SpotifyCloneApi from '../common/api';
+import Header from '../components/header/Header';
+import Sidebar from '../components/sidebar/Sidebar';
+import Footer from '../components/footer/Footer';
+import PlaylistControls from '../components/playlist/PlaylistControls';
+import SongList from '../components/playlist/SongList';
 import './Playlist.css';
 
-import SpotifyApi from '../common/api';
-import Header from '../player/Header';
-import Sidebar from '../player/Sidebar';
-import Footer from '../player/Footer';
-import PlaylistControls from '../player/PlaylistControls';
-import SongList from '../player/SongList';
+/** View Playlist with songs related to playlist.
+ *
+ * - useParams: returns an object of key/value pairs of the dynamic params from the current URL that were matched by the <Route path>
+ * - useState: state variables in functional components
+ * - useHistory: lets you access the history instance used by React Router, useful for redirecting users to another page
+ * - useStateValue: access globally stored state
+ * - useContext: common data that can be accessed throughout the component hierarchy without passing the props down manually to each level
+ *
+ * App -> Routes -> Home/Library/Sidebar -> Playlist
+ */
 
 const Playlist = () => {
   const { handle } = useParams();
@@ -21,7 +31,7 @@ const Playlist = () => {
   useEffect(() => {
     async function getPlaylistDetails() {
       try {
-        let result = await SpotifyApi.getPlaylist(handle);
+        let result = await SpotifyCloneApi.getPlaylist(handle);
         setPlaylist(result);
         setIsLoading(false);
         document.body.style.cursor = 'default';
@@ -52,6 +62,15 @@ const Playlist = () => {
               <strong>PLAYLIST</strong>
               <h2>{playlist?.name}</h2>
               <p>{playlist?.description}</p>
+              <a href={playlist?.user?.profile_url}>
+                <div className="Playlist-avatar">
+                  <img
+                    src={playlist?.user?.image}
+                    alt={playlist?.user?.display_name}
+                  />
+                  <h4>{playlist?.user?.display_name}</h4>
+                </div>
+              </a>
             </div>
           </div>
 

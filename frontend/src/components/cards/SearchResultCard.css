@@ -4,7 +4,6 @@
   /* width: 30em; */
   /* padding-right: 2em; */
   /* margin-bottom: 1.5em; */
-  z-index: 5;
 }
 
 .SearchResultCard {
@@ -25,7 +24,7 @@
   height: 60px;
 }
 
-.SearchResultCard-img img {
+.SearchResultCard-img > img {
   width: 100%;
   height: 100%;
   border-radius: 4px 0px 0px 4px;
@@ -50,8 +49,8 @@
   transform: translate(21em, -0.1em);
 }
 
-.SearchResultCard-credits h3,
-.SearchResultCard-credits p {
+.SearchResultCard-credits > h3,
+.SearchResultCard-credits > p {
   width: 53%;
   text-overflow: ellipsis;
   overflow-wrap: break-word;
@@ -85,9 +84,9 @@
   width: 8em;
   border-radius: 8px;
   position: absolute;
-  z-index: 9;
   transform: translate(40px, -50px);
   padding: 2px;
+  z-index: 90 !important;
 }
 .Playlist-add > button {
   display: flex;

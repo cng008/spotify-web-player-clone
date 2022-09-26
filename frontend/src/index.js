@@ -5,7 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import { StateProvider } from './StateProvider';
-import reducer, { INITIAL_STATE } from './reducer';
+import reducer, { INITIAL_STATE } from './common/reducer';
 
 ReactDOM.render(
   <StateProvider initialState={INITIAL_STATE} reducer={reducer}>
