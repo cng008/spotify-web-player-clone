@@ -38,63 +38,70 @@ function App() {
   const [accessToken, setAccessToken] = useLocalStorage('spotify_access_token');
   const [timestamp, setTimestamp] = useLocalStorage('spotify_timestamp');
   const [expireTime, setExpireTime] = useLocalStorage('spotify_expires_in');
-  // const [discoverWeeklyData, setDiscoverWeeklyData] = useLocalStorage(
-  //   'spotify_discover_weekly_data'
-  // );
+  const [infoLoaded, setInfoLoaded] = useState(false);
 
   // console.debug('App','token=', token, 'accessToken=', accessToken, 'timestamp=',timestamp,'expireTime=',expireTime);
   // console.debug('App','user',user,'token',token,'searchTerm',searchTerm,'searchResults',searchResults,'isPlaying',isPlaying,'playerTime',playerTime,'volume',volume,'playlists',playlists,'artists', artists, 'albums', albums,'trackData', trackData, 'discover_weekly', discover_weekly);
 
   // runs when app component loads and every time variable changes
   useEffect(() => {
-    const hash = getTokenFromUrl();
-    setAccessToken(hash.access_token);
-    !timestamp
-      ? setTimestamp(Date.now())
-      : console.log('timestamp=', timestamp); // prevents reset on refresh
-    !expireTime
-      ? setExpireTime(hash.expires_in)
-      : console.log('expireTime=', expireTime); // prevents reset on refresh
-    window.location.hash = ''; // clean url
+    async function fetchData() {
+      try {
+        const hash = getTokenFromUrl();
+        setAccessToken(hash.access_token);
+        !timestamp
+          ? setTimestamp(Date.now())
+          : console.log('timestamp=', timestamp); // prevents reset on refresh
+        !expireTime
+          ? setExpireTime(hash.expires_in)
+          : console.log('expireTime=', expireTime); // prevents reset on refresh
+        window.location.hash = ''; // clean url
 
-    /** INFORMATION RECEIVED FROM SPOTIFY AUTH *******************
-     * returns a promise
-     */
-    if (accessToken) {
-      // If the token in localStorage has expired, logout user
-      // if (hasTokenExpired || !accessToken) {
-      //   logout();
-      // }
-      dispatch({
-        type: 'SET_TOKEN',
-        token: accessToken
-      });
-      setAccessToken(accessToken); // save token to localStorage
-      spotify.setAccessToken(accessToken); // set token for Spotify API access
+        /** INFORMATION RECEIVED FROM SPOTIFY AUTH *******************
+         * returns a promise
+         */
+        if (accessToken) {
+          // If the token in localStorage has expired, logout user
+          // if (hasTokenExpired || !accessToken) {
+          //   logout();
+          // }
+          dispatch({
+            type: 'SET_TOKEN',
+            token: accessToken
+          });
+          setAccessToken(accessToken); // save token to localStorage
+          spotify.setAccessToken(accessToken); // set token for Spotify API access
 
-      /** get user's account **************************/
-      spotify.getMe().then(user => {
-        dispatch({
-          type: 'SET_USER',
-          user: user
-        });
-        // store user id, name, and profile photo into database
-        logNewUser(user);
-      });
+          /** get user's account **************************/
+          spotify.getMe().then(user => {
+            dispatch({
+              type: 'SET_USER',
+              user: user
+            });
+            // store user id, name, and profile photo into database
+            logNewUser(user);
+          });
 
-      /** get discover playlist **************************/
-      spotify.getPlaylist('37i9dQZEVXcUfolfIkR1hC').then(response => {
-        dispatch({
-          type: 'SET_DISCOVER_WEEKLY',
-          discover_weekly: response
-        });
-        // localStorage.setItem(
-        //   'spotify_discover_weekly_data',
-        //   JSON.stringify(response)
-        // );
-      });
+          /** get discover playlist **************************/
+          spotify.getPlaylist('37i9dQZEVXcUfolfIkR1hC').then(response => {
+            dispatch({
+              type: 'SET_DISCOVER_WEEKLY',
+              discover_weekly: response
+            });
+            // localStorage.setItem(
+            //   'spotify_discover_weekly_data',
+            //   JSON.stringify(response)
+            // );
+          });
+        }
+      } catch (err) {
+        console.log(err);
+      }
+      setInfoLoaded(true);
     }
-  }, []);
+    setInfoLoaded(false);
+    fetchData();
+  }, [dispatch]);
 
   /** FOR SITE ACCESS W/O SPOTIFY AUTH ******************************
    */
@@ -215,6 +222,10 @@ function App() {
       console.log(err);
     }
   };
+
+  if (!infoLoaded) {
+    return 'Loading...';
+  }
 
   return (
     <div className="App">
