@@ -20,18 +20,18 @@ const spotify = new SpotifyWebApi();
 function App() {
   const [
     {
-      user,
-      token,
-      searchTerm,
-      searchResults,
-      isPlaying,
-      playerTime,
-      volume,
-      playlists,
-      artists,
-      albums,
-      trackData,
-      discover_weekly
+      // user,
+      // token,
+      // searchTerm,
+      // searchResults,
+      // isPlaying,
+      // playerTime,
+      // volume,
+      // playlists,
+      // artists,
+      // albums,
+      // trackData,
+      // discover_weekly
     },
     dispatch
   ] = useStateValue();
@@ -43,33 +43,7 @@ function App() {
   // );
 
   // console.debug('App','token=', token, 'accessToken=', accessToken, 'timestamp=',timestamp,'expireTime=',expireTime);
-  console.debug(
-    'App',
-    'user',
-    user,
-    'token',
-    token,
-    'searchTerm',
-    searchTerm,
-    'searchResults',
-    searchResults,
-    'isPlaying',
-    isPlaying,
-    'playerTime',
-    playerTime,
-    'volume',
-    volume,
-    'playlists',
-    playlists,
-    'artists',
-    artists,
-    'albums',
-    albums,
-    'trackData',
-    trackData,
-    'discover_weekly',
-    discover_weekly
-  );
+  // console.debug('App','user',user,'token',token,'searchTerm',searchTerm,'searchResults',searchResults,'isPlaying',isPlaying,'playerTime',playerTime,'volume',volume,'playlists',playlists,'artists', artists, 'albums', albums,'trackData', trackData, 'discover_weekly', discover_weekly);
 
   // runs when app component loads and every time variable changes
   useEffect(() => {
@@ -114,7 +88,11 @@ function App() {
           type: 'SET_DISCOVER_WEEKLY',
           discover_weekly: response
         });
-        localStorage.setItem(
+        // localStorage.setItem(
+        //   'spotify_discover_weekly_data',
+        //   JSON.stringify(response)
+        // );
+        sessionStorage.setItem(
           'spotify_discover_weekly_data',
           JSON.stringify(response)
         );
@@ -236,7 +214,7 @@ function App() {
       setTimestamp(null);
       setExpireTime(null);
       localStorage.removeItem('unMuteVariable');
-      localStorage.removeItem('spotify_discover_weekly_data');
+      sessionStorage.removeItem('spotify_discover_weekly_data');
     } catch (err) {
       console.log(err);
     }

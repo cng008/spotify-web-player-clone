@@ -11,7 +11,7 @@ export const INITIAL_STATE = {
   albums: [],
   trackData: null,
   discover_weekly:
-    JSON.parse(localStorage.getItem('spotify_discover_weekly_data')) || []
+    JSON.parse(sessionStorage.getItem('spotify_discover_weekly_data')) || []
 };
 
 /** Listens to actions and stores data as global variables

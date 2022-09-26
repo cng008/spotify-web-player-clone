@@ -56,6 +56,7 @@ const Header = () => {
         {location.pathname === '/search' ? <Searchbar /> : null}
         {location.pathname.startsWith('/library') ? <LibraryNav /> : null}
       </div>
+
       <div className="Header-right">
         {!token ? (
           <a

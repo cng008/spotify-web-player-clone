@@ -1,0 +1,30 @@
+.SlidingPanel > div > button {
+  color: white;
+  background-color: hsla(0, 0%, 100%, 0.1);
+  width: 96%;
+  border-radius: 4px;
+  border: none;
+  padding: 5px 3px;
+  margin: 4px 2px;
+  transform: translate(-15em, 0em);
+}
+.SlidingPanel > div > button:hover {
+  background-color: hsla(0, 0%, 100%, 0.3);
+}
+
+.Pop-out-slider,
+.Pop-out-slider > div {
+  background-color: black;
+  color: white !important;
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.Pop-out-slider-links {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 2em;
+}
+.Pop-out-slider-content > p > * {
+  color: #1ed15e;
+}
