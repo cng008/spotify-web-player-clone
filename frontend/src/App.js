@@ -40,27 +40,64 @@ function App() {
   const [expireTime, setExpireTime] = useLocalStorage('spotify_expires_in');
   const [infoLoaded, setInfoLoaded] = useState(false);
 
-  // console.debug('App','token=', token, 'accessToken=', accessToken, 'timestamp=',timestamp,'expireTime=',expireTime);
-  // console.debug('App','user',user,'token',token,'searchTerm',searchTerm,'searchResults',searchResults,'isPlaying',isPlaying,'playerTime',playerTime,'volume',volume,'playlists',playlists,'artists', artists, 'albums', albums,'trackData', trackData, 'discover_weekly', discover_weekly);
+  console.debug(
+    'App',
+    'accessToken=',
+    accessToken,
+    'timestamp=',
+    timestamp,
+    'expireTime=',
+    expireTime,
+    'infoLoaded=',
+    infoLoaded
+  );
+  // console.debug(
+  //   'App',
+  //   'user',
+  //   user,
+  //   'token',
+  //   token,
+  //   'searchTerm',
+  //   searchTerm,
+  //   'searchResults',
+  //   searchResults,
+  //   'isPlaying',
+  //   isPlaying,
+  //   'playerTime',
+  //   playerTime,
+  //   'volume',
+  //   volume,
+  //   'playlists',
+  //   playlists,
+  //   'artists',
+  //   artists,
+  //   'albums',
+  //   albums,
+  //   'trackData',
+  //   trackData,
+  //   'discover_weekly',
+  //   discover_weekly
+  // );
 
   // runs when app component loads and every time variable changes
   useEffect(() => {
     async function fetchData() {
       try {
         const hash = getTokenFromUrl();
-        setAccessToken(hash.access_token);
-        !timestamp
-          ? setTimestamp(Date.now())
-          : console.log('timestamp=', timestamp); // prevents reset on refresh
-        !expireTime
-          ? setExpireTime(hash.expires_in)
-          : console.log('expireTime=', expireTime); // prevents reset on refresh
-        window.location.hash = ''; // clean url
+        setAccessToken(hash.access_token ? hash.access_token : null);
 
         /** INFORMATION RECEIVED FROM SPOTIFY AUTH *******************
          * returns a promise
          */
         if (accessToken) {
+          !timestamp
+            ? setTimestamp(Date.now())
+            : console.log('timestamp=', timestamp); // prevents reset on refresh
+          !expireTime
+            ? setExpireTime(hash.expires_in)
+            : console.log('expireTime=', expireTime); // prevents reset on refresh
+          window.location.hash = ''; // clean url
+
           // If the token in localStorage has expired, logout user
           // if (hasTokenExpired || !accessToken) {
           //   logout();
@@ -94,6 +131,29 @@ function App() {
             // );
           });
         }
+        /** GET PLAYLISTS **************************/
+        SpotifyCloneApi.getPlaylists().then(playlists => {
+          dispatch({
+            type: 'SET_PLAYLISTS',
+            playlists: playlists
+          });
+        });
+
+        /** GET ARTISTS  **************************/
+        SpotifyCloneApi.getArtists().then(artists => {
+          dispatch({
+            type: 'SET_ARTISTS',
+            artists: artists
+          });
+        });
+
+        /** GET ALBUMS  **************************/
+        SpotifyCloneApi.getAlbums().then(albums => {
+          dispatch({
+            type: 'SET_ALBUMS',
+            albums: albums
+          });
+        });
       } catch (err) {
         console.log(err);
       }
@@ -101,35 +161,13 @@ function App() {
     }
     setInfoLoaded(false);
     fetchData();
-  }, [dispatch]);
+  }, [infoLoaded, dispatch]);
 
   /** FOR SITE ACCESS W/O SPOTIFY AUTH ******************************
    */
-  useEffect(() => {
-    /** GET PLAYLISTS **************************/
-    SpotifyCloneApi.getPlaylists().then(playlists => {
-      dispatch({
-        type: 'SET_PLAYLISTS',
-        playlists: playlists
-      });
-    });
+  // useEffect(() => {
 
-    /** GET ARTISTS  **************************/
-    SpotifyCloneApi.getArtists().then(artists => {
-      dispatch({
-        type: 'SET_ARTISTS',
-        artists: artists
-      });
-    });
-
-    /** GET ALBUMS  **************************/
-    SpotifyCloneApi.getAlbums().then(albums => {
-      dispatch({
-        type: 'SET_ALBUMS',
-        albums: albums
-      });
-    });
-  }, [dispatch]);
+  // }, [infoLoaded, dispatch]);
 
   /** Handles milliseconds to minutes:seconds conversion.
    * https://stackoverflow.com/a/21294619
