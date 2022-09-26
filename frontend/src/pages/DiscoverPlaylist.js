@@ -24,6 +24,12 @@ const Playlist = () => {
 
   // console.debug('Playlist', 'discover_weekly=',discover_weekly,'getSongDuration=',getSongDuration);
 
+  // saves data to sessionStorage in case of page refresh
+  sessionStorage.setItem(
+    'spotify_discover_weekly_data',
+    JSON.stringify(discover_weekly)
+  );
+
   /** "PLAYS" SONG IN FOOTER */
   const setSong = track => {
     dispatch({

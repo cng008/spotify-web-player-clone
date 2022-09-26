@@ -92,10 +92,6 @@ function App() {
         //   'spotify_discover_weekly_data',
         //   JSON.stringify(response)
         // );
-        sessionStorage.setItem(
-          'spotify_discover_weekly_data',
-          JSON.stringify(response)
-        );
       });
     }
   }, []);
