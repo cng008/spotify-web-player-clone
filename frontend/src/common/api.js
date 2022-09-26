@@ -63,8 +63,8 @@ class SpotifyCloneApi {
   }
 
   /** Delete playlist */
-  static async deletePlaylist(handle) {
-    await this.request(`playlists/${handle}`, {}, 'delete');
+  static async deletePlaylist(id) {
+    await this.request(`playlists/${id}`, {}, 'delete');
   }
 
   /*********************** SONGS **********************/

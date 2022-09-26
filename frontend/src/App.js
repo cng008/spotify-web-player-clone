@@ -40,44 +40,9 @@ function App() {
   const [expireTime, setExpireTime] = useLocalStorage('spotify_expires_in');
   const [infoLoaded, setInfoLoaded] = useState(false);
 
-  console.debug(
-    'App',
-    'accessToken=',
-    accessToken,
-    'timestamp=',
-    timestamp,
-    'expireTime=',
-    expireTime,
-    'infoLoaded=',
-    infoLoaded
-  );
-  // console.debug(
-  //   'App',
-  //   'user',
-  //   user,
-  //   'token',
-  //   token,
-  //   'searchTerm',
-  //   searchTerm,
-  //   'searchResults',
-  //   searchResults,
-  //   'isPlaying',
-  //   isPlaying,
-  //   'playerTime',
-  //   playerTime,
-  //   'volume',
-  //   volume,
-  //   'playlists',
-  //   playlists,
-  //   'artists',
-  //   artists,
-  //   'albums',
-  //   albums,
-  //   'trackData',
-  //   trackData,
-  //   'discover_weekly',
-  //   discover_weekly
-  // );
+  // console.debug('App','accessToken=',accessToken,'timestamp=',timestamp,'expireTime=',expireTime,'infoLoaded=',infoLoaded);
+
+  // console.debug('App','user',user,'token',token,'searchTerm',searchTerm,'searchResults',searchResults,'isPlaying',isPlaying,'playerTime',playerTime,'volume', volume, 'playlists', playlists, 'artists', artists, 'albums', albums, 'trackData', trackData, 'discover_weekly', discover_weekly);
 
   // runs when app component loads and every time variable changes
   useEffect(() => {

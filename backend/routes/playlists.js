@@ -134,10 +134,10 @@ router.patch('/:handle', async function (req, res, next) {
  * Authorization: admin
  */
 
-router.delete('/:handle', async function (req, res, next) {
+router.delete('/:id', async function (req, res, next) {
   try {
-    await Playlist.remove(req.params.handle);
-    return res.json({ deleted: req.params.handle });
+    await Playlist.remove(req.params.id);
+    return res.json({ deleted: req.params.id });
   } catch (err) {
     return next(err);
   }

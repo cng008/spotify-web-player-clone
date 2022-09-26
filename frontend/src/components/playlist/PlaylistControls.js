@@ -23,7 +23,6 @@ import SearchIcon from '@material-ui/icons/Search';
  */
 
 const PlaylistControls = ({ playlist }) => {
-  const { handle } = useParams();
   const history = useHistory();
   const [{}, dispatch] = useStateValue();
   const [sort, setSort] = useState('');
@@ -64,7 +63,8 @@ const PlaylistControls = ({ playlist }) => {
     if (window.confirm('Are you sure you want to delete this playlist?')) {
       try {
         /** Makes a POST request to Api.js and deletes playlist from db */
-        await SpotifyCloneApi.deletePlaylist(handle);
+        await SpotifyCloneApi.deletePlaylist(playlist.id);
+
         // for refreshing playlist name in sidebar
         SpotifyCloneApi.getPlaylists().then(playlists => {
           dispatch({
@@ -72,6 +72,7 @@ const PlaylistControls = ({ playlist }) => {
             playlists: playlists
           });
         });
+
         history.goBack(); // redirect to previous page
       } catch (err) {
         console.log(err);
@@ -79,7 +80,7 @@ const PlaylistControls = ({ playlist }) => {
       }
       console.log('Playlist successfully deleted.');
     } else {
-      // Do nothing!
+      // Do nothing
       console.log('Delete cancelled.');
     }
   };

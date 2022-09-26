@@ -50,12 +50,12 @@ class Playlist {
    * */
 
   static async addToPlaylist(playlistID, songID) {
-    const duplicateCheck = await db.query(
-      `SELECT playlist_id, song_id
-           FROM playlist_songs
-           WHERE playlist_id = $1 AND song_id = $2`,
-      [playlistID, songID]
-    );
+    // const duplicateCheck = await db.query(
+    //   `SELECT playlist_id, song_id
+    //        FROM playlist_songs
+    //        WHERE playlist_id = $1 AND song_id = $2`,
+    //   [playlistID, songID]
+    // );
 
     // if (duplicateCheck.rows[0]) return;
 
@@ -149,31 +149,8 @@ class Playlist {
           WHERE p.handle = $1`,
       [handle]
     );
-
-    const song = songRes.rows[0];
-
-    // const albumRes = await db.query(
-    //   `SELECT ab.id, ab.name, ab.artist_id AS "artistId", ab.release_date AS "releaseYear", ab.image
-    //     FROM albums AS ab
-    //     JOIN album_songs AS abs ON ab.id = abs.album_id
-    //     JOIN songs AS s ON abs.song_id = s.id
-    //     WHERE ab.id = $1`,
-    //   [song.albumId]
-    // );
-
-    // const artistRes = await db.query(
-    //   `SELECT at.id, at.name, at.image
-    //     FROM artists AS at
-    //     JOIN artist_songs AS ats ON at.id = ats.artist_id
-    //     JOIN songs AS s ON ats.song_id = s.id
-    //     WHERE at.id = $1`,
-    //   [song.artistId]
-    // );
-
     playlist.user = userRes.rows[0];
     playlist.songs = songRes.rows;
-    // song.album = albumRes.rows[0];
-    // song.artist = artistRes.rows[0];
 
     return playlist;
   }
@@ -215,17 +192,27 @@ class Playlist {
    * Throws NotFoundError if playlist not found.
    **/
 
-  static async remove(handle) {
-    const result = await db.query(
+  static async remove(id) {
+    // delete from relation table
+    await db.query(
+      `DELETE
+           FROM playlist_songs
+           WHERE playlist_id = $1`,
+      [id]
+    );
+
+    const playlistRes = await db.query(
       `DELETE
            FROM playlists
-           WHERE handle = $1
+           WHERE id = $1
            RETURNING name`,
-      [handle]
+      [id]
     );
-    const playlist = result.rows[0];
+    const playlist = playlistRes.rows[0];
 
-    if (!playlist) throw new NotFoundError(`No playlist: ${name}`);
+    if (!playlist) throw new NotFoundError(`No playlist: ${id}`);
+
+    return playlist;
   }
 }
 
