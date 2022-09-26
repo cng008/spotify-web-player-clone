@@ -1,9 +1,10 @@
 import React from 'react';
 import { useStateValue } from '../../StateProvider';
 import { NavLink } from 'react-router-dom';
-import SidebarOption from './SidebarOption';
-// import NewPlaylistForm from './NewPlaylistForm'; // for pop-out modal (not used)
 import SpotifyCloneApi from '../../common/api';
+// import NewPlaylistForm from './NewPlaylistForm'; // for pop-out modal (not used)
+import SidebarOption from './SidebarOption';
+import SlidingPanel from './SlidingPane';
 import './Sidebar.css';
 
 import HomeIcon from '@material-ui/icons/Home';
@@ -64,6 +65,7 @@ const Sidebar = () => {
 
   return (
     <div className="Sidebar">
+      <SlidingPanel />
       <div className="Sidebar-nav">
         <img
           className="Sidebar-logo"
@@ -98,13 +100,12 @@ const Sidebar = () => {
             <SidebarOption title={playlist.name} />
           </NavLink>
         ))}
-        {token ? (
+        {token && (
           <NavLink to={`/playlist/discover`}>
             <SidebarOption title="Discover Weekly" />
           </NavLink>
-        ) : null}
+        )}
       </div>
-
       {/* {showModal ? (
         <div>
           <NewPlaylistForm closeModal={closeModal} />

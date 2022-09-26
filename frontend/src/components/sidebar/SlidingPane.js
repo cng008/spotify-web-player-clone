@@ -30,6 +30,8 @@ const SlidingPanel = () => {
             *made by
             <a href="https://www.linkedin.com/in/christienng/"> Christien Ng</a>
           </p>
+          <br />
+          <a href="https://github.com/cng008/spotify-clone.git"> Github Repo</a>
 
           <div className="Pop-out-slider-links">
             <a href="https://www.linkedin.com/in/christienng/" target="_blank">
@@ -51,12 +53,14 @@ const SlidingPanel = () => {
               />
             </a>
           </div>
+
           <p>
             Application data sourced from{' '}
             <a href="https://developer.spotify.com/documentation/web-api/">
               Spotify API
             </a>
           </p>
+
           <br />
           <p>
             *This application is not produced, endorsed, supported, or

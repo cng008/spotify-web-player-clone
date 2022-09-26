@@ -58,6 +58,7 @@
   width: 2em;
   height: 2em;
   border-radius: 50px;
+  object-fit: cover;
 }
 
 .Playlist-avatar > h4 {

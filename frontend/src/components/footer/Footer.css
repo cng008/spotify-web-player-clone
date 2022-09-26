@@ -49,10 +49,11 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  transform: translate(-3em, 0em);
 }
 
 .Footer-control-slider {
-  width: 27em;
+  width: 25em;
   margin: 0 1em;
 }
 

@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import UserContext from '../../UserContext';
 import { useStateValue } from '../../StateProvider';
 import Slider from './Slider';
-import SlidingPanel from '../sidebar/SlidingPane';
 import './Footer.css';
 
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
@@ -87,8 +86,6 @@ const Footer = () => {
           <p>{trackData?.artist_name}</p>
         </div>
       </div>
-
-      <SlidingPanel />
 
       <div className="Footer-center">
         <div className="Footer-center-controls">

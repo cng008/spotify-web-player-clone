@@ -16,6 +16,10 @@
   z-index: 1;
 }
 
+.SidebarOption > h4 {
+  font-size: 14px;
+}
+
 .SidebarOption > p {
   margin-top: 10px;
   margin-left: 20px;
