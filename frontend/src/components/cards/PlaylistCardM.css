@@ -31,44 +31,6 @@
   object-fit: cover;
 }
 
-/* .IconBox {
-  position: absolute;
-  bottom: 94px;
-  right: 24px;
-  opacity: 0;
-  -webkit-transition: all 0.3s ease;
-  transition: all 0.3s ease;
-  -webkit-box-shadow: 0 8px 8px rgb(0 0 0 / 30%);
-  box-shadow: 0 8px 8px rgb(0 0 0 / 30%);
-  z-index: 2;
-  border-radius: 500px;
-}
-
-.IconBox div {
-  background-color: #1db954;
-  height: 40px;
-  width: 40px;
-}
-
-.IconBox button {
-  height: 40px;
-  width: 40px;
-  -webkit-transition: -webkit-transform 33ms cubic-bezier(0.3, 0, 0, 1);
-  transition: -webkit-transform 33ms cubic-bezier(0.3, 0, 0, 1);
-  transition: transform 33ms cubic-bezier(0.3, 0, 0, 1);
-  transition: transform 33ms cubic-bezier(0.3, 0, 0, 1),
-    -webkit-transform 33ms cubic-bezier(0.3, 0, 0, 1);
-}
-
-.ActiveIconBox {
-  bottom: 106px;
-  opacity: 1;
-}
-
-.IconBox button svg {
-  fill: #fff !important;
-} */
-
 .PlaylistCardM-Title {
   display: block;
   margin-top: 16px;
@@ -98,11 +60,6 @@
   white-space: normal;
   -webkit-box-orient: vertical;
 }
-
-/* .IconBox button:hover {
-  -webkit-transform: scale(1.06);
-  transform: scale(1.06);
-} */
 
 .PlaylistCardM:hover {
   background: hsla(0, 0%, 35%, 0.3);

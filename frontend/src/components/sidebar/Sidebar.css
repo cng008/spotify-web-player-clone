@@ -6,14 +6,17 @@
   min-height: 100vh;
   padding: 0 10px 0 10px;
   overflow-y: overlay;
+  top: 0;
+  bottom: 0;
 }
 
 .Sidebar-nav {
   position: fixed;
-  height: 23em;
+  top: 0;
 }
 
 .Sidebar-logo {
+  display: block;
   height: 70px;
   padding: 10px;
   margin: auto;
@@ -36,16 +39,22 @@
   background-color: black;
   border: none;
   padding: 0;
-  margin: 0;
 }
 
 .Sidebar-playlists {
   position: fixed;
   min-width: 230px;
   max-width: 300px;
-  top: 23em;
+  top: 22em;
   bottom: 0;
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
   margin-bottom: 95px;
+}
+
+/* for safari only */
+_::-webkit-full-page-media,
+_:future,
+:root .Sidebar-playlists {
+  top: 18em;
 }

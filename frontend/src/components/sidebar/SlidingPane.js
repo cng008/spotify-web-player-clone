@@ -14,13 +14,15 @@ const SlidingPanel = () => {
   return (
     <div className="SlidingPanel">
       <div style={{ marginTop: '1em' }}>
-        <button onClick={handleClick}>Click me!</button>
+        <button onClick={handleClick}>
+          {click === false ? 'Click me!' : 'Close'}
+        </button>
       </div>
 
       <SlidingPane
         className="Pop-out-slider"
         isOpen={click}
-        title="Spotify Clone"
+        title="Spotify Web Player Clone"
         from="left"
         width="18em"
         onRequestClose={handleClick}
@@ -31,6 +33,7 @@ const SlidingPanel = () => {
             <a href="https://www.linkedin.com/in/christienng/"> Christien Ng</a>
           </p>
           <br />
+
           <a href="https://github.com/cng008/spotify-clone.git"> Github Repo</a>
 
           <div className="Pop-out-slider-links">
@@ -60,8 +63,11 @@ const SlidingPanel = () => {
               Spotify API
             </a>
           </p>
-
           <br />
+
+          <p>PLAYER DOES NOT ACTUALLY PLAY MUSIC</p>
+          <br />
+
           <p>
             *This application is not produced, endorsed, supported, or
             affiliated with Spotify or its affiliated companies

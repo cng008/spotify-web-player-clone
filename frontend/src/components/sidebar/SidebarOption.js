@@ -11,7 +11,7 @@ const SidebarOption = ({ title, Icon, img }) => {
 
   return (
     <div className="SidebarOption">
-      {Icon && <Icon className="SidebarOption-icon" fontSize="large" />}
+      {Icon && <Icon className="SidebarOption-icon" fontSize="medium" />}
       {img && (
         <img src={img} alt="Liked Songs Icon" className="SidebarOption-liked" />
       )}

@@ -33,10 +33,10 @@
 .Footer-center {
   display: block;
   flex: 0.5;
-  /* text-align: center; */
 }
 
-.Footer-center-controls {
+.Footer-center-controls,
+.Footer-control-timeline {
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -45,16 +45,16 @@
   padding: 0 100px;
 }
 
-.Footer-control-timeline {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  transform: translate(-3em, 0em);
-}
-
 .Footer-control-slider {
   width: 25em;
   margin: 0 1em;
+}
+
+/* for safari only */
+_::-webkit-full-page-media,
+_:future,
+:root .Footer-center {
+  font-size: 13px;
 }
 
 .Footer-green:active {

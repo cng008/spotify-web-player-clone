@@ -53,7 +53,9 @@ const Header = () => {
           <ArrowForwardIosIcon className="forward-btn" />
         </button>
         {/* ONLY SHOW SEARCH BAR ON SEARCH ROUTE */}
-        {location.pathname === '/search' ? <Searchbar /> : null}
+        {location.pathname === '/search' ? (
+          <Searchbar className="Header-searchbar" />
+        ) : null}
         {location.pathname.startsWith('/library') ? <LibraryNav /> : null}
       </div>
 

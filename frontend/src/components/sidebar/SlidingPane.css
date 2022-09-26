@@ -6,7 +6,9 @@
   border: none;
   padding: 5px 3px;
   margin: 4px 2px;
-  left: 16.8em;
+  left: 17em;
+  top: 0;
+  z-index: 5;
 }
 .SlidingPanel > div > button:hover {
   background-color: hsla(0, 0%, 100%, 0.3);
@@ -17,7 +19,15 @@
   background-color: black;
   color: white !important;
   text-align: center;
-  margin-bottom: 1em;
+  z-index: 999 !important;
+}
+
+.slide-pane .slide-pane__title {
+  font-size: 15px;
+  font-weight: bold;
+  transform: translate(-2em, 0);
+  /* Show max 2 lines of text */
+  white-space: normal;
 }
 
 .Pop-out-slider-links {

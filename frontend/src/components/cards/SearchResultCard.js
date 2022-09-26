@@ -136,47 +136,50 @@ const SearchResultCard = ({ trackData = 'test' }) => {
               {trackData.artists.map(artist => artist.name).join(', ')}
             </p>
           </div>
-          <div className="SearchResultCard-like">
-            {liked ? (
-              <FavoriteIcon
-                onClick={toggleLike}
-                className="Playlist-heart-filled"
-              />
-            ) : (
-              <FavoriteBorderIcon
-                onClick={toggleLike}
-                className="Playlist-heart-outline"
-              />
-            )}
-          </div>
-          <div className="SearchResultCard-song-duration">
-            {getSongDuration(trackData.duration_ms)}
-          </div>
-          <div className="SearchResultCard-more">
-            <div
-              onClick={() => {
-                handleMoreClick();
-              }}
-            >
-              <MoreHorizIcon />
-              {isClicked && (
-                <div className="Playlist-add">
-                  Add to playlist:
-                  {playlists.map(playlist => {
-                    return (
-                      <button
-                        key={playlist.handle}
-                        title="Add to this playlist"
-                        onClick={() => {
-                          addSongToPlaylist(playlist.id);
-                        }}
-                      >
-                        <span>{playlist.name}</span>
-                      </button>
-                    );
-                  })}
-                </div>
+
+          <div className="SearchResultCard-icons">
+            <div className="SearchResultCard-like">
+              {liked ? (
+                <FavoriteIcon
+                  onClick={toggleLike}
+                  className="Playlist-heart-filled"
+                />
+              ) : (
+                <FavoriteBorderIcon
+                  onClick={toggleLike}
+                  className="Playlist-heart-outline"
+                />
               )}
+            </div>
+            <div className="SearchResultCard-song-duration">
+              {getSongDuration(trackData.duration_ms)}
+            </div>
+            <div className="SearchResultCard-more">
+              <div
+                onClick={() => {
+                  handleMoreClick();
+                }}
+              >
+                <MoreHorizIcon />
+                {isClicked && (
+                  <div className="Playlist-add">
+                    Add to playlist:
+                    {playlists.map(playlist => {
+                      return (
+                        <button
+                          key={playlist.handle}
+                          title="Add to this playlist"
+                          onClick={() => {
+                            addSongToPlaylist(playlist.id);
+                          }}
+                        >
+                          <span>{playlist.name}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

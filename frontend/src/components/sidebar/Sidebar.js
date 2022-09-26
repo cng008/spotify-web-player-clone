@@ -91,7 +91,7 @@ const Sidebar = () => {
           img="https://community.spotify.com/t5/image/serverpage/image-id/104727iC92B541DB372FBC7/image-size/large?v=v2&px=999"
         />
       </div>
-      <br />
+
       {/* extract items value from returned playlist object and map over playlist names 
       usees optional chaining*/}
       <div className="Sidebar-playlists">

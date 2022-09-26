@@ -26,6 +26,13 @@
   transform: rotate(180deg);
 }
 
+/* for safari only */
+_::-webkit-full-page-media,
+_:future,
+:root .Header-searchbar {
+  transform: scale(0.5);
+}
+
 .Header-right {
   display: flex;
   justify-content: flex-end;
