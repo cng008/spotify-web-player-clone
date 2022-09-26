@@ -42,6 +42,15 @@ const Playlist = () => {
     });
   };
 
+  const days = numOfDays => {
+    if (numOfDays > 1) {
+      return 'days ago';
+    } else if (numOfDays === 1) {
+      return 'day ago';
+    } else {
+      return 'Today';
+    }
+  };
   return (
     <>
       <div className="Playlist">
@@ -112,7 +121,10 @@ const Playlist = () => {
                       </td>
                       <td>{trackData.track.album.name}</td>
                       <td>
-                        {daysAgo(trackData.added_at, new Date())} days ago
+                        {daysAgo(trackData.added_at, new Date()) > 0
+                          ? daysAgo(trackData.added_at, new Date())
+                          : null}{' '}
+                        {days(daysAgo(trackData.added_at, new Date()))}
                       </td>
                       <td>{getSongDuration(trackData.track.duration_ms)}</td>
                     </tr>
