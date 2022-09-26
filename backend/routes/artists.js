@@ -7,7 +7,7 @@ const express = require('express');
 
 const { BadRequestError } = require('../expressError');
 const { ensureLoggedIn } = require('../middleware/auth');
-const Artist = require('../models/Artist');
+const Artist = require('../models/artist');
 
 const artistNew = require('../schemas/artistNew.json');
 const artistSearch = require('../schemas/artistSearch.json');

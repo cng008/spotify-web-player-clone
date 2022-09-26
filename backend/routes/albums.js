@@ -7,7 +7,7 @@ const express = require('express');
 
 const { BadRequestError } = require('../expressError');
 const { ensureLoggedIn } = require('../middleware/auth');
-const Album = require('../models/Album');
+const Album = require('../models/album');
 
 const albumNew = require('../schemas/albumNew.json');
 const albumSearch = require('../schemas/albumSearch.json');
