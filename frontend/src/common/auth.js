@@ -10,6 +10,19 @@ const scopes = [
   'user-modify-playback-state'
 ];
 
+const state = generateRandomString(5);
+
+function generateRandomString(length) {
+  var result = '';
+  var characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
 export const getTokenFromUrl = () => {
   // get value of access_token and decode
   return window.location.hash
@@ -27,4 +40,4 @@ export const getTokenFromUrl = () => {
 // returns a token
 export const loginUrl = `${authEndpoint}?client_id=${clientId}&scopes=${scopes.join(
   '%20'
-)}&redirect_uri=${redirectUri}&response_type=token&show_dialog=true`;
+)}&redirect_uri=${redirectUri}&response_type=token&show_dialog=true&state=${state}`;
