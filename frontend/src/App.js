@@ -3,7 +3,7 @@ import { useStateValue } from './StateProvider';
 import { BrowserRouter } from 'react-router-dom';
 import useSessionStorage from './common/useSessionStorage';
 import UserContext from './UserContext';
-import { getTokenFromUrl } from './common/auth';
+import { getParamsFromUrl } from './common/auth';
 import SpotifyWebApi from 'spotify-web-api-js';
 import SpotifyCloneApi from './common/api';
 import Routes from './Routes';
@@ -40,35 +40,34 @@ function App() {
   );
   const [timestamp, setTimestamp] = useSessionStorage('spotify_timestamp');
   const [expireTime, setExpireTime] = useSessionStorage('spotify_expires_in');
+  const [state, setState] = useSessionStorage('spotify_state');
+  const [tokenType, setTokenType] = useSessionStorage('spotify_token_type');
   const [infoLoaded, setInfoLoaded] = useState(false);
 
   // console.debug('App','accessToken=',accessToken,'timestamp=',timestamp,'expireTime=',expireTime,'infoLoaded=',infoLoaded);
-
   // console.debug('App','user',user,'token',token,'searchTerm',searchTerm,'searchResults',searchResults,'isPlaying',isPlaying,'playerTime',playerTime,'volume', volume, 'playlists', playlists, 'artists', artists, 'albums', albums, 'trackData', trackData, 'discover_weekly', discover_weekly);
 
-  // runs when app component loads and every time variable changes
+  /** Runs when app component loads and every time variable changes */
   useEffect(() => {
     async function fetchData() {
       try {
-        const hash = getTokenFromUrl();
-        setAccessToken(hash.access_token ? hash.access_token : null);
-
         /** INFORMATION RECEIVED FROM SPOTIFY AUTH *******************
-         * returns a promise
          */
+        const hash = getParamsFromUrl();
+        setAccessToken(hash.access_token);
+
         if (accessToken) {
-          !timestamp
-            ? setTimestamp(Date.now())
-            : console.log('timestamp=', timestamp); // prevents reset on refresh
-          !expireTime
-            ? setExpireTime(hash.expires_in)
-            : console.log('expireTime=', expireTime); // prevents reset on refresh
+          /** adds/updates values if not in storage
+           * prevents reset on refresh
+           */
+          if (!timestamp) setTimestamp(Date.now());
+          if (!expireTime) setExpireTime(hash.expires_in);
+          if (!state) setState(hash.state);
+          if (!tokenType) setTokenType(hash.token_type);
+
           window.location.hash = ''; // clean url
 
-          // If the token in sessionStorage has expired, logout user
-          // if (hasTokenExpired || !accessToken) {
-          //   logout();
-          // }
+          /** SET TOKEN TO GLOBAL STATE */
           dispatch({
             type: 'SET_TOKEN',
             token: accessToken
@@ -76,7 +75,7 @@ function App() {
           setAccessToken(accessToken); // save token to sessionStorage
           spotify.setAccessToken(accessToken); // set token for Spotify API access
 
-          /** get user's account **************************/
+          /** GET USER'S ACCOUNT INFO **************************/
           spotify.getMe().then(user => {
             dispatch({
               type: 'SET_USER',
@@ -86,19 +85,16 @@ function App() {
             logNewUser(user);
           });
 
-          /** get discover playlist **************************/
+          /** GET CHRISTIEN'S DISCOVER PLAYLIST **************************/
           spotify.getPlaylist('37i9dQZEVXcUfolfIkR1hC').then(response => {
             dispatch({
               type: 'SET_DISCOVER_WEEKLY',
               discover_weekly: response
             });
-            // sessionStorage.setItem(
-            //   'spotify_discover_weekly_data',
-            //   JSON.stringify(response)
-            // );
           });
         }
-        /** GET PLAYLISTS **************************/
+
+        /** GET PLAYLISTS FROM POSTGRES DB **************************/
         SpotifyCloneApi.getPlaylists().then(playlists => {
           dispatch({
             type: 'SET_PLAYLISTS',
@@ -106,7 +102,7 @@ function App() {
           });
         });
 
-        /** GET ARTISTS  **************************/
+        /** GET ARTISTS FROM POSTGRES DB **************************/
         SpotifyCloneApi.getArtists().then(artists => {
           dispatch({
             type: 'SET_ARTISTS',
@@ -114,7 +110,7 @@ function App() {
           });
         });
 
-        /** GET ALBUMS  **************************/
+        /** GET ALBUMS FROM POSTGRES DB **************************/
         SpotifyCloneApi.getAlbums().then(albums => {
           dispatch({
             type: 'SET_ALBUMS',
@@ -126,15 +122,13 @@ function App() {
       }
       setInfoLoaded(true);
     }
+    // If the token in localStorage has expired, logout user
+    // if (hasTokenExpired || !accessToken) {
+    //   logout();
+    // }
     setInfoLoaded(false);
     fetchData();
   }, [infoLoaded, dispatch]);
-
-  /** FOR SITE ACCESS W/O SPOTIFY AUTH ******************************
-   */
-  // useEffect(() => {
-
-  // }, [infoLoaded, dispatch]);
 
   /** Handles milliseconds to minutes:seconds conversion.
    * https://stackoverflow.com/a/21294619
@@ -163,8 +157,8 @@ function App() {
    * renders results on pages > Search.js
    */
   async function searchFor(searchTern) {
-    // get search results
     try {
+      // get search results
       spotify.searchTracks(searchTern).then(results => {
         dispatch({
           type: 'SET_SEARCH_RESULTS',
@@ -176,7 +170,7 @@ function App() {
     }
   }
 
-  /** ADD USER TO DB */
+  /** ADD USER TO POSTGRES DB */
   async function logNewUser(user) {
     try {
       await SpotifyCloneApi.addNewUser({
@@ -191,18 +185,18 @@ function App() {
   }
 
   /**
-   * Checks if the amount of time that has elapsed between the timestamp in sessionStorage
+   * Checks if the amount of time that has elapsed between the timestamp in localStorage
    * and now is greater than the expiration time of 3600 seconds (1 hour).
-   * @returns {boolean} Whether or not the access token in sessionStorage has expired
+   * @returns {boolean} Whether or not the access token in localStorage has expired
    * https://www.newline.co/courses/build-a-spotify-connected-app/using-local-storage-to-persist-login-state
    */
-  // const hasTokenExpired = () => {
-  //   if (!accessToken || !timestamp) {
-  //     return false;
-  //   }
-  //   const millisecondsElapsed = Date.now() - Number(timestamp);
-  //   return millisecondsElapsed / 1000 > Number(expireTime);
-  // };
+  const hasTokenExpired = () => {
+    if (!accessToken || !timestamp) {
+      return false;
+    }
+    const millisecondsElapsed = Date.now() - parseInt(timestamp);
+    return millisecondsElapsed / 1000 > parseInt(expireTime);
+  };
 
   /**
    * Clear out all sessionStorage items we've set and reload the page
@@ -221,6 +215,8 @@ function App() {
       setAccessToken(null);
       setTimestamp(null);
       setExpireTime(null);
+      setState(null);
+      setTokenType(null);
       sessionStorage.removeItem('unMuteVariable');
       sessionStorage.removeItem('spotify_discover_weekly_data');
     } catch (err) {

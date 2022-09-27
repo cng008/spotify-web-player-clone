@@ -30,7 +30,7 @@ class SpotifyCloneApi {
 
   /*********************** Individual API routes **********************/
 
-  /** Add newly logged in user. */
+  /** Add newly logged in user ****************************/
   static async addNewUser(data) {
     let res = await this.request('users', data, 'post');
     return res.user;
@@ -77,7 +77,7 @@ class SpotifyCloneApi {
   /** Get song by id */
   // static async getSongsByID(id) {
   //   let res = await this.request(`songs/${id}`);
-  //   return res.job;
+  //   return res.song;
   // }
 
   /** Save song to current playlist. */
