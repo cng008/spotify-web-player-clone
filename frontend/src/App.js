@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useStateValue } from './StateProvider';
 import { BrowserRouter } from 'react-router-dom';
-import useLocalStorage from './common/useLocalStorage';
+import useSessionStorage from './common/useSessionStorage';
 import UserContext from './UserContext';
 import { getTokenFromUrl } from './common/auth';
 import SpotifyWebApi from 'spotify-web-api-js';
@@ -10,7 +10,7 @@ import Routes from './Routes';
 
 /** Connect Spotify API to our React App.
  *
- * - useLocalStorage: locally stores parameters that are received from Spotify API login
+ * - useSessionStorage: locally stores parameters that are received from Spotify API login
  *
  * App -> Routes
  */
@@ -35,9 +35,11 @@ function App() {
     },
     dispatch
   ] = useStateValue();
-  const [accessToken, setAccessToken] = useLocalStorage('spotify_access_token');
-  const [timestamp, setTimestamp] = useLocalStorage('spotify_timestamp');
-  const [expireTime, setExpireTime] = useLocalStorage('spotify_expires_in');
+  const [accessToken, setAccessToken] = useSessionStorage(
+    'spotify_access_token'
+  );
+  const [timestamp, setTimestamp] = useSessionStorage('spotify_timestamp');
+  const [expireTime, setExpireTime] = useSessionStorage('spotify_expires_in');
   const [infoLoaded, setInfoLoaded] = useState(false);
 
   // console.debug('App','accessToken=',accessToken,'timestamp=',timestamp,'expireTime=',expireTime,'infoLoaded=',infoLoaded);
@@ -63,7 +65,7 @@ function App() {
             : console.log('expireTime=', expireTime); // prevents reset on refresh
           window.location.hash = ''; // clean url
 
-          // If the token in localStorage has expired, logout user
+          // If the token in sessionStorage has expired, logout user
           // if (hasTokenExpired || !accessToken) {
           //   logout();
           // }
@@ -71,7 +73,7 @@ function App() {
             type: 'SET_TOKEN',
             token: accessToken
           });
-          setAccessToken(accessToken); // save token to localStorage
+          setAccessToken(accessToken); // save token to sessionStorage
           spotify.setAccessToken(accessToken); // set token for Spotify API access
 
           /** get user's account **************************/
@@ -90,7 +92,7 @@ function App() {
               type: 'SET_DISCOVER_WEEKLY',
               discover_weekly: response
             });
-            // localStorage.setItem(
+            // sessionStorage.setItem(
             //   'spotify_discover_weekly_data',
             //   JSON.stringify(response)
             // );
@@ -189,9 +191,9 @@ function App() {
   }
 
   /**
-   * Checks if the amount of time that has elapsed between the timestamp in localStorage
+   * Checks if the amount of time that has elapsed between the timestamp in sessionStorage
    * and now is greater than the expiration time of 3600 seconds (1 hour).
-   * @returns {boolean} Whether or not the access token in localStorage has expired
+   * @returns {boolean} Whether or not the access token in sessionStorage has expired
    * https://www.newline.co/courses/build-a-spotify-connected-app/using-local-storage-to-persist-login-state
    */
   // const hasTokenExpired = () => {
@@ -203,7 +205,7 @@ function App() {
   // };
 
   /**
-   * Clear out all localStorage items we've set and reload the page
+   * Clear out all sessionStorage items we've set and reload the page
    * @returns {void}
    */
   const logout = () => {
@@ -219,7 +221,7 @@ function App() {
       setAccessToken(null);
       setTimestamp(null);
       setExpireTime(null);
-      localStorage.removeItem('unMuteVariable');
+      sessionStorage.removeItem('unMuteVariable');
       sessionStorage.removeItem('spotify_discover_weekly_data');
     } catch (err) {
       console.log(err);

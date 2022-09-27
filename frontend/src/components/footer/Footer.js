@@ -48,14 +48,14 @@ const Footer = () => {
 
   /** SETS VOLUME GLOBALLY
    * Saves volume before setting to 0
-   * allows input to toggle mute/unmute by saving to localStorage
+   * allows input to toggle mute/unmute by saving to sessionStorage
    */
   const handleVolume = evt => {
     dispatch({
       type: 'SET_VOLUME',
       volume: parseInt(evt.target.value)
     });
-    localStorage.setItem('unMuteVariable', JSON.stringify(evt.target.value));
+    sessionStorage.setItem('unMuteVariable', JSON.stringify(evt.target.value));
   };
 
   const handleMute = () => {
@@ -67,7 +67,7 @@ const Footer = () => {
 
   const unMute = () => {
     const volumeLevelBeforeMute = parseInt(
-      JSON.parse(localStorage.getItem('unMuteVariable'))
+      JSON.parse(sessionStorage.getItem('unMuteVariable'))
     );
     dispatch({
       type: 'SET_VOLUME',

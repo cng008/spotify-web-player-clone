@@ -48,7 +48,7 @@ This application provides users a way to easily search Spotify's song database w
 - All users can view, add, edit, and delete playlists.
 - Logged in user's profile name and image shows in header and in playlists they create
 - Must logged in if you want to access songs, Christien's Discover Playlist
-- Use localStorage to keep the token and token expiry time in simple state. This way, when the page is loaded, it can first look for it there.
+- Use sessionStorage to keep the token and token expiry time in simple state. This way, when the page is loaded, it can first look for it there.
 - Use sessionStorage to store Discover Weekly data (fixes Spotify API fetch issues with refreshing react app)
 - View playlist details and all songs associated with it
 
@@ -127,4 +127,9 @@ To run the tests in order:
 
 ## Challenges
 
-Since the Spotify API is free and well-documented, the only potential API issue would be how to associate user’s playlist/song favorites when creating my own API. A challenge that may come up would be when creating a method to follow other users.
+There were a many challenges figuring how to piece the frontend and backend together.
+
+- Issue: keeping a user logged into their account so that they wouldn't be logged out of their spotify authentication on page refresh.
+  - Resolution: Storing this data in the browser solved this issue.
+- Issue: retrieving data from Spotify's API and figuring out how to save it to the backend while needing multiple requests for the data I needed
+  - Resolution: saving data to useState when variables weren't accessible where needed or using state to get multiple api requests
