@@ -18,21 +18,24 @@
   width: 20em;
 }
 
-.Login-options > a {
+.Login-options > button {
   display: flex;
+  font-size: 1em;
   justify-content: center;
   padding: 15px;
   border-radius: 90px;
+  border: none;
   background-color: #1db954;
   font-weight: 800;
   color: white;
   margin: 3em 0;
   width: 20em;
+  cursor: pointer;
   /* transform: translate(40px, 0px); */
 }
 
-.Login-options > a:last-child {
+/* .Login-options > a:last-child {
   background-color: #1db954b3;
   padding: 10px;
   transform: translate(5px, 0px);
-}
+} */

@@ -43,11 +43,11 @@ This application provides users a way to easily search Spotify's song database w
 ## **User Flow & Features**
 
 - Anyone can browse through the site, however, if a user wants to search and save songs to a playlist, they will need to be logged in.
-- Users can log into the site using their Spotify account, which returns an access token to allow access to search songs using the Spotify API in the Search component
+<!-- - Users can log into the site using their Spotify account, which returns an access token to allow access to search songs using the Spotify API in the Search component -->
 - Allow (logged in) users to search tracks, artists, albums
 - All users can view, add, edit, and delete playlists.
-- Logged in user's profile name and image shows in header and in playlists they create
-- Must logged in if you want to access songs, Christien's Discover Playlist
+<!-- - Logged in user's profile name and image shows in header and in playlists they create -->
+- Must log in if you want to access songs, Christien's Discover Playlist
 - Use sessionStorage to keep the token and token expiry time in simple state. This way, when the page is loaded, it can first look for it there.
 - Use sessionStorage to store Discover Weekly data (fixes Spotify API fetch issues with refreshing react app)
 - View playlist details and all songs associated with it
@@ -111,7 +111,7 @@ This project was made using the following technologies:
 
 ##### OR
 
-    $ git clone https://github.com/cng008/43_react-jobly.git
+    $ git clone https://github.com/cng008/spotify-web-player-clone.git
     $ cd backend
     $ npm i
     $ nodemon server.js
@@ -133,3 +133,5 @@ There were a many challenges figuring how to piece the frontend and backend toge
   - Resolution: Storing this data in the browser solved this issue.
 - Issue: retrieving data from Spotify's API and figuring out how to save it to the backend while needing multiple requests for the data I needed
   - Resolution: saving data to useState when variables weren't accessible where needed or using state to get multiple api requests
+- Issue: Users wanting to login using their irl Spotify account must be explicitly added under the section "Users and Access" by Christien before they can authenticate with the app (Spotify's rules)
+  - Resolution: disable spotify authentication login method and replace with axios method to fetch token using basic authorization

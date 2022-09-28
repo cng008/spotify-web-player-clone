@@ -1,5 +1,5 @@
 // https://developer.spotify.com/documentation/general/guides/authorization/implicit-grant/
-
+import axios from 'axios';
 const authEndpoint = 'https://accounts.spotify.com/authorize';
 // const redirectUri = 'http://localhost:3000/';
 const redirectUri = 'http://cng008-spotify-clone.surge.sh/';
@@ -32,6 +32,21 @@ export const getParamsFromUrl = () => {
       return initial;
     }, {});
 };
+
+export const getAccessToken = async () => {
+  const res = await axios.post(
+    'https://accounts.spotify.com/api/token',
+    'grant_type=client_credentials',
+    {
+      headers: {
+        Authorization:
+          'Basic ZDM1N2EyNWVmZjc1NGU0NDllNmFkMTljYTY3OTc4ZjU6Njk3ODM2OGQwOTY5NDUxM2JkNjBmMjY3ZmU5OWYxN2Q='
+      }
+    }
+  );
+  return res.data;
+};
+getAccessToken();
 
 /** returns access_token, token_type, expires_in, state */
 export const loginUrl = `${authEndpoint}?client_id=${clientId}&scopes=${scopes.join(

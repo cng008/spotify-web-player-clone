@@ -62,10 +62,11 @@ const Header = () => {
       <div className="Header-right">
         {!token ? (
           <a
-            href={loginUrl}
+            href="/welcome"
+            // onClick={loginUrl}
             title="Login with your spotify to search for songs and them to playlists!"
           >
-            Login with Spotify
+            Login
           </a>
         ) : (
           <div

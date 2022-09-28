@@ -48,7 +48,11 @@ const Search = () => {
           <Header />
           <div className="Search-content">
             <h2>Browse all</h2>
-            <div className={searchTerm ? 'ResultsCardGrid' : 'SearchCardGrid'}>
+            <div
+              className={
+                searchTerm && token ? 'ResultsCardGrid' : 'SearchCardGrid'
+              }
+            >
               {searchTerm && token
                 ? searchResults?.tracks?.items.map((songs, i) => {
                     return (
