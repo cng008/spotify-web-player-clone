@@ -3,6 +3,9 @@
   "$id": "http://our.playlist.com/songSearch.schema.json",
   "type": "object",
   "properties": {
+    "key": {
+      "type": "integer"
+    },
     "id": {
       "type": "string"
     },

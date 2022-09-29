@@ -29,9 +29,9 @@ const PlaylistControls = ({ playlist }) => {
   const [paused, setPaused] = useState(false);
   const [liked, setLike] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
+  const [isClicked, seIsClicked] = useState(false);
 
-  // console.debug('PlaylistControls', 'playlist=', playlist, 'handle=', handle ,'sort=',sort,'paused=',paused,'liked=',liked,'showModal=',showModal,'isHovering=',isHovering);
+  // console.debug('PlaylistControls', 'playlist=', playlist, 'handle=', handle ,'sort=',sort,'paused=',paused,'liked=',liked,'showModal=',showModal,'isClicked=',isClicked);
 
   const handleSort = evt => {
     setSort(evt.target.value);
@@ -54,9 +54,9 @@ const PlaylistControls = ({ playlist }) => {
     setShowModal(false);
   };
 
-  const handleMouseOver = () => {
-    let toggle = isHovering === true ? false : true;
-    setIsHovering(toggle);
+  const handleClick = () => {
+    let toggle = isClicked === true ? false : true;
+    seIsClicked(toggle);
   };
 
   const deletePlaylist = async () => {
@@ -114,9 +114,9 @@ const PlaylistControls = ({ playlist }) => {
         )}
 
         <div className="Playlist-edit-toggle">
-          <div onClick={handleMouseOver}>
+          <div onClick={handleClick}>
             <MoreHorizIcon fontSize="large" />
-            {isHovering && (
+            {isClicked && (
               <div className="Playlist-edit-buttons">
                 <button title="Edit playlist" onClick={openModal}>
                   Edit

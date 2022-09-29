@@ -49,22 +49,22 @@ class Playlist {
    * Throws BadRequestError if playlist already in database.
    * */
 
-  static async addToPlaylist(playlistID, songID) {
+  static async addToPlaylist(playlistID, songKey) {
     // const duplicateCheck = await db.query(
-    //   `SELECT playlist_id, song_id
+    //   `SELECT playlist_id, song_key
     //        FROM playlist_songs
-    //        WHERE playlist_id = $1 AND song_id = $2`,
+    //        WHERE playlist_id = $1 AND song_key = $2`,
     //   [playlistID, songID]
     // );
-
     // if (duplicateCheck.rows[0]) return;
 
+    // duplicates OK
     const result = await db.query(
       `INSERT INTO playlist_songs
-           (playlist_id, song_id)
+           (playlist_id, song_key)
            VALUES ($1, $2)
-           RETURNING playlist_id, song_id`,
-      [playlistID, songID]
+           RETURNING playlist_id, song_key`,
+      [playlistID, songKey]
     );
     const playlist = result.rows[0];
 
@@ -79,33 +79,19 @@ class Playlist {
    * Returns [{ id, name, handle, username, description, created_at, image }, ...]
    * */
 
-  static async findAll(searchFilters = {}) {
-    let query = `SELECT id, name, handle, username, description, to_char(created_at, 'yyyy-mm-dd hh:mi:ss AM') AS "created_at", image
-                 FROM playlists`;
-    let whereExpressions = [];
-    let queryValues = [];
-
-    const { name } = searchFilters;
-
-    if (name) {
-      queryValues.push(`%${name}%`);
-      whereExpressions.push(`name ILIKE $${queryValues.length}`);
-    }
-
-    if (whereExpressions.length > 0) {
-      query += ' WHERE ' + whereExpressions.join(' AND ');
-    }
-
-    // Finalize query and return results
-    query += ' ORDER BY id DESC';
-    const playlistsRes = await db.query(query, queryValues);
+  static async findAll() {
+    const playlistsRes = await db.query(
+      `SELECT id, name, handle, username, description, to_char(created_at, 'yyyy-mm-dd hh:mi:ss AM') AS "created_at", image
+                 FROM playlists 
+                 ORDER BY id DESC`
+    );
     return playlistsRes.rows;
   }
 
   /** Given a playlist name, return data about playlist.
    *
    * Returns { id, name, handle, username, description, created_at, image }
-   *   where songs is [{ name, duration_ms, explicit, added_at, artist_id, album_id, image }, ...]
+   *   where songs is [{ key, id, name, duration_ms, explicit, added_at, artist_id, album_id, image }, ...]
    *
    * Throws NotFoundError if not found.
    **/
@@ -131,7 +117,8 @@ class Playlist {
     );
 
     const songRes = await db.query(
-      `SELECT s.id, 
+      `SELECT s.key, 
+              s.id, 
               s.name, 
               s.duration_ms, 
               s.explicit, 
@@ -143,7 +130,7 @@ class Playlist {
               ab.image
         FROM playlists AS p
           JOIN playlist_songs AS pls ON p.id = pls.playlist_id
-          JOIN songs AS s ON pls.song_id = s.id
+          JOIN songs AS s ON pls.song_key = s.key
           JOIN albums AS ab ON s.album_id = ab.id
           JOIN artists AS at ON s.artist_id = at.id      
           WHERE p.handle = $1`,
@@ -193,7 +180,7 @@ class Playlist {
    **/
 
   static async remove(id) {
-    // delete from relation table
+    // delete songs from playlist (relation table)
     await db.query(
       `DELETE
            FROM playlist_songs
@@ -213,6 +200,54 @@ class Playlist {
     if (!playlist) throw new NotFoundError(`No playlist: ${id}`);
 
     return playlist;
+  }
+
+  /** Delete given song from database; returns undefined.
+   *
+   * Throws NotFoundError if album not found.
+   **/
+
+  static async removeSong(playlistId, songKey) {
+    // check if song in more than one playlist
+    const songInMultiplePlaylists = await db.query(
+      `SELECT playlist_id, song_key
+           FROM playlist_songs
+           WHERE song_key = $1`,
+      [songKey]
+    );
+    if (!songInMultiplePlaylists)
+      throw new NotFoundError(`No song: ${songKey}`);
+
+    // don't delete song from db if it's also in another playlist
+    if (songInMultiplePlaylists.rows[1]) {
+      await db.query(
+        `DELETE
+          FROM playlist_songs
+          WHERE playlist_id=$1 AND song_key = $2`,
+        [playlistId, songKey]
+      );
+      return;
+    }
+
+    /********** delete from relation tables *********/
+    await db.query(
+      `DELETE
+        FROM playlist_songs
+        WHERE song_key = $1`,
+      [songKey]
+    );
+    await db.query(
+      `DELETE
+        FROM album_songs
+        WHERE song_key = $1`,
+      [songKey]
+    );
+    await db.query(
+      `DELETE
+        FROM artist_songs
+        WHERE song_key = $1`,
+      [songKey]
+    );
   }
 }
 

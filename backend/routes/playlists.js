@@ -6,7 +6,7 @@ const jsonschema = require('jsonschema');
 const express = require('express');
 
 const { BadRequestError } = require('../expressError');
-const { ensureLoggedIn } = require('../middleware/auth');
+// const { ensureLoggedIn } = require('../middleware/auth');
 const Playlist = require('../models/playlist');
 
 const playlistNew = require('../schemas/playlistNew.json');
@@ -21,7 +21,7 @@ const router = new express.Router();
  *
  * Returns { name, handle, user_id, description, created_at, image }
  *
- * Authorization required: ensureLoggedIn
+ * Authorization required: none
  */
 
 router.post('/', async function (req, res, next) {
@@ -45,16 +45,16 @@ router.post('/', async function (req, res, next) {
  *
  * Returns { name, handle, user_id, description, created_at, image }
  *
- * Authorization required: ensureLoggedIn
+ * Authorization required: none
  */
 
 router.post('/:playlistID/songs/:songID', async function (req, res, next) {
   try {
-    const playlist = await Playlist.addToPlaylist(
+    const song = await Playlist.addToPlaylist(
       req.params.playlistID,
       req.params.songID
     );
-    return res.status(201).json({ playlist });
+    return res.status(201).json({ song });
   } catch (err) {
     return next(err);
   }
@@ -111,7 +111,7 @@ router.get('/:handle', async function (req, res, next) {
  *
  * Returns { name, handle, user_id, description, created_at, image }
  *
- * Authorization required: admin
+ * Authorization required: none
  */
 
 router.patch('/:handle', async function (req, res, next) {
@@ -129,9 +129,23 @@ router.patch('/:handle', async function (req, res, next) {
   }
 });
 
-/** DELETE /[handle]  =>  { deleted: handle }
+/** DELETE SONG FROM PLAYLIST /[ playlistId,songKey ]  =>  { deleted: songKey }
  *
- * Authorization: admin
+ * Authorization: none
+ */
+
+router.delete('/:playlistId/song/:songKey', async function (req, res, next) {
+  try {
+    await Playlist.removeSong(req.params.playlistId, req.params.songKey);
+    return res.json({ deleted: req.params.songKey });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+/** DELETE PLAYLIST /[id]  =>  { deleted: id }
+ *
+ * Authorization: none
  */
 
 router.delete('/:id', async function (req, res, next) {

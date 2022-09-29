@@ -12,10 +12,10 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime';
  * App -> Routes -> Playlist -> SongList -> Song
  */
 
-const SongList = ({ playlist, playerTime }) => {
+const SongList = ({ songs, removeSong }) => {
   const [{}, dispatch] = useStateValue();
 
-  // console.debug('Song', 'playlist=', playlist, 'playerTime=', playerTime);
+  // console.debug('Song', 'songs=', songs);
 
   /** "PLAYS" SONG IN FOOTER */
   const setSong = track => {
@@ -48,14 +48,14 @@ const SongList = ({ playlist, playerTime }) => {
           </tr>
         </thead>
         <tbody>
-          {playlist?.songs.map((track, id) => (
+          {songs.map((track, id) => (
             <tr
               key={id}
               onClick={() => {
                 setSong(track);
               }}
             >
-              <Song track={track} id={id} />
+              <Song track={track} id={id} removeSong={removeSong} />
             </tr>
           ))}
         </tbody>

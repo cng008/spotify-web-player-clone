@@ -37,7 +37,7 @@ const Playlist = () => {
         document.body.style.cursor = 'default';
       } catch (err) {
         console.log(err);
-        history.push('/404');
+        history.push('/404'); //redirects when no playlist found
         setIsLoading(false);
         document.body.style.cursor = 'default';
       }
@@ -49,6 +49,15 @@ const Playlist = () => {
     document.body.style.cursor = 'progress';
     return '';
   }
+
+  const removeSongFromPlaylist = async songKey => {
+    try {
+      await SpotifyCloneApi.removeSongFromPlaylist(playlist.id, songKey);
+      history.go(0);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -76,7 +85,10 @@ const Playlist = () => {
 
           <section>
             <PlaylistControls playlist={playlist} />
-            <SongList playlist={playlist} />
+            <SongList
+              songs={playlist?.songs}
+              removeSong={removeSongFromPlaylist}
+            />
           </section>
         </div>
       </div>

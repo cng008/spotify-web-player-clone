@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import UserContext from '../../UserContext';
 import './Song.css';
 
@@ -14,7 +14,8 @@ import ExplicitIcon from '@material-ui/icons/Explicit';
  * App -> Routes -> Playlist -> SongList -> Song
  */
 
-const Song = ({ track = 'test', id }) => {
+const Song = ({ track = 'test', id, removeSong }) => {
+  const [isHovering, setIsHovering] = useState(false);
   const { getSongDuration, daysAgo } = useContext(UserContext);
   const numOfDays = daysAgo(track.added_at, new Date());
 
@@ -28,6 +29,11 @@ const Song = ({ track = 'test', id }) => {
     } else {
       return 'Today';
     }
+  };
+
+  const handleMouseOver = () => {
+    let mouse = isHovering === false ? true : false;
+    setIsHovering(mouse);
   };
 
   return (
@@ -57,6 +63,31 @@ const Song = ({ track = 'test', id }) => {
         {numOfDays > 0 ? numOfDays : null} {days(numOfDays)}
       </td>
       <td>{getSongDuration(track.duration_ms)}</td>
+      <td>
+        <div
+          className="Song-delete"
+          onMouseEnter={handleMouseOver}
+          onMouseLeave={handleMouseOver}
+        >
+          {isHovering ? (
+            <button
+              className="Song-button-delete"
+              onClick={() => {
+                removeSong(track.key);
+              }}
+            >
+              X
+            </button>
+          ) : (
+            <button
+              className="Song-button-static"
+              title="remove from this playlist"
+            >
+              ...
+            </button>
+          )}
+        </div>
+      </td>
     </>
   );
 };

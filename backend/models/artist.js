@@ -47,8 +47,8 @@ class Artist {
    *
    * Returns [{ id, name, handle, image }, ...]
    *   where artist is { id, name, handle, image }
-//    *   where albums is { id, name, handle, artist_id, release_date, image }
-//    *   where songs is { id, name, duration_ms, explicit, added_at, artist_id, album_id, image }
+   *   where albums is { id, name, handle, artist_id, release_date, image }
+   *   where songs is { key, id, name, duration_ms, explicit, added_at, artist_id, album_id, image }
    * */
 
   static async findAll() {
@@ -59,16 +59,15 @@ class Artist {
     return artistsRes.rows;
   }
 
-  //   /** Given an artist id, return data about artist.
-  //    *
-  //    * Returns [{ id, name, handle, image }, ...]
-  //    *   where artist is { id, name, handle, image }
-  //    *   where albums is { id, name, handle, artist_id, release_date, image }
-  //    *   where songs is { id, name, duration_ms, added_at, artist_id, album_id, image }
-  //    *
-  //    * Throws NotFoundError if not found.
-  //    **/
-
+  /** Given an artist id, return data about artist.
+   *
+   * Returns [{ id, name, handle, image }, ...]
+   *   where artist is { id, name, handle, image }
+   *   where albums is { id, name, handle, artist_id, release_date, image }
+   *   where songs is { key, id, name, duration_ms, added_at, artist_id, album_id, image }
+   *
+   * Throws NotFoundError if not found.
+   **/
   static async get(handle) {
     const artistRes = await db.query(
       `SELECT id, name, handle, image
@@ -90,7 +89,7 @@ class Artist {
     );
 
     const songRes = await db.query(
-      `SELECT DISTINCT s.id, s.name, s.duration_ms, s.explicit, s.added_at, s.artist_id, s.album_id, s.image
+      `SELECT DISTINCT s.key, s.id, s.name, s.duration_ms, s.explicit, s.added_at, s.artist_id, s.album_id, s.image
           FROM songs AS s
           JOIN albums AS ab ON s.album_id = ab.id
           JOIN artists AS at ON s.artist_id = at.id
@@ -103,24 +102,6 @@ class Artist {
 
     return artist;
   }
-
-  //   /** Delete given artist from database; returns undefined.
-  //    *
-  //    * Throws NotFoundError if artist not found.
-  //    **/
-
-  //   static async remove(playlistId, songId) {
-  //     const result = await db.query(
-  //       `DELETE
-  //            FROM playlist_songs
-  //            WHERE playlist_id = $1 AND song_id = $2
-  //            RETURNING id`,
-  //       [playlistId, songId]
-  //     );
-  //     const song = result.rows[0];
-
-  //     if (!song) throw new NotFoundError(`No song: ${id}`);
-  //   }
 }
 
 module.exports = Artist;

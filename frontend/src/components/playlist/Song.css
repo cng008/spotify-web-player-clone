@@ -39,3 +39,22 @@
   font-weight: 600;
   margin-bottom: 0.5em;
 }
+
+.Song-delete > * {
+  font-size: 14px;
+  color: white;
+  background-color: transparent;
+  border-radius: 4px;
+  border: none;
+  padding: 5px 10px;
+  margin: auto;
+}
+
+.Song-button-delete {
+  background-color: rgba(255, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.Song-button-delete:hover {
+  background-color: rgba(255, 0, 0, 0.3);
+}

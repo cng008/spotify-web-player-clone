@@ -5,7 +5,7 @@
 const jsonschema = require('jsonschema');
 const express = require('express');
 
-const { BadRequestError } = require('../expressError');
+// const { BadRequestError } = require('../expressError');
 const { ensureLoggedIn } = require('../middleware/auth');
 const Artist = require('../models/artist');
 
@@ -20,7 +20,7 @@ const router = express.Router({ mergeParams: true });
  *
  * Returns { id, name, handle, image }
  *
- * Authorization required: is logged in
+ * Authorization required: none
  */
 
 router.post('/', async function (req, res, next) {
@@ -83,7 +83,7 @@ router.get('/:handle', async function (req, res, next) {
 
 /** DELETE /[handle]  =>  { deleted: id }
  *
- * Authorization required: admin
+ * Authorization required: none
  */
 
 // router.delete('/:handle', async function (req, res, next) {

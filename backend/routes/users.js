@@ -6,7 +6,7 @@ const jsonschema = require('jsonschema');
 const express = require('express');
 
 const { BadRequestError } = require('../expressError');
-const { ensureLoggedIn } = require('../middleware/auth');
+// const { ensureLoggedIn } = require('../middleware/auth');
 const User = require('../models/user');
 
 const userNew = require('../schemas/userNew.json');
@@ -19,7 +19,7 @@ const router = express.Router({ mergeParams: true });
  *
  * Returns { username, display_name, image, profile_url }
  *
- * Authorization required: is logged in
+ * Authorization required: none
  */
 
 router.post('/', async function (req, res, next) {
@@ -57,7 +57,7 @@ router.post('/', async function (req, res, next) {
 
 /** DELETE /[handle]  =>  { deleted: handle }
  *
- * Authorization required: admin
+ * Authorization required: none
  */
 
 // router.delete('/:handle', async function (req, res, next) {

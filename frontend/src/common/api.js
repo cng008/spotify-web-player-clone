@@ -74,21 +74,26 @@ class SpotifyCloneApi {
     return res.song;
   }
 
-  /** Get song by id */
-  // static async getSongsByID(id) {
-  //   let res = await this.request(`songs/${id}`);
-  //   return res.song;
-  // }
-
   /** Save song to current playlist. */
   static async addSongToPlaylist(playlistID, songID) {
-    await this.request(`playlists/${playlistID}/songs/${songID}`, {}, 'post');
+    let res = await this.request(
+      `playlists/${playlistID}/songs/${songID}`,
+      {},
+      'post'
+    );
+    return res.song;
+  }
+
+  /** Get song count */
+  static async getSongCount() {
+    let res = await this.request('songs');
+    return +res.count.total_songs;
   }
 
   /** Delete song from playlist by id */
-  // static async deleteSong(id) {
-  //   await this.request(`songs/${id}`, {}, 'delete');
-  // }
+  static async removeSongFromPlaylist(playlistID, songKey) {
+    await this.request(`playlists/${playlistID}/song/${songKey}`, {}, 'delete');
+  }
 
   /*********************** ALBUMS **********************/
   /** Add album to db */

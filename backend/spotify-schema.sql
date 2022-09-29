@@ -1,34 +1,30 @@
--- from the terminal run:
--- psql < spotify-schema.sql
--- psql spotify-schema
-
 CREATE TABLE users (
   username TEXT PRIMARY KEY,
-  display_name TEXT NOT NULL,
+  display_name TEXT,
   image TEXT,
-  profile_url TEXT NOT NULL
+  profile_url TEXT
 );
 
 CREATE TABLE playlists (
   id SERIAL PRIMARY KEY,
   name TEXT,
   handle TEXT,
-  username TEXT REFERENCES users (username),
+  username TEXT REFERENCES users,
   description TEXT,
-  created_at timestamp,
+  created_at TIMESTAMP,
   image TEXT
 );
 
 CREATE TABLE artists (
   id TEXT PRIMARY KEY,
-  name TEXT,  
+  name TEXT,
   handle TEXT,
   image TEXT
 );
 
 CREATE TABLE albums (
   id TEXT PRIMARY KEY,
-  name TEXT,  
+  name TEXT,
   handle TEXT,
   artist_id TEXT REFERENCES artists,
   release_date TEXT,
@@ -36,27 +32,28 @@ CREATE TABLE albums (
 );
 
 CREATE TABLE songs (
-  id TEXT PRIMARY KEY,
+  key SERIAL PRIMARY KEY,
+  id TEXT,
   name TEXT,
   duration_ms INTEGER,
   explicit BOOLEAN,
-  added_at TEXT,
+  added_at TIMESTAMP,
   artist_id TEXT REFERENCES artists,
   album_id TEXT REFERENCES albums,
   image TEXT
 );
 
 CREATE TABLE playlist_songs (
-  playlist_id INTEGER REFERENCES playlists,
-  song_id TEXT REFERENCES songs
+  playlist_id INTEGER REFERENCES playlists ON DELETE CASCADE,
+  song_key INTEGER REFERENCES songs ON DELETE CASCADE
 );
 
 CREATE TABLE album_songs (
-  album_id TEXT REFERENCES albums,
-  song_id TEXT REFERENCES songs
+  song_key INTEGER REFERENCES songs ON DELETE CASCADE,
+  album_id TEXT REFERENCES albums ON DELETE CASCADE
 );
 
 CREATE TABLE artist_songs (
-  artist_id TEXT REFERENCES artists,
-  song_id TEXT REFERENCES songs
+  song_key INTEGER REFERENCES songs ON DELETE CASCADE,
+  artist_id TEXT REFERENCES artists ON DELETE CASCADE
 );

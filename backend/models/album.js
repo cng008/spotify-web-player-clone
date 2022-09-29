@@ -51,7 +51,7 @@ class Album {
    *
    * Returns [{ id, name, artist_id, release_date, image }, ...]
    *   where album is { id, name, artist_id, release_date, image }
-//    *   where artist is { id, name, image }
+   *   where artist is { id, name, image }
    * */
 
   static async findAll() {
@@ -67,7 +67,7 @@ class Album {
    * Returns [{ id, name, artist_id, release_date, image }, ...]
    *   where album is { id, name, artist_id, release_date, image }
    *   where artist is { id, name, image }
-   *   where songs is { id, name, duration_ms, explicit, added_at, artist_id, album_id, image }
+   *   where songs is { key, id, name, duration_ms, explicit, added_at, artist_id, album_id, image }
    *
    * Throws NotFoundError if not found.
    **/
@@ -85,7 +85,7 @@ class Album {
     if (!album) throw new NotFoundError(`No album: ${handle}`);
 
     const songRes = await db.query(
-      `SELECT s.id, s.name, s.duration_ms, s.explicit, s.added_at, s.artist_id, s.album_id, s.image
+      `SELECT s.key, s.id, s.name, s.duration_ms, s.explicit, s.added_at, s.artist_id, s.album_id, s.image
             FROM songs AS s
             JOIN albums AS ab ON s.album_id = ab.id
             WHERE ab.handle = $1`,
@@ -105,24 +105,6 @@ class Album {
 
     return album;
   }
-
-  //   /** Delete given album from database; returns undefined.
-  //    *
-  //    * Throws NotFoundError if album not found.
-  //    **/
-
-  //   static async remove(playlistId, songId) {
-  //     const result = await db.query(
-  //       `DELETE
-  //            FROM playlist_songs
-  //            WHERE playlist_id = $1 AND song_id = $2
-  //            RETURNING id`,
-  //       [playlistId, songId]
-  //     );
-  //     const song = result.rows[0];
-
-  //     if (!song) throw new NotFoundError(`No song: ${id}`);
-  //   }
 }
 
 module.exports = Album;

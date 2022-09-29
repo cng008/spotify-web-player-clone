@@ -43,6 +43,7 @@ const SearchResultCard = ({ trackData = 'test', handleAlert }) => {
 
   const addSongToPlaylist = async playlistID => {
     try {
+      let totalSongs = await SpotifyCloneApi.getSongCount();
       /** Makes a POST request to common > api.js and adds song, album, artist data to db */
       await SpotifyCloneApi.addArtist(artistData);
       await SpotifyCloneApi.addAlbum(albumData);
@@ -51,14 +52,15 @@ const SearchResultCard = ({ trackData = 'test', handleAlert }) => {
       /** Makes a POST request to common > api.js and adds song to selected playlist
        * success notification
        */
-      console.log('playlistID', playlistID, 'songID', songID);
-      await SpotifyCloneApi.addSongToPlaylist(playlistID, songID);
+      // console.debug('playlistID', playlistID, 'totalSongs', totalSongs);
+      await SpotifyCloneApi.addSongToPlaylist(playlistID, totalSongs + 1);
       handleAlert();
     } catch (err) {
       console.log(err);
       return;
     }
   };
+  // set data for postgres insertion
   const songData = {
     id: trackData.id,
     name: trackData.name,
@@ -81,6 +83,9 @@ const SearchResultCard = ({ trackData = 'test', handleAlert }) => {
     image: artistImg
   };
 
+  /** "PLAYS" SONG IN FOOTER
+   * set song variable for dispatch
+   */
   const playSongData = {
     id: trackData.id,
     name: trackData.name,
@@ -89,7 +94,6 @@ const SearchResultCard = ({ trackData = 'test', handleAlert }) => {
     artist_name: trackData.artists[0].name,
     image: trackData.album.images[1].url
   };
-  /** "PLAYS" SONG IN FOOTER */
   const playSong = track => {
     dispatch({
       type: 'SET_SONG',

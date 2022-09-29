@@ -6,7 +6,7 @@ const jsonschema = require('jsonschema');
 const express = require('express');
 
 const { BadRequestError } = require('../expressError');
-const { ensureLoggedIn } = require('../middleware/auth');
+// const { ensureLoggedIn } = require('../middleware/auth');
 const Song = require('../models/song');
 
 const songNew = require('../schemas/songNew.json');
@@ -20,7 +20,7 @@ const router = express.Router({ mergeParams: true });
  *
  * Returns { id, name, duration_ms, artist_id, album_id, image }
  *
- * Authorization required: admin
+ * Authorization required: none
  */
 
 router.post('/', async function (req, res, next) {
@@ -47,17 +47,34 @@ router.post('/', async function (req, res, next) {
  * Authorization required: none
  */
 
-router.get('/', async function (req, res, next) {
-  const q = req.query;
-  try {
-    const validator = jsonschema.validate(q, songSearch);
-    if (!validator.valid) {
-      const errs = validator.errors.map(e => e.stack);
-      throw new BadRequestError(errs);
-    }
+// router.get('/', async function (req, res, next) {
+//   const q = req.query;
+//   try {
+//     const validator = jsonschema.validate(q, songSearch);
+//     if (!validator.valid) {
+//       const errs = validator.errors.map(e => e.stack);
+//       throw new BadRequestError(errs);
+//     }
 
-    const songs = await Song.findAll(q);
-    return res.json({ songs });
+//     const songs = await Song.findAll(q);
+//     return res.json({ songs });
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
+
+/** GET /[songId] => { song }
+ *
+ * Returns { id, name, duration_ms, artist_id, album_id, image }
+ *   where album is { id, name, artist_id, release_date, image }
+ *
+ * Authorization required: none
+ */
+
+router.get('/', async function (req, res, next) {
+  try {
+    const count = await Song.getTotalSongs();
+    return res.json({ count });
   } catch (err) {
     return next(err);
   }
@@ -71,24 +88,10 @@ router.get('/', async function (req, res, next) {
  * Authorization required: none
  */
 
-router.get('/:id', async function (req, res, next) {
+router.get('/:key', async function (req, res, next) {
   try {
-    const song = await Song.get(req.params.id);
+    const song = await Song.get(req.params.key);
     return res.json({ song });
-  } catch (err) {
-    return next(err);
-  }
-});
-
-/** DELETE /[handle]  =>  { deleted: id }
- *
- * Authorization required: admin
- */
-
-router.delete('/:id', async function (req, res, next) {
-  try {
-    await Song.remove(req.params.id);
-    return res.json({ deleted: +req.params.id });
   } catch (err) {
     return next(err);
   }
