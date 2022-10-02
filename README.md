@@ -98,9 +98,8 @@ This project was made using the following technologies:
 - [Material UI](https://mui.com)
 - [react-sliding-pane](https://www.npmjs.com/package/react-sliding-pane)
 - [spotify-web-api-js](https://www.npmjs.com/package/spotify-web-api-js)
-<!-- - [Jest](https://jestjs.io)
-- [Unittests](https://docs.python.org/3/library/unittest.html)
-- [Supertest](https://github.com/visionmedia/supertest) -->
+- [Jest](https://jestjs.io)
+- [Supertest](https://github.com/visionmedia/supertest)
 - [Morgan](https://www.npmjs.com/package/morgan)
 - [Heroku](https://www.heroku.com)
 - [Surge.sh](https://surge.sh)
