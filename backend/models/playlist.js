@@ -26,13 +26,14 @@ class Playlist {
       [handle]
     );
 
-    if (duplicateCheck.rows[0]) return;
+    if (duplicateCheck.rows[0])
+      throw new BadRequestError(`Duplicate playlist: ${name}`);
 
     const result = await db.query(
       `INSERT INTO playlists
            (name, handle, username, description, created_at, image)
            VALUES ($1, $2, $3, $4, now(), $5)
-           RETURNING id, name, handle, username, description, created_at AS "created_at", image`,
+           RETURNING name, username, description, image`,
       [name, handle, username, description, image]
     );
     const playlist = result.rows[0];
@@ -83,7 +84,7 @@ class Playlist {
     const playlistsRes = await db.query(
       `SELECT id, name, handle, username, description, to_char(created_at, 'yyyy-mm-dd hh:mi:ss AM') AS "created_at", image
                  FROM playlists 
-                 ORDER BY id DESC`
+                 ORDER BY created_at DESC`
     );
     return playlistsRes.rows;
   }
@@ -122,9 +123,9 @@ class Playlist {
               s.name, 
               s.duration_ms, 
               s.explicit, 
-              s.added_at ,
-              at.name AS "artist_name", 
+              to_char(s.added_at, 'yyyy-mm-dd hh:mi:ss AM') AS "added_at",
               at.image,
+              at.name AS "artist_name", 
               ab.name AS "album_name",
               ab.release_date AS "album_release_date",
               ab.image
@@ -133,7 +134,8 @@ class Playlist {
           JOIN songs AS s ON pls.song_key = s.key
           JOIN albums AS ab ON s.album_id = ab.id
           JOIN artists AS at ON s.artist_id = at.id      
-          WHERE p.handle = $1`,
+          WHERE p.handle = $1
+          ORDER BY s.added_at ASC`,
       [handle]
     );
     playlist.user = userRes.rows[0];
@@ -147,7 +149,7 @@ class Playlist {
    * This is a "partial update" --- it's fine if data doesn't contain all the
    * fields; this only changes provided ones.
    *
-   * Data can include: {name, username, description, createdSt, image}
+   * Data can include: {name, username, description, created_at, image}
    *
    * Returns { id, name, handle, username, description, created_at, image }
    *
@@ -165,11 +167,11 @@ class Playlist {
     const querySql = `UPDATE playlists 
                       SET ${setCols} 
                       WHERE handle = ${handleVarIdx} 
-                      RETURNING id, name, handle, username, description, created_at, image`;
+                      RETURNING name, handle, description, image`;
     const result = await db.query(querySql, [...values, handle]);
     const playlist = result.rows[0];
 
-    if (!playlist) throw new NotFoundError(`No playlist: ${playlist.name}`);
+    if (!playlist) throw new NotFoundError(`No playlist: ${handle}`);
 
     return playlist;
   }
@@ -215,7 +217,7 @@ class Playlist {
            WHERE song_key = $1`,
       [songKey]
     );
-    if (!songInMultiplePlaylists)
+    if (!songInMultiplePlaylists.rows[0])
       throw new NotFoundError(`No song: ${songKey}`);
 
     // don't delete song from db if it's also in another playlist

@@ -29,7 +29,7 @@ class Album {
     const result = await db.query(
       `INSERT INTO albums (id, name, handle, artist_id, release_date, image)
            VALUES ($1, $2, $3, $4, $5, $6)
-           RETURNING id, name, handle, artist_id, release_date, image`,
+           RETURNING id, name, artist_id, release_date, image`,
       [
         data.id,
         data.name,
@@ -72,32 +72,32 @@ class Album {
    * Throws NotFoundError if not found.
    **/
 
-  static async get(handle) {
+  static async get(id) {
     const albumRes = await db.query(
-      `SELECT handle
+      `SELECT id, name, artist_id, release_date, image
             FROM albums
-            WHERE handle = $1`,
-      [handle]
+            WHERE id = $1`,
+      [id]
     );
 
     const album = albumRes.rows[0];
 
-    if (!album) throw new NotFoundError(`No album: ${handle}`);
+    if (!album) throw new NotFoundError(`No album: ${id}`);
 
     const songRes = await db.query(
-      `SELECT s.key, s.id, s.name, s.duration_ms, s.explicit, s.added_at, s.artist_id, s.album_id, s.image
+      `SELECT s.key, s.id, s.name, s.duration_ms, s.explicit, to_char(s.added_at, 'yyyy-mm-dd hh:mi:ss AM') AS "added_at", s.artist_id, s.album_id, s.image
             FROM songs AS s
             JOIN albums AS ab ON s.album_id = ab.id
-            WHERE ab.handle = $1`,
-      [handle]
+            WHERE ab.id = $1`,
+      [id]
     );
 
     const artistRes = await db.query(
       `SELECT at.id, at.name, at.image
               FROM artists AS at
               JOIN albums AS ab ON at.id = ab.artist_id
-              WHERE ab.handle = $1`,
-      [handle]
+              WHERE ab.id = $1`,
+      [id]
     );
 
     album.songs = songRes.rows;

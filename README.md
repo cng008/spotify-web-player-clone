@@ -72,7 +72,8 @@ This application was created using data from the <ins>**Spotify API**</ins>. All
 
 > [https://developer.spotify.com/documentation/web-api/](https://developer.spotify.com/documentation/web-api/)
 
-- `/v1/me`
+<!-- - `/v1/me` -->
+
 - `/v1/playlists/<playlist-id>`
 - `/v1/artists/<artist-id> `
 - `/v1/search `
@@ -117,13 +118,14 @@ This project was made using the following technologies:
     $ nodemon server.js
     $ cd ..
     $ cd frontend
-    $ npm i
+    $ npm i --legacy-peer-deps
     $ npm start
 
-<!-- Tests are run using Jest.
+Tests are run using Jest.
 To run the tests in order:
 
-    npm test -->
+    $ cd backend
+    $ jest artists.test.js albums.test.js users.test.js songs.test.js models/tests playlists.test.js
 
 ## Challenges
 
@@ -135,3 +137,5 @@ There were a many challenges figuring how to piece the frontend and backend toge
   - Resolution: saving data to useState when variables weren't accessible where needed or using state to get multiple api requests
 - Issue: Users wanting to login using their irl Spotify account must be explicitly added under the section "Users and Access" by Christien before they can authenticate with the app (Spotify's rules)
   - Resolution: disable spotify authentication login method and replace with axios method to fetch token using basic authorization
+- Issue: backend tests wouldn't pass when run together as `jest`
+  - Resolution: tests pass together when files are called individually, passing by running `jest artists.test.js albums.test.js users.test.js songs.test.js models/tests playlists.test.js`

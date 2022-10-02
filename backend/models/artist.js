@@ -68,12 +68,12 @@ class Artist {
    *
    * Throws NotFoundError if not found.
    **/
-  static async get(handle) {
+  static async get(id) {
     const artistRes = await db.query(
       `SELECT id, name, handle, image
           FROM artists
-          WHERE handle = $1`,
-      [handle]
+          WHERE id = $1`,
+      [id]
     );
 
     const artist = artistRes.rows[0];
@@ -84,17 +84,16 @@ class Artist {
       `SELECT ab.id, ab.name, ab.handle, ab.artist_id, ab.release_date, ab.image
         FROM albums AS ab
         JOIN artists AS at ON ab.artist_id = at.id
-        WHERE at.handle = $1`,
-      [handle]
+        WHERE at.id = $1`,
+      [id]
     );
 
     const songRes = await db.query(
-      `SELECT DISTINCT s.key, s.id, s.name, s.duration_ms, s.explicit, s.added_at, s.artist_id, s.album_id, s.image
+      `SELECT DISTINCT s.key, s.id, s.name, s.duration_ms, s.explicit, to_char(s.added_at, 'yyyy-mm-dd hh:mi:ss AM') AS "added_at", s.artist_id, s.album_id, s.image
           FROM songs AS s
-          JOIN albums AS ab ON s.album_id = ab.id
-          JOIN artists AS at ON s.artist_id = at.id
-          WHERE at.handle = $1`,
-      [handle]
+          JOIN albums AS ab ON s.artist_id = ab.artist_id
+          WHERE s.artist_id = $1`,
+      [id]
     );
 
     artist.albums = albumRes.rows;

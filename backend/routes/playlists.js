@@ -48,11 +48,11 @@ router.post('/', async function (req, res, next) {
  * Authorization required: none
  */
 
-router.post('/:playlistID/songs/:songID', async function (req, res, next) {
+router.post('/:playlistID/songs/:songKey', async function (req, res, next) {
   try {
     const song = await Playlist.addToPlaylist(
       req.params.playlistID,
-      req.params.songID
+      req.params.songKey
     );
     return res.status(201).json({ song });
   } catch (err) {

@@ -9,7 +9,7 @@ CREATE TABLE playlists (
   id SERIAL PRIMARY KEY,
   name TEXT,
   handle TEXT,
-  username TEXT REFERENCES users,
+  username TEXT REFERENCES users ON DELETE CASCADE,
   description TEXT,
   created_at TIMESTAMP,
   image TEXT
@@ -26,7 +26,7 @@ CREATE TABLE albums (
   id TEXT PRIMARY KEY,
   name TEXT,
   handle TEXT,
-  artist_id TEXT REFERENCES artists,
+  artist_id TEXT REFERENCES artists ON DELETE CASCADE,
   release_date TEXT,
   image TEXT
 );
@@ -38,8 +38,8 @@ CREATE TABLE songs (
   duration_ms INTEGER,
   explicit BOOLEAN,
   added_at TIMESTAMP,
-  artist_id TEXT REFERENCES artists,
-  album_id TEXT REFERENCES albums,
+  artist_id TEXT REFERENCES artists ON DELETE CASCADE,
+  album_id TEXT REFERENCES albums ON DELETE CASCADE,
   image TEXT
 );
 

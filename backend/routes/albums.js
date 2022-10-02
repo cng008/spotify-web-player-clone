@@ -72,9 +72,9 @@ router.get('/', async function (req, res, next) {
  * Authorization required: none
  */
 
-router.get('/:handle', async function (req, res, next) {
+router.get('/:id', async function (req, res, next) {
   try {
-    const album = await Album.get(req.params.handle);
+    const album = await Album.get(req.params.id);
     return res.json({ album });
   } catch (err) {
     return next(err);

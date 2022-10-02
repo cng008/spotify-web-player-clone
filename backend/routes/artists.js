@@ -5,8 +5,8 @@
 const jsonschema = require('jsonschema');
 const express = require('express');
 
-// const { BadRequestError } = require('../expressError');
-const { ensureLoggedIn } = require('../middleware/auth');
+const { BadRequestError } = require('../expressError');
+// const { ensureLoggedIn } = require('../middleware/auth');
 const Artist = require('../models/artist');
 
 const artistNew = require('../schemas/artistNew.json');
@@ -72,9 +72,9 @@ router.get('/', async function (req, res, next) {
  * Authorization required: none
  */
 
-router.get('/:handle', async function (req, res, next) {
+router.get('/:id', async function (req, res, next) {
   try {
-    const artist = await Artist.get(req.params.handle);
+    const artist = await Artist.get(req.params.id);
     return res.json({ artist });
   } catch (err) {
     return next(err);

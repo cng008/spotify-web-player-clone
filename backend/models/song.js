@@ -15,23 +15,23 @@ class Song {
    **/
 
   static async add(data) {
-    const duplicateCheck = await db.query(
-      `SELECT id
-           FROM songs
-           WHERE id = $1`,
-      [data.id]
-    );
+    // const duplicateCheck = await db.query(
+    //   `SELECT id
+    //        FROM songs
+    //        WHERE id = $1`,
+    //   [data.id]
+    // );
 
-    if (duplicateCheck.rows[0]) return;
+    // if (duplicateCheck.rows[0]) return;
 
     const result = await db.query(
       `INSERT INTO songs (id, name, duration_ms, explicit, added_at, artist_id, album_id, image)
            VALUES ($1, $2, $3, $4, now(), $5, $6, $7)
-           RETURNING id, 
+           RETURNING key,
+                    id, 
                     name, 
                     duration_ms, 
                     explicit, 
-                    added_at,
                     artist_id,
                     album_id, 
                     image`,
@@ -99,7 +99,7 @@ class Song {
 
   static async get(key) {
     const songRes = await db.query(
-      `SELECT key, id, name, duration_ms, explicit, added_at, artist_id, album_id, image
+      `SELECT key, id, name, duration_ms, explicit, to_char(added_at, 'yyyy-mm-dd hh:mi:ss AM') AS "added_at", artist_id, album_id, image
         FROM songs
         WHERE key = $1`,
       [key]
