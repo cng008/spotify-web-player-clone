@@ -23,15 +23,17 @@
     box-shadow: 0 -4px 12px rgb(0 0 0 / 50%); */
 }
 
-.InfoCardM-ImgBox-Artist img,
-.InfoCardM-ImgBox-Album img {
+.InfoCardM-ImgBox-Artist > img,
+.InfoCardM-ImgBox-Album > img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.InfoCardM-ImgBox-Artist img {
+.InfoCardM-ImgBox-Artist > img {
   border-radius: 100px;
+  height: 150px;
+  width: 150px;
 }
 
 .InfoCardM-Title {

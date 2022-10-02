@@ -129,7 +129,7 @@ To run the tests in order:
 
 ## Challenges
 
-There were a many challenges figuring how to piece the frontend and backend together.
+There were many challenges figuring how to piece the frontend and backend together.
 
 - Issue: keeping a user logged into their account so that they wouldn't be logged out of their spotify authentication on page refresh.
   - Resolution: Storing this data in the browser solved this issue.
