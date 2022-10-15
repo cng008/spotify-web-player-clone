@@ -4,8 +4,8 @@ INSERT INTO users (username, display_name, image, profile_url)
 VALUES ('testuser','testuser','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMHozIxtgJx0gbDdzgKy7hcRkDoP7houIjY65EDeY&s','https://open.spotify.com/user/christienrenee');
 
 INSERT INTO playlists (name, handle, username, description, created_at, image)
-VALUES ('Workout', 'workout', 'testuser', '100 push-ups per day','2022-09-02 04:05:06','https://cdn-www.comingsoon.net/assets/uploads/2022/06/one-punch-man-justin-lin.png'),
-        ('Study', 'study', 'testuser', 'Some beats to help you get some work done','2022-09-01 14:25:16','https://www.theanimedaily.com/wp-content/uploads/2021/07/36e522f1fdab091d58ac54cb88a88379.jpg');
+VALUES ('Workout', 'workout', 'testuser', '100 push-ups per day','2022-09-01 04:05:06','https://cdn-www.comingsoon.net/assets/uploads/2022/06/one-punch-man-justin-lin.png'),
+        ('Study', 'study', 'testuser', 'Some beats to help you get some work done','2022-09-02 14:25:16','https://www.theanimedaily.com/wp-content/uploads/2021/07/36e522f1fdab091d58ac54cb88a88379.jpg');
 
 INSERT INTO artists (id, name, handle, image)
 VALUES ('13ubrt8QOOCPljQ2FL1Kca', 'A$AP Rocky', 'a$ap-rocky', 'https://i.scdn.co/image/ab67616100005174ee452efcf24aa4124fb28d94'),

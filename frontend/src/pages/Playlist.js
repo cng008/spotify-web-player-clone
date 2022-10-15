@@ -71,11 +71,11 @@ const Playlist = () => {
               <strong>PLAYLIST</strong>
               <h2>{playlist?.name}</h2>
               <p>{playlist?.description}</p>
-              <a href={playlist?.user?.profile_url}>
+              <a href={playlist ? playlist?.user?.profile_url : ''}>
                 <div className="Playlist-avatar">
                   <img
                     src={playlist?.user?.image}
-                    alt={playlist?.user?.display_name}
+                    alt={playlist ? playlist?.user?.display_name : ''}
                   />
                   <h4>{playlist?.user?.display_name}</h4>
                 </div>

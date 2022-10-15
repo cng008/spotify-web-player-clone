@@ -37,7 +37,7 @@ const SlidingPanel = () => {
           <a href="https://github.com/cng008/spotify-clone.git"> Github Repo</a>
 
           <div className="Pop-out-slider-links">
-            <a href="https://www.linkedin.com/in/christienng/" target="_blank">
+            <a href="https://www.linkedin.com/in/christienng/">
               <img
                 src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
                 alt="LinkedIn"
@@ -46,7 +46,7 @@ const SlidingPanel = () => {
                 height="30px"
               />
             </a>
-            <a href="https://github.com/cng008" target="_blank">
+            <a href="https://github.com/cng008">
               <img
                 src="https://www.nicepng.com/png/full/52-520535_free-files-github-github-icon-png-white.png"
                 alt="GitHub"
@@ -66,6 +66,7 @@ const SlidingPanel = () => {
           <br />
 
           <p>PLAYER DOES NOT ACTUALLY PLAY MUSIC</p>
+          <br />
           <br />
 
           <p>

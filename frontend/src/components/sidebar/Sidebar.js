@@ -25,6 +25,8 @@ const Sidebar = () => {
   // const playlistsCount = Object.keys(playlists).length;
   // const [showModal, setShowModal] = useState(false);
 
+  // console.debug('Sidebar', 'playlists=', playlists, 'user=', user);
+
   /** Sets default playlist name and image if inputs are left empty */
   const INITIAL_DATA = {
     name: `My Playlist #${playlistsCount + 1}`,
@@ -40,8 +42,6 @@ const Sidebar = () => {
   // const closeModal = () => {
   // setShowModal(false);
   // };
-
-  // console.debug('Sidebar', 'playlists=', playlists, 'user=', user);
 
   const createNewPlaylist = async evt => {
     evt.preventDefault();

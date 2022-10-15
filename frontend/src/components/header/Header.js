@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useStateValue } from '../../StateProvider';
 import UserContext from '../../UserContext';
-import { loginUrl } from '../../common/auth';
+// import { loginUrl } from '../../common/auth';
 import Searchbar from './Searchbar';
 import LibraryNav from './LibraryNav';
 import './Header.css';
