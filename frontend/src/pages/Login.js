@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useStateValue } from '../StateProvider';
-import { loginUrl, getAccessToken } from '../common/auth';
+import { getAccessToken } from '../common/auth';
 import './Login.css';
 
 /** NOT USED */
@@ -28,7 +28,7 @@ const Login = () => {
       {/* Spotify Logo */}
       <div className="Spotify-logo">
         <img
-          src="https://getheavy.com/wp-content/uploads/2019/12/spotify2019-830x350.jpg"
+          src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png"
           alt=""
         />
       </div>
