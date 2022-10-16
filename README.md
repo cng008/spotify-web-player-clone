@@ -111,20 +111,30 @@ This project was made using the following technologies:
 
 ##### OR
 
+### Make PostgreSQL tables
+
+    $ psql < spotify.sql
+
+### Run Backend
+
     $ git clone https://github.com/cng008/spotify-web-player-clone.git
     $ cd backend
     $ npm i
     $ nodemon server.js
     $ cd ..
+
+### Run Frontend
+
     $ cd frontend
     $ npm i --legacy-peer-deps
     $ npm start
 
+## Integration Tests
+
 Tests are run using Jest.
-To run the tests in order:
 
     $ cd backend
-    $ jest artists.test.js albums.test.js users.test.js songs.test.js models/tests playlists.test.js
+    $ npm test
 
 ## Challenges
 
@@ -137,4 +147,4 @@ There were many challenges figuring how to piece the frontend and backend togeth
 - Issue: Users wanting to login using their irl Spotify account must be explicitly added under the section "Users and Access" by Christien before they can authenticate with the app (Spotify's rules)
   - Resolution: disable spotify authentication login method and replace with axios method to fetch token using basic authorization
 - Issue: backend tests wouldn't pass when run together as `jest`
-  - Resolution: tests pass together when files are called individually, passing by running `jest artists.test.js albums.test.js users.test.js songs.test.js models/tests playlists.test.js`
+  - Solved: tests passing under `npm test`
