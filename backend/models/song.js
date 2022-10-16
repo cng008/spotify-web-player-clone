@@ -24,6 +24,14 @@ class Song {
 
     // if (duplicateCheck.rows[0]) return;
 
+    // reset id sequence in db
+    await db.query(
+      `SELECT SETVAL(
+          'songs_key_seq',
+          (SELECT (MAX("key")) FROM "songs"),
+          TRUE)`
+    );
+
     const result = await db.query(
       `INSERT INTO songs (id, name, duration_ms, explicit, added_at, artist_id, album_id, image)
            VALUES ($1, $2, $3, $4, now(), $5, $6, $7)

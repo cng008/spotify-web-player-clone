@@ -29,6 +29,14 @@ class Playlist {
     if (duplicateCheck.rows[0])
       throw new BadRequestError(`Duplicate playlist: ${name}`);
 
+    // reset id sequence in db
+    await db.query(
+      `SELECT SETVAL(
+          'playlists_id_seq',
+          (SELECT (MAX("id")) FROM "playlists"),
+          TRUE)`
+    );
+
     const result = await db.query(
       `INSERT INTO playlists
            (name, handle, username, description, created_at, image)

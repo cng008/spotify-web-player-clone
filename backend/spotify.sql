@@ -5,7 +5,7 @@
 \prompt 'Return for yes or control-C to cancel > ' foo
 
 
-DROP DATABASE IF EXISTS  spotify_clone;
+DROP DATABASE IF EXISTS spotify_clone;
 CREATE DATABASE spotify_clone;
 \c spotify_clone
 

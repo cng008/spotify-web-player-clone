@@ -75,7 +75,7 @@ describe('GET /playlists', function () {
           name: 'RoutesPlaylist1',
           handle: 'routesplaylist1',
           username: 'routestestuser',
-          description: 'testing RoutesPlaylist1',
+          description: 'testing',
           created_at: expect.any(String),
           image: 'http://p1.img'
         },
@@ -84,7 +84,7 @@ describe('GET /playlists', function () {
           name: 'RoutesPlaylist2',
           handle: 'routesplaylist2',
           username: 'routestestuser',
-          description: 'testing RoutesPlaylist2',
+          description: 'testing',
           created_at: expect.any(String),
           image: 'http://p2.img'
         },
@@ -94,7 +94,7 @@ describe('GET /playlists', function () {
           handle: 'routesplaylist3',
           username: 'routestestuser',
           created_at: expect.any(String),
-          description: 'testing RoutesPlaylist3',
+          description: 'testing',
           image: 'http://p3.img'
         }
       ]
@@ -113,7 +113,7 @@ describe('GET /playlists/:handle', function () {
         name: 'RoutesPlaylist1',
         handle: 'routesplaylist1',
         username: 'routestestuser',
-        description: 'testing RoutesPlaylist1',
+        description: 'testing',
         created_at: expect.any(String),
         image: 'http://p1.img',
         songs: [
@@ -160,7 +160,7 @@ describe('GET /playlists/:handle', function () {
         handle: 'routesplaylist3',
         username: 'routestestuser',
         created_at: expect.any(String),
-        description: 'testing RoutesPlaylist3',
+        description: 'testing',
         image: 'http://p3.img',
         songs: [],
         user: {
@@ -189,7 +189,7 @@ describe('PATCH /playlists/:handle', function () {
       playlist: {
         name: 'RoutesPlaylist1 New',
         handle: 'routesplaylist1',
-        description: 'testing RoutesPlaylist1',
+        description: 'testing',
         image: 'http://p1.img'
       }
     });

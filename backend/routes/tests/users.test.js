@@ -39,7 +39,7 @@ describe('POST /users', function () {
 
   test('bad request if missing data', async function () {
     const resp = await request(app).post('/users').send({
-      username: 'u-new'
+      username: 'NewUser'
     });
     expect(resp.statusCode).toEqual(400);
   });

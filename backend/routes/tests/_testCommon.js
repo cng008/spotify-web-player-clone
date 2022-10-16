@@ -9,13 +9,11 @@ const Song = require('../../models/song');
 
 async function commonBeforeAll() {
   // noinspection SqlWithoutWhere
-  await db.query('DELETE FROM album_songs');
-  await db.query('DELETE FROM artist_songs');
   await db.query('DELETE FROM playlist_songs');
+  await db.query('DELETE FROM playlists');
   await db.query('DELETE FROM songs');
   await db.query('DELETE FROM albums');
   await db.query('DELETE FROM artists');
-  await db.query('DELETE FROM playlists');
   await db.query('DELETE FROM users');
   // fixes songs and playlists primary keys from not restarting
   await db.query('ALTER SEQUENCE songs_key_seq RESTART');
@@ -31,19 +29,19 @@ async function commonBeforeAll() {
   await Playlist.create({
     name: 'RoutesPlaylist1',
     username: 'routestestuser',
-    description: 'testing RoutesPlaylist1',
+    description: 'testing',
     image: 'http://p1.img'
   });
   await Playlist.create({
     name: 'RoutesPlaylist2',
     username: 'routestestuser',
-    description: 'testing RoutesPlaylist2',
+    description: 'testing',
     image: 'http://p2.img'
   });
   await Playlist.create({
     name: 'RoutesPlaylist3',
     username: 'routestestuser',
-    description: 'testing RoutesPlaylist3',
+    description: 'testing',
     image: 'http://p3.img'
   });
 
@@ -120,7 +118,6 @@ async function commonBeforeAll() {
 }
 
 async function commonBeforeEach() {
-  jest.resetAllMocks();
   await db.query('BEGIN');
 }
 

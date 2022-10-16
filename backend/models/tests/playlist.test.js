@@ -64,13 +64,13 @@ describe('findAll', function () {
     const playlists = await Playlist.findAll();
     expect(playlists).toEqual([
       {
-        id: 1,
-        name: 'Playlist1',
-        handle: 'playlist1',
+        id: 3,
+        name: 'Playlist3',
+        handle: 'playlist3',
         username: 'modeltestuser',
         description: 'testing',
-        created_at: '2022-09-28 03:31:03 PM',
-        image: 'http://p1.img'
+        created_at: '2022-09-28 03:33:03 PM',
+        image: 'http://p3.img'
       },
       {
         id: 2,
@@ -78,17 +78,17 @@ describe('findAll', function () {
         handle: 'playlist2',
         username: 'modeltestuser',
         description: 'testing',
-        created_at: '2022-09-28 03:31:03 PM',
+        created_at: '2022-09-28 03:32:03 PM',
         image: 'http://p2.img'
       },
       {
-        id: 3,
-        name: 'Playlist3',
-        handle: 'playlist3',
+        id: 1,
+        name: 'Playlist1',
+        handle: 'playlist1',
         username: 'modeltestuser',
         description: 'testing',
         created_at: '2022-09-28 03:31:03 PM',
-        image: 'http://p3.img'
+        image: 'http://p1.img'
       }
     ]);
   });
@@ -119,7 +119,7 @@ describe('get', function () {
           name: 'Song1',
           duration_ms: 200000,
           explicit: false,
-          added_at: '2022-09-28 03:31:03 PM',
+          added_at: '2022-09-28 04:31:03 PM',
           image: 'http://ab1.img',
           artist_name: 'Artist1',
           album_name: 'Album1',
@@ -131,7 +131,7 @@ describe('get', function () {
           name: 'Song2',
           duration_ms: 200000,
           explicit: false,
-          added_at: '2022-09-28 03:31:03 PM',
+          added_at: '2022-09-28 04:31:03 PM',
           image: 'http://ab1.img',
           artist_name: 'Artist1',
           album_name: 'Album1',

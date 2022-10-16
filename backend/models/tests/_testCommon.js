@@ -2,8 +2,6 @@ const db = require('../../db.js');
 
 async function commonBeforeAll() {
   // noinspection SqlWithoutWhere
-  await db.query('DELETE FROM album_songs');
-  await db.query('DELETE FROM artist_songs');
   await db.query('DELETE FROM playlist_songs');
   await db.query('DELETE FROM songs');
   await db.query('DELETE FROM albums');
@@ -21,8 +19,8 @@ async function commonBeforeAll() {
   await db.query(`
     INSERT INTO playlists (name, handle, username, description, created_at, image)
     VALUES ('Playlist1', 'playlist1', 'modeltestuser', 'testing', '2022-09-28 03:31:03 PM', 'http://p1.img'),
-           ('Playlist2', 'playlist2', 'modeltestuser', 'testing', '2022-09-28 03:31:03 PM', 'http://p2.img'),
-           ('Playlist3', 'playlist3', 'modeltestuser', 'testing', '2022-09-28 03:31:03 PM', 'http://p3.img')`);
+           ('Playlist2', 'playlist2', 'modeltestuser', 'testing', '2022-09-28 03:32:03 PM', 'http://p2.img'),
+           ('Playlist3', 'playlist3', 'modeltestuser', 'testing', '2022-09-28 03:33:03 PM', 'http://p3.img')`);
 
   await db.query(`
     INSERT INTO artists(id, name, handle, image)
@@ -36,10 +34,10 @@ async function commonBeforeAll() {
 
   await db.query(`
     INSERT INTO songs (id, name, duration_ms, explicit, added_at, artist_id, album_id, image)
-    VALUES ('s1', 'Song1', '200000', 'false', '2022-09-28 03:31:03 PM', 'at1', 'ab1', 'http://s1.img'),
-           ('s2', 'Song2', '200000', 'false', '2022-09-28 03:31:03 PM', 'at1', 'ab1', 'http://s2.img'),
-           ('s3', 'Song3', '200000', 'false', '2022-09-28 03:31:03 PM', 'at2', 'ab2', 'http://s3.img'),
-           ('s4', 'Song4', '200000', 'false', '2022-09-28 03:31:03 PM', 'at2', 'ab2', 'http://s4.img')`);
+    VALUES ('s1', 'Song1', '200000', 'false', '2022-09-28 04:31:03 PM', 'at1', 'ab1', 'http://s1.img'),
+           ('s2', 'Song2', '200000', 'false', '2022-09-28 04:31:03 PM', 'at1', 'ab1', 'http://s2.img'),
+           ('s3', 'Song3', '200000', 'false', '2022-09-28 04:31:03 PM', 'at2', 'ab2', 'http://s3.img'),
+           ('s4', 'Song4', '200000', 'false', '2022-09-28 04:31:03 PM', 'at2', 'ab2', 'http://s4.img')`);
 
   // await db.query(`
   //   INSERT INTO artist_songs(artist_id, song_key)
@@ -69,7 +67,6 @@ async function commonBeforeAll() {
  * https://www.postgresql.org/docs/current/sql-begin.html
  */
 async function commonBeforeEach() {
-  jest.resetAllMocks();
   await db.query('BEGIN');
 }
 
