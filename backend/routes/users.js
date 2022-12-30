@@ -22,7 +22,7 @@ const router = express.Router({ mergeParams: true });
  * Authorization required: none
  */
 
-router.post('/', async function (req, res, next) {
+router.post('/', async (req, res, next) => {
   try {
     const validator = jsonschema.validate(req.body, userNew);
     if (!validator.valid) {
@@ -46,7 +46,7 @@ router.post('/', async function (req, res, next) {
  * Authorization required: none
  */
 
-// router.get('/:handle', async function (req, res, next) {
+// router.get('/:handle', async  (req, res, next)=> {
 //   try {
 //     const user = await user.get(req.params.handle);
 //     return res.json({ user });
@@ -60,7 +60,7 @@ router.post('/', async function (req, res, next) {
  * Authorization required: none
  */
 
-// router.delete('/:handle', async function (req, res, next) {
+// router.delete('/:handle', async  (req, res, next)=> {
 //   try {
 //     await user.remove(req.params.handle);
 //     return res.json({ deleted: +req.params.handle });

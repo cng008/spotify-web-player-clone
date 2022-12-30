@@ -23,7 +23,7 @@ const router = express.Router({ mergeParams: true });
  * Authorization required: none
  */
 
-router.post('/', async function (req, res, next) {
+router.post('/', async (req, res, next) => {
   try {
     const validator = jsonschema.validate(req.body, albumNew);
     if (!validator.valid) {
@@ -41,22 +41,18 @@ router.post('/', async function (req, res, next) {
 /** GET / =>
  *   { albums: [ { id, name, handle, image }, ...] }
  *
- * Can provide search filter in query:
- * - name (will find case-insensitive, partial matches)
-
  * Authorization required: none
  */
 
-router.get('/', async function (req, res, next) {
-  const q = req.query;
+router.get('/', async (req, res, next) => {
   try {
-    const validator = jsonschema.validate(q, albumSearch);
+    const validator = jsonschema.validate(req.body, albumSearch);
     if (!validator.valid) {
       const errs = validator.errors.map(e => e.stack);
       throw new BadRequestError(errs);
     }
 
-    const albums = await Album.findAll(q);
+    const albums = await Album.findAll();
     return res.json({ albums });
   } catch (err) {
     return next(err);
@@ -72,21 +68,21 @@ router.get('/', async function (req, res, next) {
  * Authorization required: none
  */
 
-router.get('/:id', async function (req, res, next) {
-  try {
-    const album = await Album.get(req.params.id);
-    return res.json({ album });
-  } catch (err) {
-    return next(err);
-  }
-});
+// router.get('/:id', async  (req, res, next) =>{
+//   try {
+//     const album = await Album.get(req.params.id);
+//     return res.json({ album });
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
 
 /** DELETE /[handle]  =>  { deleted: handle }
  *
  * Authorization required: none
  */
 
-// router.delete('/:handle', async function (req, res, next) {
+// router.delete('/:handle', async  (req, res, next) =>{
 //   try {
 //     await Album.remove(req.params.handle);
 //     return res.json({ deleted: +req.params.handle });

@@ -5,7 +5,6 @@ const cors = require('cors'); // allow requests from domain
 
 const { NotFoundError } = require('./expressError');
 
-// const { authenticateJWT } = require('./middleware/auth');
 const usersRoutes = require('./routes/users');
 const playlistsRoutes = require('./routes/playlists');
 const songsRoutes = require('./routes/songs');
@@ -28,12 +27,12 @@ app.use('/artists', artistsRoutes);
 app.use('/albums', albumsRoutes);
 
 /** Handle 404 errors -- this matches everything */
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   return next(new NotFoundError());
 });
 
 /** Generic error handler; anything unhandled goes here. */
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
   if (process.env.NODE_ENV !== 'test') console.error(err.stack);
   const status = err.status || 500;
   const message = err.message;

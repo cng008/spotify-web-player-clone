@@ -23,7 +23,7 @@ const router = express.Router({ mergeParams: true });
  * Authorization required: none
  */
 
-router.post('/', async function (req, res, next) {
+router.post('/', async (req, res, next) => {
   try {
     const validator = jsonschema.validate(req.body, artistNew);
     if (!validator.valid) {
@@ -47,16 +47,15 @@ router.post('/', async function (req, res, next) {
  * Authorization required: none
  */
 
-router.get('/', async function (req, res, next) {
-  const q = req.query;
+router.get('/', async (req, res, next) => {
   try {
-    const validator = jsonschema.validate(q, artistSearch);
+    const validator = jsonschema.validate(req.body, artistSearch);
     if (!validator.valid) {
       const errs = validator.errors.map(e => e.stack);
       throw new BadRequestError(errs);
     }
 
-    const artists = await Artist.findAll(q);
+    const artists = await Artist.findAll();
     return res.json({ artists });
   } catch (err) {
     return next(err);
@@ -72,21 +71,21 @@ router.get('/', async function (req, res, next) {
  * Authorization required: none
  */
 
-router.get('/:id', async function (req, res, next) {
-  try {
-    const artist = await Artist.get(req.params.id);
-    return res.json({ artist });
-  } catch (err) {
-    return next(err);
-  }
-});
+// router.get('/:id', async  (req, res, next) => {
+//   try {
+//     const artist = await Artist.get(req.params.id);
+//     return res.json({ artist });
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
 
 /** DELETE /[handle]  =>  { deleted: id }
  *
  * Authorization required: none
  */
 
-// router.delete('/:handle', async function (req, res, next) {
+// router.delete('/:handle', async  (req, res, next) => {
 //   try {
 //     await Artist.remove(req.params.handle);
 //     return res.json({ deleted: +req.params.handle });

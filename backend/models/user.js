@@ -7,6 +7,8 @@ const db = require('../db');
 class User {
   /** Register user with data.
    *
+   * for when Spotify Auth is allowed for personal logins -> frontend > App.js
+   *
    * Returns { username, display_name, image, profile_url }
    *
    * Throws BadRequestError on duplicates.

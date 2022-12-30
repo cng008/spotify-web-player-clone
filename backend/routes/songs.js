@@ -6,11 +6,9 @@ const jsonschema = require('jsonschema');
 const express = require('express');
 
 const { BadRequestError } = require('../expressError');
-// const { ensureLoggedIn } = require('../middleware/auth');
 const Song = require('../models/song');
 
 const songNew = require('../schemas/songNew.json');
-// const songSearch = require('../schemas/songSearch.json');
 
 const router = express.Router({ mergeParams: true });
 
@@ -18,12 +16,12 @@ const router = express.Router({ mergeParams: true });
  *
  * Song should be { name, duration_ms, artist_id, album_id, image }
  *
- * Returns { id, name, duration_ms, artist_id, album_id, image }
+ * Returns { key, id, name, duration_ms, artist_id, album_id, image }
  *
  * Authorization required: none
  */
 
-router.post('/', async function (req, res, next) {
+router.post('/', async (req, res, next) => {
   try {
     const validator = jsonschema.validate(req.body, songNew);
     if (!validator.valid) {
@@ -39,7 +37,7 @@ router.post('/', async function (req, res, next) {
 });
 
 /** GET / =>
- *   { songs: [ { id, name, duration_ms, artist_id, album_id, image }, ...] }
+ *   { songs: [ { key, id, name, duration_ms, artist_id, album_id, image }, ...] }
  *
  * Can provide search filter in query:
  * - name (will find case-insensitive, partial matches)
@@ -47,16 +45,15 @@ router.post('/', async function (req, res, next) {
  * Authorization required: none
  */
 
-// router.get('/', async function (req, res, next) {
-//   const q = req.query;
+// router.get('/', async  (req, res, next)=> {
 //   try {
-//     const validator = jsonschema.validate(q, songSearch);
+//     const validator = jsonschema.validate(req.body, songSearch);
 //     if (!validator.valid) {
 //       const errs = validator.errors.map(e => e.stack);
 //       throw new BadRequestError(errs);
 //     }
 
-//     const songs = await Song.findAll(q);
+//     const songs = await Song.findAll();
 //     return res.json({ songs });
 //   } catch (err) {
 //     return next(err);
@@ -65,13 +62,12 @@ router.post('/', async function (req, res, next) {
 
 /** GET /[songId] => { song }
  *
- * Returns { id, name, duration_ms, artist_id, album_id, image }
- *   where album is { id, name, artist_id, release_date, image }
+ * Returns { total_songs }
  *
  * Authorization required: none
  */
 
-router.get('/', async function (req, res, next) {
+router.get('/', async (req, res, next) => {
   try {
     const count = await Song.getTotalSongs();
     return res.json({ count });
@@ -82,19 +78,18 @@ router.get('/', async function (req, res, next) {
 
 /** GET /[songId] => { song }
  *
- * Returns { id, name, duration_ms, artist_id, album_id, image }
- *   where album is { id, name, artist_id, release_date, image }
+ * Returns { key, id, name, duration_ms, explicit, added_at, artist_id, album_id, image }
  *
  * Authorization required: none
  */
 
-router.get('/:key', async function (req, res, next) {
-  try {
-    const song = await Song.get(req.params.key);
-    return res.json({ song });
-  } catch (err) {
-    return next(err);
-  }
-});
+// router.get('/:key', async  (req, res, next)=> {
+//   try {
+//     const song = await Song.get(req.params.key);
+//     return res.json({ song });
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
 
 module.exports = router;

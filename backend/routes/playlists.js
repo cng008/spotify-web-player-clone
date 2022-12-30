@@ -17,14 +17,16 @@ const router = new express.Router();
 
 /** POST / { playlist } =>  { playlist }
  *
+ * Creates a new playlist.
+ *
  * playlist should be { name, userId, description, createdAt, image }
  *
- * Returns { name, handle, user_id, description, created_at, image }
+ * Returns { name, handle, username, description, created_at, image }
  *
  * Authorization required: none
  */
 
-router.post('/', async function (req, res, next) {
+router.post('/', async (req, res, next) => {
   try {
     const validator = jsonschema.validate(req.body, playlistNew);
     if (!validator.valid) {
@@ -41,14 +43,14 @@ router.post('/', async function (req, res, next) {
 
 /** POST / { playlist } =>  { playlist }
  *
- * playlist should be { name, userId, description, createdAt, image }
+ * Adds a song to a playlist.
  *
- * Returns { name, handle, user_id, description, created_at, image }
+ * Returns { id, name, duration_ms, data_added, artist_id, album_id, image }
  *
  * Authorization required: none
  */
 
-router.post('/:playlistID/songs/:songKey', async function (req, res, next) {
+router.post('/:playlistID/songs/:songKey', async (req, res, next) => {
   try {
     const song = await Playlist.addToPlaylist(
       req.params.playlistID,
@@ -61,15 +63,17 @@ router.post('/:playlistID/songs/:songKey', async function (req, res, next) {
 });
 
 /** GET /  =>
- *   { playlists: [ { name, handle, user_id, description, created_at, image }, ...] }
  *
- * Can filter on provided search filters:
- * - nameLike (will find case-insensitive, partial matches)
+ * Retrieves a list of playlists.
+ *
+ * Returns { playlists: [ { id, name, handle, username, description, created_at, image }, ...] },
+ *            {user: {display_name, image, profile_url}},
+ *            {songs: [{key, id, name, duration_ms, data_added, artist_id, album_id, image}, ...]}
  *
  * Authorization required: none
  */
 
-router.get('/', async function (req, res, next) {
+router.get('/', async (req, res, next) => {
   const q = req.query;
 
   try {
@@ -88,13 +92,13 @@ router.get('/', async function (req, res, next) {
 
 /** GET /[handle]  =>  { playlist }
  *
- *  Playlist is { name, handle, user_id, description, created_at, image }
- *   where songs is [{ id, name, duration_ms, data_added, artist_id, album_id, image }, ...]
+ *  Playlist is { name, handle, username, description, created_at, image }
+ *   where songs is [{ key, id, name, duration_ms, data_added, artist_id, album_id, image }, ...]
  *
  * Authorization required: none
  */
 
-router.get('/:handle', async function (req, res, next) {
+router.get('/:handle', async (req, res, next) => {
   try {
     const playlist = await Playlist.get(req.params.handle);
     return res.json({ playlist });
@@ -105,16 +109,16 @@ router.get('/:handle', async function (req, res, next) {
 
 /** PATCH /[handle] { fld1, fld2, ... } => { playlist }
  *
- * Patches playlist data.
+ * Updates playlist data.
  *
  * fields can be: { name, description, image }
  *
- * Returns { name, handle, user_id, description, created_at, image }
+ * Returns { name, handle, username, description, created_at, image }
  *
  * Authorization required: none
  */
 
-router.patch('/:handle', async function (req, res, next) {
+router.patch('/:handle', async (req, res, next) => {
   try {
     const validator = jsonschema.validate(req.body, playlistUpdate);
     if (!validator.valid) {
@@ -134,7 +138,7 @@ router.patch('/:handle', async function (req, res, next) {
  * Authorization: none
  */
 
-router.delete('/:playlistId/song/:songKey', async function (req, res, next) {
+router.delete('/:playlistId/song/:songKey', async (req, res, next) => {
   try {
     await Playlist.removeSong(req.params.playlistId, req.params.songKey);
     return res.json({ deleted: req.params.songKey });
@@ -148,7 +152,7 @@ router.delete('/:playlistId/song/:songKey', async function (req, res, next) {
  * Authorization: none
  */
 
-router.delete('/:id', async function (req, res, next) {
+router.delete('/:id', async (req, res, next) => {
   try {
     await Playlist.remove(req.params.id);
     return res.json({ deleted: req.params.id });

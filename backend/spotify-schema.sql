@@ -57,3 +57,5 @@ CREATE TABLE artist_songs (
   song_key INTEGER REFERENCES songs ON DELETE CASCADE,
   artist_id TEXT REFERENCES artists ON DELETE CASCADE
 );
+
+-- "ON DELETE CASCADE" -> if a row in the referenced table (playlists, albums, or artists) is deleted, the corresponding rows in these tables will also be deleted. This is used to maintain the integrity of the data and to prevent orphan records.
