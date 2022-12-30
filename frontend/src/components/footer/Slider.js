@@ -20,6 +20,7 @@ const Slider = ({ value, minValue, maxValue, handleChange }) => {
         min={minValue}
         max={maxValue}
         onChange={handleChange}
+        data-testid="slider"
       />
     </>
   );

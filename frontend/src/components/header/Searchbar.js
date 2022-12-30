@@ -17,8 +17,8 @@ import SearchIcon from '@material-ui/icons/Search';
  */
 
 const Searchbar = () => {
-  const { searchFor } = useContext(UserContext);
   const [{ token }, dispatch] = useStateValue();
+  const { searchFor } = useContext(UserContext);
   const [searchText, setSearchText] = useState('');
 
   // console.debug('Searchbar','searchFor=', searchFor, 'searchText=', searchText);

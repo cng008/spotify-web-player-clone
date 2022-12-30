@@ -14,6 +14,7 @@ const SearchPageCard = ({ cardData }) => {
       key={cardData.title}
       className="SearchCardBox"
       style={{ backgroundColor: `${cardData.bgcolor}` }}
+      data-testid="card-box"
     >
       <div className="SearchCard">
         <img src={cardData.imgurl} alt={`${cardData.title} cover`} />

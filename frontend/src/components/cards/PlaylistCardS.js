@@ -10,7 +10,7 @@ import './PlaylistCardS.css';
 const PlaylistCardS = ({ data }) => {
   return (
     <div className="PlaylistCardSBox">
-      <Link to={`/playlists/${data?.handle}`}>
+      <Link to={`/playlists/${data?.handle}`} data-testid="playlist-link">
         <div className="PlaylistCardS">
           <div className="PlaylistCardS-ImgBox">
             <img src={data?.image} alt={`${data?.name} playlist cover`} />
