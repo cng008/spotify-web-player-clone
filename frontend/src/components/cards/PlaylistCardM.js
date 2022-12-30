@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
 import './PlaylistCardM.css';
 
@@ -8,15 +7,13 @@ import './PlaylistCardM.css';
  * App -> Routes -> Home/Library -> Playlists
  */
 
-function PlaylistCardM({ data }) {
-  // console.debug('PlaylistCardM', 'trackData=', trackData, 'isPlaying=', isPlaying);
-
+const PlaylistCardM = ({ data }) => {
   return (
     <div className="PlaylistCardMBox">
       <Link to={`/playlists/${data?.handle}`}>
         <div className="PlaylistCardM">
           <div className="PlaylistCardM-ImgBox">
-            <img src={data?.image} alt={data?.name} />
+            <img src={data?.image} alt={data?.name || ''} />
           </div>
           <div className="PlaylistCardM-Title">
             <h3>{data?.name}</h3>
@@ -26,6 +23,6 @@ function PlaylistCardM({ data }) {
       </Link>
     </div>
   );
-}
+};
 
 export default PlaylistCardM;

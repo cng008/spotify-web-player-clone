@@ -11,7 +11,7 @@ ReactDOM.render(
   <StateProvider initialState={INITIAL_STATE} reducer={reducer}>
     <App />
   </StateProvider>,
-  document.getElementById('root')
+  document.getElementById('root') // DOM node to render the component to
 );
 
 // If you want your app to work offline and load faster, you can change

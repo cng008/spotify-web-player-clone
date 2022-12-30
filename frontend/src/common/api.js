@@ -1,22 +1,20 @@
 import axios from 'axios';
-// import { useStateValue } from '../StateProvider';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3001';
 
 /** API Class.
  *
- * Static class tying together methods used to get/send to to the API.
+ * Static class tying together methods used to get/send to the API.
  * There shouldn't be any frontend-specific stuff here, and there shouldn't
  * be any API-aware stuff elsewhere in the frontend.
  *
  */
 
 class SpotifyCloneApi {
-  // static token;
   static async request(endpoint, data = {}, method = 'get') {
     console.debug('API Call:', endpoint, data, method);
 
-    //there are multiple ways to pass an authorization token, this is how you pass it in the header.
+    // passes authorization token in the header
     const url = `${BASE_URL}/${endpoint}`;
     const headers = { Authorization: `Bearer ${SpotifyCloneApi.token}` };
     const params = method === 'get' ? data : {};
@@ -30,7 +28,9 @@ class SpotifyCloneApi {
 
   /*********************** Individual API routes **********************/
 
-  /** Add newly logged in user ****************************/
+  /** Add newly logged in user ***************************
+   * for when Spotify Auth is allowed for personal logins > App.js
+   */
   static async addNewUser(data) {
     let res = await this.request('users', data, 'post');
     return res.user;
@@ -43,10 +43,9 @@ class SpotifyCloneApi {
     return res.playlist;
   }
 
-  /** Get playlists (filtered by name if not undefined) */
+  /** Get playlists */
   static async getPlaylists() {
     let res = await this.request('playlists');
-    // console.log('getPlaylists results', res);
     return res.playlists;
   }
 
@@ -74,10 +73,10 @@ class SpotifyCloneApi {
     return res.song;
   }
 
-  /** Save song to current playlist. */
-  static async addSongToPlaylist(playlistID, songID) {
+  /** Save song to playlist by playlistID. */
+  static async addSongToPlaylist(playlistID, songKey) {
     let res = await this.request(
-      `playlists/${playlistID}/songs/${songID}`,
+      `playlists/${playlistID}/songs/${songKey}`,
       {},
       'post'
     );
@@ -102,18 +101,17 @@ class SpotifyCloneApi {
     return res.album;
   }
 
-  /** Get albums (filtered by name if not undefined) */
+  /** Get albums */
   static async getAlbums() {
     let res = await this.request('albums');
-    // console.log('getAlbums results', res);
     return res.albums;
   }
 
-  /** Get details on an album by handle. */
-  static async getAlbum(handle) {
-    let res = await this.request(`albums/${handle}`);
-    return res.album;
-  }
+  /** Get details on an album by id. */
+  // static async getAlbum(id) {
+  //   let res = await this.request(`albums/${id}`);
+  //   return res.album;
+  // }
 
   /*********************** ARTISTS **********************/
   /** Add artist to db */
@@ -122,18 +120,17 @@ class SpotifyCloneApi {
     return res.artist;
   }
 
-  /** Get artists (filtered by name if not undefined) */
+  /** Get artists */
   static async getArtists() {
     let res = await this.request('artists', {});
-    // console.log('getArtists results', res);
     return res.artists;
   }
 
-  /** Get details on an artist by handle. */
-  static async getArtist(handle) {
-    let res = await this.request(`artists/${handle}`);
-    return res.artist;
-  }
+  /** Get details on an artist by id. */
+  // static async getArtist(id) {
+  //   let res = await this.request(`artists/${id}`);
+  //   return res.artist;
+  // }
 }
 
 export default SpotifyCloneApi;

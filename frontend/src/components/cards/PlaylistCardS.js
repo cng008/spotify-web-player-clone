@@ -7,9 +7,7 @@ import './PlaylistCardS.css';
  * App -> Routes -> Home -> Playlists
  */
 
-function PlaylistCardS({ data }) {
-  // console.debug('PlaylistCardS', 'trackData=', trackData, 'isPlaying=', isPlaying);
-
+const PlaylistCardS = ({ data }) => {
   return (
     <div className="PlaylistCardSBox">
       <Link to={`/playlists/${data?.handle}`}>
@@ -24,6 +22,6 @@ function PlaylistCardS({ data }) {
       </Link>
     </div>
   );
-}
+};
 
 export default PlaylistCardS;

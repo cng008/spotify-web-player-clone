@@ -3,7 +3,7 @@ import { useStateValue } from './StateProvider';
 import { BrowserRouter } from 'react-router-dom';
 import useSessionStorage from './common/useSessionStorage';
 import UserContext from './UserContext';
-import { getParamsFromUrl } from './common/auth';
+// import { getParamsFromUrl } from './common/auth';
 import SpotifyWebApi from 'spotify-web-api-js';
 import SpotifyCloneApi from './common/api';
 import Routes from './Routes';
@@ -17,7 +17,7 @@ import Routes from './Routes';
 
 const spotify = new SpotifyWebApi();
 
-function App() {
+const App = () => {
   const [
     {
       // user,
@@ -35,6 +35,9 @@ function App() {
     },
     dispatch
   ] = useStateValue();
+  const [accessToken, setAccessToken] = useSessionStorage(
+    'spotify_access_token'
+  );
   const [timestamp, setTimestamp] = useSessionStorage('spotify_timestamp');
   const [infoLoaded, setInfoLoaded] = useState(false);
 
@@ -42,12 +45,12 @@ function App() {
 
   /** Runs when app component loads and every time variable changes */
   useEffect(() => {
-    async function fetchData() {
+    /** Fetch data from the Spotify API and Postgres database */
+    const fetchData = () => {
       try {
         /** INFORMATION RECEIVED FROM SPOTIFY AUTH *******************
          */
-
-        if (token) {
+        if (accessToken || token) {
           /** adds/updates values if not in storage
            * prevents reset on refresh
            */
@@ -56,9 +59,20 @@ function App() {
           /** SET TOKEN TO GLOBAL STATE */
           dispatch({
             type: 'SET_TOKEN',
-            token: token
+            token: accessToken || token
           });
-          spotify.setAccessToken(token); // set token for Spotify API access
+          // setAccessToken(accessToken); // save token to sessionStorage
+          spotify.setAccessToken(accessToken || token); // set token for Spotify API access
+
+          /** GET USER'S ACCOUNT INFO **************************/
+          // spotify.getMe().then(user => {
+          //   dispatch({
+          //     type: 'SET_USER',
+          //     user: user
+          //   });
+          //   // store user id, name, and profile photo into database
+          //   logNewUser(user);
+          // });
 
           /** GET CHRISTIEN'S DISCOVER PLAYLIST **************************/
           spotify.getPlaylist('37i9dQZEVXcUfolfIkR1hC').then(response => {
@@ -93,28 +107,27 @@ function App() {
           });
         });
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
       setInfoLoaded(true);
-    }
-
+    };
     setInfoLoaded(false);
     fetchData();
-  }, [token, infoLoaded, dispatch]);
+  }, [token, infoLoaded, dispatch, accessToken, setTimestamp, timestamp]);
 
   /** Handles milliseconds to minutes:seconds conversion.
    * https://stackoverflow.com/a/21294619
    */
-  function getSongDuration(ms) {
+  const getSongDuration = ms => {
     let minutes = Math.floor(ms / 60000);
     let seconds = ((ms % 60000) / 1000).toFixed(0);
     return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-  }
+  };
 
   /** Calculates days since song was added to playlist.
    * https://stackoverflow.com/a/4929629
    */
-  function daysAgo(dateAdded, currentDate) {
+  const daysAgo = (dateAdded, currentDate) => {
     const date1 = new Date(dateAdded);
     const date2 = currentDate;
 
@@ -123,42 +136,38 @@ function App() {
     const diffInDays = Math.round(diffInTime / oneDay); // Calculating the no. of days between two dates
 
     return diffInDays;
-  }
+  };
 
   /** Triggered by search form submit
    * renders results on pages > Search.js
    */
-  async function searchFor(searchTern) {
+  async function searchFor(searchTerm) {
     try {
       // get search results
-      spotify.searchTracks(searchTern).then(results => {
-        dispatch({
-          type: 'SET_SEARCH_RESULTS',
-          searchResults: results
-        });
+      const results = await spotify.searchTracks(searchTerm);
+      dispatch({
+        type: 'SET_SEARCH_RESULTS',
+        searchResults: results
       });
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }
 
   /**
    * Clear out all sessionStorage items we've set and reload the page
-   * @returns {void}
    */
-  const logout = () => {
+  const logout = async () => {
     try {
-      dispatch({
+      await dispatch({
         type: 'SET_TOKEN',
         token: null
       });
-      dispatch({
-        type: 'SET_USER',
-        user: null
-      });
-      sessionStorage.clear();
     } catch (err) {
-      console.log(err);
+      throw new Error(err);
+    } finally {
+      sessionStorage.clear();
+      // window.location.reload();
     }
   };
 
@@ -177,6 +186,6 @@ function App() {
       </BrowserRouter>
     </div>
   );
-}
+};
 
 export default App;

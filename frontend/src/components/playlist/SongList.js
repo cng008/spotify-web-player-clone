@@ -17,7 +17,9 @@ const SongList = ({ songs, removeSong }) => {
 
   // console.debug('Song', 'songs=', songs);
 
-  /** "PLAYS" SONG IN FOOTER */
+  /** "PLAYS" SONG IN FOOTER
+   * Sets the current song and updates the playing state and player timeline
+   */
   const setSong = track => {
     dispatch({
       type: 'SET_SONG',

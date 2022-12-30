@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useStateValue } from '../StateProvider';
-import { SEARCHCARDS } from '../data/index';
+import { SEARCHCARDS } from '../data/searchcards';
 import Header from '../components/header/Header';
 import Sidebar from '../components/sidebar/Sidebar';
 import Footer from '../components/footer/Footer';
 import SearchPageCard from '../components/cards/SearchPageCard';
-import SearchResultCard from '../components/cards/SearchResultCard';
+import SongCard from '../components/cards/SongCard';
 import './Search.css';
 
 import { Stack, Snackbar } from '@mui/material';
@@ -20,7 +20,8 @@ const Alert = React.forwardRef(function Alert(props, ref) {
  *
  * - useStateValue: access globally stored state
  *
- * App -> Routes -> Search -> SearchPageCard/SearchResultCard
+ * App -> Routes -> Search -> SearchPageCard
+ *                         -> SongCard
  */
 
 const Search = () => {
@@ -56,7 +57,7 @@ const Search = () => {
               {searchTerm && token
                 ? searchResults?.tracks?.items.map((songs, i) => {
                     return (
-                      <SearchResultCard
+                      <SongCard
                         key={i}
                         trackData={songs}
                         handleAlert={handleAlert}

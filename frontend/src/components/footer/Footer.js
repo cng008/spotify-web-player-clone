@@ -31,10 +31,9 @@ const Footer = () => {
 
   /** SETS PLAY/PAUSE GLOBALLY */
   const togglePause = () => {
-    let toggle = isPlaying === false ? true : false;
     dispatch({
       type: 'SET_PLAYING',
-      isPlaying: toggle
+      isPlaying: !isPlaying
     });
   };
 
@@ -48,7 +47,7 @@ const Footer = () => {
 
   /** SETS VOLUME GLOBALLY
    * Saves volume before setting to 0
-   * allows input to toggle mute/unmute by saving to sessionStorage
+   * allows input to toggle mute/unmute by saving volume to sessionStorage
    */
   const handleVolume = evt => {
     dispatch({

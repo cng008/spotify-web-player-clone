@@ -4,24 +4,23 @@ import 'react-sliding-pane/dist/react-sliding-pane.css';
 import './SlidingPane.css';
 
 const SlidingPanel = () => {
-  const [click, setClick] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   const handleClick = () => {
-    const isClicked = click === false ? true : false;
-    setClick(isClicked);
+    setIsClicked(isClicked ? false : true);
   };
 
   return (
     <div className="SlidingPanel">
       <div style={{ marginTop: '1em' }}>
         <button onClick={handleClick}>
-          {click === false ? 'Click me!' : 'Close'}
+          {isClicked === false ? 'Click me!' : 'Close'}
         </button>
       </div>
 
       <SlidingPane
         className="Pop-out-slider"
-        isOpen={click}
+        isOpen={isClicked}
         title="Spotify Web Player Clone"
         from="left"
         width="18em"

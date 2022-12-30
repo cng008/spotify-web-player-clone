@@ -15,25 +15,21 @@ import { useState, useEffect } from 'react';
  *   const [myThing, setMyThing] = useSessionStorage("myThing")
  */
 
-function useSessionStorage(key, firstValue = null) {
-  const initialValue = sessionStorage.getItem(key) || firstValue;
+const useSessionStorage = (key, initialValue = null) => {
+  const valueFromSessionStorage = sessionStorage.getItem(key) || initialValue;
 
-  const [item, setItem] = useState(initialValue);
+  const [value, setValue] = useState(valueFromSessionStorage);
 
-  useEffect(
-    function setKeyInsessionStorage() {
-      console.debug('hooks useSessionStorage useEffect', 'item=', item);
+  useEffect(() => {
+    // console.debug('hooks useSessionStorage useEffect', 'value=', value);
+    if (value === null) {
+      sessionStorage.removeItem(key);
+    } else {
+      sessionStorage.setItem(key, value);
+    }
+  }, [key, value]);
 
-      if (item === null) {
-        sessionStorage.removeItem(key);
-      } else {
-        sessionStorage.setItem(key, item);
-      }
-    },
-    [key, item]
-  );
-
-  return [item, setItem];
-}
+  return [value, setValue];
+};
 
 export default useSessionStorage;

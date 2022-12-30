@@ -44,25 +44,25 @@ const NewPlaylistForm = ({ closeModal }) => {
     evt.preventDefault();
 
     /** Sets default playlist name and image if inputs are left empty */
-    if (formData.name === '')
-      formData.name = `My Playlist #${playlistsCount + 1}`;
-    if (formData.image === '')
-      formData.image = `https://assets.audiomack.com/jojo-1264/82a10a07eff76040ec325e3498c6d6c7.jpeg?type=song&width=280&height=280&max=true`;
+    formData.name = formData.name || `My Playlist #${playlistsCount + 1}`;
+    formData.image =
+      formData.image ||
+      `https://assets.audiomack.com/jojo-1264/82a10a07eff76040ec325e3498c6d6c7.jpeg?type=song&width=280&height=280&max=true`;
 
     try {
       /** Makes a POST request to Api.js and adds corresponding data to matching category in db.json */
       await SpotifyCloneApi.newPlaylist(formData);
       // for refreshing playlist name in sidebar
-      SpotifyCloneApi.getPlaylists().then(playlists => {
-        dispatch({
-          type: 'SET_PLAYLISTS',
-          playlists: playlists
-        });
+      const playlists = await SpotifyCloneApi.getPlaylists();
+      dispatch({
+        type: 'SET_PLAYLISTS',
+        playlists: playlists
       });
-      // history.push(`/playlists/${result.handle}`); // redirect to newly-made playlist
+      // Redirect to newly-made playlist
+      // history.push(`/playlists/${result.handle}`);
       closeModal();
     } catch (err) {
-      console.log(err);
+      console.error(err);
       return;
     }
   };

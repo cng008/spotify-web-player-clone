@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useStateValue } from '../../StateProvider';
 import SpotifyCloneApi from '../../common/api';
 import EditPlaylistForm from './EditPlaylistForm';
@@ -14,7 +14,6 @@ import SearchIcon from '@material-ui/icons/Search';
 
 /** Component for playlist play/pause, like, edit buttons
  *
- * - useParams: returns an object of key/value pairs of the dynamic params from the current URL that were matched by the <Route path>
  * - useState: state variables in functional components
  * - useHistory: lets you access the history instance used by React Router, useful for redirecting users to another page
  * - useStateValue: access globally stored state
@@ -24,27 +23,27 @@ import SearchIcon from '@material-ui/icons/Search';
 
 const PlaylistControls = ({ playlist }) => {
   const history = useHistory();
-  const [{}, dispatch] = useStateValue();
+  const [{ isPlaying }, dispatch] = useStateValue();
   const [sort, setSort] = useState('');
-  const [paused, setPaused] = useState(false);
   const [liked, setLike] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isClicked, seIsClicked] = useState(false);
 
-  // console.debug('PlaylistControls', 'playlist=', playlist, 'handle=', handle ,'sort=',sort,'paused=',paused,'liked=',liked,'showModal=',showModal,'isClicked=',isClicked);
+  // console.debug('PlaylistControls', 'playlist=', playlist, 'handle=', handle ,'sort=',sort,'isPlaying=',isPlaying,'liked=',liked,'showModal=',showModal,'isClicked=',isClicked);
 
   const handleSort = evt => {
     setSort(evt.target.value);
   };
 
   const togglePause = () => {
-    let toggle = paused === true ? false : true;
-    setPaused(toggle);
+    dispatch({
+      type: 'SET_PLAYING',
+      isPlaying: !isPlaying
+    });
   };
 
   const toggleLike = () => {
-    let toggle = liked === true ? false : true;
-    setLike(toggle);
+    setLike(liked ? false : true);
   };
 
   const openModal = () => {
@@ -55,30 +54,32 @@ const PlaylistControls = ({ playlist }) => {
   };
 
   const handleClick = () => {
-    let toggle = isClicked === true ? false : true;
-    seIsClicked(toggle);
+    seIsClicked(isClicked ? false : true);
   };
 
   const deletePlaylist = async () => {
-    if (window.confirm('Are you sure you want to delete this playlist?')) {
+    const confirm = window.confirm(
+      'Are you sure you want to delete this playlist?'
+    );
+    if (confirm) {
       try {
         /** Makes a POST request to Api.js and deletes playlist from db */
         await SpotifyCloneApi.deletePlaylist(playlist.id);
-
+      } catch (err) {
+        console.error(err);
+        return;
+      } finally {
+        // runs regardless of error
         // for refreshing playlist name in sidebar
-        SpotifyCloneApi.getPlaylists().then(playlists => {
-          dispatch({
-            type: 'SET_PLAYLISTS',
-            playlists: playlists
-          });
+        const playlists = await SpotifyCloneApi.getPlaylists();
+        dispatch({
+          type: 'SET_PLAYLISTS',
+          playlists: playlists
         });
 
         history.goBack(); // redirect to previous page
-      } catch (err) {
-        console.log(err);
-        return;
+        console.log('Playlist successfully deleted.');
       }
-      console.log('Playlist successfully deleted.');
     } else {
       // Do nothing
       console.log('Delete cancelled.');
@@ -88,7 +89,7 @@ const PlaylistControls = ({ playlist }) => {
   return (
     <div className="Playlist-controls">
       <div className="Playlist-icons">
-        {paused ? (
+        {isPlaying ? (
           <PauseCircleFilledIcon
             className="Playlist-shuffle"
             onClick={togglePause}

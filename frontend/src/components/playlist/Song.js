@@ -21,6 +21,9 @@ const Song = ({ track = 'test', id, removeSong }) => {
 
   // console.debug('Song', 'track=', track, 'id=', id, 'numOfDays=', numOfDays);
 
+  /**
+   * Returns the appropriate label for the number of days since the track was added to the playlist
+   */
   const days = numOfDays => {
     if (numOfDays > 1) {
       return 'days ago';
@@ -31,6 +34,9 @@ const Song = ({ track = 'test', id, removeSong }) => {
     }
   };
 
+  /**
+   * Toggles the hovering state of the component.
+   */
   const handleMouseOver = () => {
     let mouse = isHovering === false ? true : false;
     setIsHovering(mouse);

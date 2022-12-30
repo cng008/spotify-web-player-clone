@@ -6,7 +6,7 @@ import './SearchPageCard.css';
  * App -> Routes -> Search -> SearchPageCard
  */
 
-function SearchPageCard({ cardData }) {
+const SearchPageCard = ({ cardData }) => {
   // console.debug('SearchPageCard','cardData=', cardData);
 
   return (
@@ -21,6 +21,6 @@ function SearchPageCard({ cardData }) {
       </div>
     </div>
   );
-}
+};
 
 export default SearchPageCard;

@@ -21,7 +21,7 @@ export const INITIAL_STATE = {
  * StateProvider -> reducer
  */
 
-const reducer = (state, action) => {
+const reducer = (state = INITIAL_STATE, action) => {
   console.log(action);
 
   //   action -> type, [payload]

@@ -24,13 +24,15 @@ const Playlist = () => {
 
   // console.debug('Playlist', 'discover_weekly=',discover_weekly,'getSongDuration=',getSongDuration);
 
-  // saves data to sessionStorage in case of page refresh
+  // Save data to session storage in case of page refresh
   sessionStorage.setItem(
     'spotify_discover_weekly_data',
     JSON.stringify(discover_weekly)
   );
 
-  /** "PLAYS" SONG IN FOOTER */
+  /** "PLAYS" SONG IN FOOTER
+   * Sets the current song and updates the playing state and player timeline
+   */
   const setSong = track => {
     dispatch({
       type: 'SET_SONG',
@@ -51,6 +53,7 @@ const Playlist = () => {
       return 'Today';
     }
   };
+
   return (
     <>
       <div className="Playlist">

@@ -21,13 +21,12 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const Sidebar = () => {
   const [{ playlists, token, user }, dispatch] = useStateValue();
-  const playlistsCount = playlists[0]?.id; // Object.keys(playlists).length can cause errors if a playlist is deleted and My Playlist #{len} already exists
-  // const playlistsCount = Object.keys(playlists).length;
+  const playlistsCount = playlists[0]?.id;
   // const [showModal, setShowModal] = useState(false);
 
   // console.debug('Sidebar', 'playlists=', playlists, 'user=', user);
 
-  /** Sets default playlist name and image if inputs are left empty */
+  /** Initialize default values for new playlist */
   const INITIAL_DATA = {
     name: `My Playlist #${playlistsCount + 1}`,
     description: '',
@@ -47,18 +46,18 @@ const Sidebar = () => {
     evt.preventDefault();
 
     try {
-      /** Makes a POST request to Api.js and adds corresponding data to matching category in db.json */
+      /** Makes a POST request to Api.js to create new playlist */
       await SpotifyCloneApi.newPlaylist(INITIAL_DATA);
-      // for refreshing playlist name in sidebar
-      SpotifyCloneApi.getPlaylists().then(playlists => {
-        dispatch({
-          type: 'SET_PLAYLISTS',
-          playlists: playlists
-        });
+      // Fetch updated list of playlists
+      const updatedPlaylists = await SpotifyCloneApi.getPlaylists();
+      dispatch({
+        type: 'SET_PLAYLISTS',
+        playlists: updatedPlaylists
       });
-      // history.push(`/playlists/${result.handle}`); // redirect to newly-made playlist
+      // Redirect to newly-made playlist
+      // history.push(`/playlists/${result.handle}`);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       return;
     }
   };

@@ -22,6 +22,12 @@ const EditPlaylistForm = ({ playlist, closeModal }) => {
     image: ''
   };
   const [formData, setFormData] = useState(INITIAL_STATE);
+  const playlistData = {
+    name: formData.name,
+    handle: formData.name.toLowerCase().split(' ').join('-').replace('#', ''),
+    description: formData.description,
+    image: formData.image ? formData.image : playlist.image
+  };
 
   //   console.debug('EditPlaylistForm',  'playlist=',  playlist, 'formData=', formData );
 
@@ -39,35 +45,37 @@ const EditPlaylistForm = ({ playlist, closeModal }) => {
    * - if successful
    *   - close modal and show new changes
    */
-
   const handleSubmit = async evt => {
     evt.preventDefault();
 
-    let playlistData = {
-      name: formData.name,
-      handle: formData.name.toLowerCase().split(' ').join('-').replace('#', ''),
-      description: formData.description,
-      image: formData.image ? formData.image : playlist.image
-    };
+    // update the values of the playlistData object as needed, rather than defining it each time the form is submitted
+    playlistData.name = formData.name;
+    playlistData.handle = formData.name
+      .toLowerCase()
+      .split(' ')
+      .join('-')
+      .replace('#', '');
+    playlistData.description = formData.description;
+    playlistData.image = formData.image ? formData.image : playlist.image;
 
     // sets default playlist name if name input is left empty
     try {
       // makes a POST request to Api.js and adds corresponding data to matching category in db.json
-      let result = await SpotifyCloneApi.savePlaylist(
+      const result = await SpotifyCloneApi.savePlaylist(
         playlist.handle,
         playlistData
       );
       // for refreshing playlist name in sidebar
-      SpotifyCloneApi.getPlaylists().then(playlists => {
-        dispatch({
-          type: 'SET_PLAYLISTS',
-          playlists: playlists
-        });
+      const playlists = await SpotifyCloneApi.getPlaylists();
+      dispatch({
+        type: 'SET_PLAYLISTS',
+        playlists: playlists
       });
-      history.push(`/playlists/${result.handle}`); // redirect to newly-named playlist
+      // Redirect to newly-made playlist
+      history.push(`/playlists/${result.handle}`);
       closeModal();
     } catch (err) {
-      console.log(err);
+      console.error(err);
       return;
     }
   };

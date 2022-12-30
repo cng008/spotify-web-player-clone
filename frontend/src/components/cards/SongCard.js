@@ -3,7 +3,7 @@ import { useStateValue } from '../../StateProvider';
 import SpotifyWebApi from 'spotify-web-api-js';
 import SpotifyCloneApi from '../../common/api';
 import UserContext from '../../UserContext';
-import './SearchResultCard.css';
+import './SongCard.css';
 
 import ExplicitIcon from '@material-ui/icons/Explicit';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
@@ -17,20 +17,20 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
  * - useContext: common data that can be accessed throughout the component hierarchy without passing the props down manually to each level
  *
  * App -> Routes -> Header -> Searchbar
- *                  Search -> SearchResultCard
+ *                  Search -> SongCard
  */
 
-const SearchResultCard = ({ trackData = 'test', handleAlert }) => {
+const SongCard = ({ trackData = 'test', handleAlert }) => {
   const spotify = new SpotifyWebApi();
   const [{ playlists }, dispatch] = useStateValue();
   const { getSongDuration } = useContext(UserContext);
   const [liked, setLike] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-  const [songID, setSongID] = useState('');
+  // const [songID, setSongID] = useState('');
   const [artistImg, setArtistImg] = useState('');
 
   // console.debug(
-  //   'SearchResultCard',
+  //   'SongCard',
   //   'liked',
   //   liked,
   //   'isClicked',
@@ -56,7 +56,7 @@ const SearchResultCard = ({ trackData = 'test', handleAlert }) => {
       await SpotifyCloneApi.addSongToPlaylist(playlistID, totalSongs + 1);
       handleAlert();
     } catch (err) {
-      console.log(err);
+      console.error(err);
       return;
     }
   };
@@ -110,14 +110,12 @@ const SearchResultCard = ({ trackData = 'test', handleAlert }) => {
   };
 
   const toggleLike = () => {
-    let toggle = liked === true ? false : true;
-    setLike(toggle);
+    setLike(liked ? false : true);
   };
 
   const handleMoreClick = async () => {
-    let toggle = isClicked === true ? false : true;
-    setIsClicked(toggle);
-    setSongID(trackData.id);
+    setIsClicked(isClicked ? false : true);
+    // setSongID(trackData.id);
 
     // gets artist img (which needs a separate api call)
     let artist = await spotify.getArtist(trackData.artists[0].id);
@@ -126,17 +124,17 @@ const SearchResultCard = ({ trackData = 'test', handleAlert }) => {
 
   return (
     <>
-      <div className="SearchResultCardBox">
+      <div className="SongCardBox">
         <div
-          className="SearchResultCard"
+          className="SongCard"
           onClick={() => {
             playSong(playSongData);
           }}
         >
-          <div className="SearchResultCard-img">
+          <div className="SongCard-img">
             <img src={trackData.album.images[2].url} alt="" />
           </div>
-          <div className="SearchResultCard-credits">
+          <div className="SongCard-credits">
             <h3>{trackData.name}</h3>
             <p>
               {trackData.explicit ? <ExplicitIcon /> : null}
@@ -144,8 +142,8 @@ const SearchResultCard = ({ trackData = 'test', handleAlert }) => {
             </p>
           </div>
 
-          <div className="SearchResultCard-icons">
-            <div className="SearchResultCard-like">
+          <div className="SongCard-icons">
+            <div className="SongCard-like">
               {liked ? (
                 <FavoriteIcon
                   onClick={toggleLike}
@@ -158,10 +156,10 @@ const SearchResultCard = ({ trackData = 'test', handleAlert }) => {
                 />
               )}
             </div>
-            <div className="SearchResultCard-song-duration">
+            <div className="SongCard-song-duration">
               {getSongDuration(trackData.duration_ms)}
             </div>
-            <div className="SearchResultCard-more">
+            <div className="SongCard-more">
               <div
                 onClick={() => {
                   handleMoreClick();
@@ -195,4 +193,4 @@ const SearchResultCard = ({ trackData = 'test', handleAlert }) => {
   );
 };
 
-export default SearchResultCard;
+export default SongCard;

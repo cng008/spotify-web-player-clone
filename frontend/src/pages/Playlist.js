@@ -29,35 +29,34 @@ const Playlist = () => {
 
   // GET PLAYLIST FROM DB
   useEffect(() => {
-    async function getPlaylistDetails() {
+    const getPlaylistDetails = async () => {
       try {
-        let result = await SpotifyCloneApi.getPlaylist(handle);
+        const result = await SpotifyCloneApi.getPlaylist(handle);
         setPlaylist(result);
-        setIsLoading(false);
-        document.body.style.cursor = 'default';
-      } catch (err) {
-        console.log(err);
-        history.push('/404'); //redirects when no playlist found
+      } catch (error) {
+        console.error(error);
+        history.push('/404');
+      } finally {
         setIsLoading(false);
         document.body.style.cursor = 'default';
       }
-    }
+    };
     getPlaylistDetails();
   }, [handle, history]);
-
-  if (isLoading) {
-    document.body.style.cursor = 'progress';
-    return '';
-  }
 
   const removeSongFromPlaylist = async songKey => {
     try {
       await SpotifyCloneApi.removeSongFromPlaylist(playlist.id, songKey);
       history.go(0);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
+
+  if (isLoading) {
+    document.body.style.cursor = 'progress';
+    return '';
+  }
 
   return (
     <>

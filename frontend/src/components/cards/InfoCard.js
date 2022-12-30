@@ -8,14 +8,12 @@ import './InfoCard.css';
  * App -> Routes -> Library -> Artists/Albums
  */
 
-function InfoCard({ data, borderRadius }) {
-  // console.debug('InfoCard', 'trackData=', trackData, 'isPlaying=', isPlaying);
-
+const InfoCard = ({ data, borderRadius }) => {
   return (
     <div className="InfoCardMBox">
       <div className="InfoCardM">
         <div className={borderRadius}>
-          <img src={data?.image} alt={data?.name} />
+          <img src={data?.image} alt={data?.name || ''} />
         </div>
         <div className="InfoCardM-Title">
           <h3>{data?.name}</h3>
@@ -24,6 +22,6 @@ function InfoCard({ data, borderRadius }) {
       </div>
     </div>
   );
-}
+};
 
 export default InfoCard;

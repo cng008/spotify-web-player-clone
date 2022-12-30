@@ -5,7 +5,7 @@
   position: fixed;
   bottom: 0;
   height: 40px;
-  width: 100%;
+  width: 100vw;
   background-color: rgb(24, 24, 24);
   padding: 20px;
   z-index: 99;
@@ -13,10 +13,16 @@
 
 .Footer-left {
   display: flex;
-  flex: 0.4;
+  float: left;
+  flex: 0.45;
   align-items: center;
   color: white;
-  /* width: 4em; */
+  max-width: 30vw;
+  /* margin-right: 3em; */
+  text-overflow: ellipsis;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .Footer-albumLogo {
@@ -32,7 +38,7 @@
 
 .Footer-center {
   display: block;
-  flex: 0.5;
+  flex: 0.2;
 }
 
 .Footer-center-controls,
@@ -42,7 +48,6 @@
   justify-content: space-around;
   color: white;
   max-width: 200px;
-  padding: 0 100px;
 }
 
 .Footer-control-slider {
@@ -92,15 +97,14 @@ _:future,
 }
 
 .Footer-right {
-  flex: 0.2;
-  display: flex;
   color: white;
+  margin-right: 3em;
 }
 
 /* override material ui slider color */
 .progressBar {
   display: flex;
-  max-width: 50px;
+  max-width: 15vw !important;
   align-items: center;
   position: relative;
 }
