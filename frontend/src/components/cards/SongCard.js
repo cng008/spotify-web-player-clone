@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { useStateValue } from '../../StateProvider';
 import SpotifyWebApi from 'spotify-web-api-js';
 import SpotifyCloneApi from '../../common/api';
@@ -12,10 +12,6 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 /** Song results for SearchBar
  *
- * - useState: state variables in functional components
- * - useStateValue: access globally stored state
- * - useContext: common data that can be accessed throughout the component hierarchy without passing the props down manually to each level
- *
  * App -> Routes -> Header -> Searchbar
  *                  Search -> SongCard
  */
@@ -25,26 +21,14 @@ const SongCard = ({ trackData = 'test', handleAlert }) => {
   const [{ playlists }, dispatch] = useStateValue();
   const { getSongDuration } = useContext(UserContext);
   const [liked, setLike] = useState(false);
-  const [isClicked, setIsClicked] = useState(false);
-  // const [songID, setSongID] = useState('');
+  const [isDivActive, setIsDivActive] = useState(false);
+  const addToPlaylistRef = useRef(null);
   const [artistImg, setArtistImg] = useState('');
-
-  // console.debug(
-  //   'SongCard',
-  //   'liked',
-  //   liked,
-  //   'isClicked',
-  //   isClicked,
-  //   'songID',
-  //   songID,
-  //   'artistImg',
-  //   artistImg
-  // );
 
   const addSongToPlaylist = async playlistID => {
     try {
       let totalSongs = await SpotifyCloneApi.getSongCount();
-      /** Makes a POST request to common > api.js and adds song, album, artist data to db */
+      /** Makes a POST request to common > api.js and adds song, album, artist data to postgres */
       await SpotifyCloneApi.addArtist(artistData);
       await SpotifyCloneApi.addAlbum(albumData);
       await SpotifyCloneApi.addSong(songData);
@@ -52,15 +36,15 @@ const SongCard = ({ trackData = 'test', handleAlert }) => {
       /** Makes a POST request to common > api.js and adds song to selected playlist
        * success notification
        */
-      // console.debug('playlistID', playlistID, 'totalSongs', totalSongs);
-      await SpotifyCloneApi.addSongToPlaylist(playlistID, totalSongs + 1);
+      await SpotifyCloneApi.addSongToPlaylist(playlistID, totalSongs + 1); // (playlistID, songKey)
       handleAlert();
     } catch (err) {
       console.error(err);
       return;
     }
   };
-  // set data for postgres insertion
+
+  /** set data for postgres insertion */
   const songData = {
     id: trackData.id,
     name: trackData.name,
@@ -114,13 +98,32 @@ const SongCard = ({ trackData = 'test', handleAlert }) => {
   };
 
   const handleMoreClick = async () => {
-    setIsClicked(isClicked ? false : true);
-    // setSongID(trackData.id);
+    setIsDivActive(true);
 
     // gets artist img (which needs a separate api call)
     let artist = await spotify.getArtist(trackData.artists[0].id);
     setArtistImg(artist.images[1].url);
   };
+
+  useEffect(() => {
+    function handleClickOutside(evt) {
+      // check if the clicked element is not inside the div element
+      if (
+        addToPlaylistRef.current &&
+        !addToPlaylistRef.current.contains(evt.target)
+      ) {
+        // set the isDivActive state to false if the click is outside the menu
+        setIsDivActive(false);
+      }
+    }
+    // add a mousedown event listener to the document object
+    document.addEventListener('mousedown', handleClickOutside);
+
+    // remove the event listener when the component unmounts
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [addToPlaylistRef]);
 
   return (
     <>
@@ -137,7 +140,7 @@ const SongCard = ({ trackData = 'test', handleAlert }) => {
           <div className="SongCard-credits">
             <h3>{trackData.name}</h3>
             <p>
-              {trackData.explicit ? <ExplicitIcon /> : null}
+              {trackData.explicit && <ExplicitIcon />}
               {trackData.artists.map(artist => artist.name).join(', ')}
             </p>
           </div>
@@ -160,14 +163,11 @@ const SongCard = ({ trackData = 'test', handleAlert }) => {
               {getSongDuration(trackData.duration_ms)}
             </div>
             <div className="SongCard-more">
-              <div
-                onClick={() => {
-                  handleMoreClick();
-                }}
-              >
+              <div onClick={() => handleMoreClick()}>
                 <MoreHorizIcon />
-                {isClicked && (
-                  <div className="Playlist-add">
+                {/* Add to playlist menu */}
+                {isDivActive && (
+                  <div className="Playlist-add" ref={addToPlaylistRef}>
                     Add to playlist:
                     {playlists.map(playlist => {
                       return (
