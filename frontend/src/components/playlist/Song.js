@@ -19,19 +19,32 @@ const Song = ({ track = 'test', id, removeSong }) => {
   const { getSongDuration, daysAgo } = useContext(UserContext);
   const numOfDays = daysAgo(track.added_at, new Date());
 
-  // console.debug('Song', 'track=', track, 'id=', id, 'numOfDays=', numOfDays);
-
   /**
    * Returns the appropriate label for the number of days since the track was added to the playlist
+   * shows actual date if track.added_at is over 1 month
    */
   const days = numOfDays => {
-    if (numOfDays > 1) {
-      return 'days ago';
+    if (numOfDays > 30) {
+      return formatDate(track.added_at);
+    } else if (numOfDays > 14) {
+      numOfDays = Math.floor(numOfDays / 7);
+      return `${numOfDays} weeks ago`;
+    } else if (numOfDays > 7) {
+      numOfDays = Math.floor(numOfDays / 7);
+      return `${numOfDays} week ago`;
+    } else if (numOfDays > 1) {
+      return `${numOfDays} days ago`;
     } else if (numOfDays === 1) {
-      return 'day ago';
-    } else {
-      return 'Today';
+      return `${numOfDays} day ago`;
     }
+  };
+  const formatDate = dateString => {
+    const date = new Date(dateString);
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; //prettier-ignore
+    const month = monthNames[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return `${month} ${day}, ${year}`;
   };
 
   /**
@@ -56,7 +69,7 @@ const Song = ({ track = 'test', id, removeSong }) => {
             </h3>
             <p>
               <span>
-                {track.explicit ? <ExplicitIcon fontSize="small" /> : null}
+                {track.explicit && <ExplicitIcon fontSize="small" />}{' '}
               </span>
               <span>{track.artist_name}</span>
               {/* <span>{track.artists.map(artist => artist.name).join(', ')}</span> */}
@@ -65,9 +78,7 @@ const Song = ({ track = 'test', id, removeSong }) => {
         </div>
       </td>
       <td>{track.album_name}</td>
-      <td>
-        {numOfDays > 0 ? numOfDays : null} {days(numOfDays)}
-      </td>
+      <td>{numOfDays > 0 ? days(numOfDays) : 'Today'}</td>
       <td>{getSongDuration(track.duration_ms)}</td>
       <td>
         <div
