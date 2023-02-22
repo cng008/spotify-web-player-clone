@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import UserContext from '../../UserContext';
+import { useStateValue } from '../../StateProvider';
 import './Song.css';
 
 import ExplicitIcon from '@material-ui/icons/Explicit';
@@ -15,6 +16,7 @@ import ExplicitIcon from '@material-ui/icons/Explicit';
  */
 
 const Song = ({ track = 'test', id, removeSong }) => {
+  const [{ trackData }] = useStateValue();
   const [isHovering, setIsHovering] = useState(false);
   const { getSongDuration, daysAgo } = useContext(UserContext);
   const numOfDays = daysAgo(track.added_at, new Date());
@@ -65,7 +67,11 @@ const Song = ({ track = 'test', id, removeSong }) => {
           </div>
           <div className="Song-credits">
             <h3>
-              <span>{track.name}</span>
+              <span
+                className={track.id === trackData?.id ? 'Song-current' : ''}
+              >
+                {track.name}
+              </span>
             </h3>
             <p>
               <span>

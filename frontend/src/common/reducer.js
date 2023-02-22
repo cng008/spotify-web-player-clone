@@ -4,6 +4,8 @@ export const INITIAL_STATE = {
   searchTerm: '',
   searchResults: [],
   isPlaying: false,
+  isShuffling: false,
+  isRepeated: false,
   playerTime: 0,
   volume: sessionStorage.getItem('unMuteVariable') || 50,
   playlists: [],
@@ -19,6 +21,7 @@ export const INITIAL_STATE = {
  * - sessionStorage: locally stores parameters that are received from Spotify API login
  *
  * StateProvider -> reducer
+ * https://beta.reactjs.org/reference/react/useReducer
  */
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -56,6 +59,18 @@ const reducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isPlaying: action.isPlaying
+      };
+
+    case 'SET_SHUFFLING':
+      return {
+        ...state,
+        isShuffling: action.isShuffling
+      };
+
+    case 'SET_REPEATED':
+      return {
+        ...state,
+        isRepeated: action.isRepeated
       };
 
     case 'SET_SONG':

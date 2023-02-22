@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import UserContext from '../../UserContext';
 import { useStateValue } from '../../StateProvider';
 import Slider from './Slider';
 import './Footer.css';
 
+import ExplicitIcon from '@material-ui/icons/Explicit';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
@@ -23,21 +24,50 @@ import { Grid } from '@material-ui/core';
  *  */
 
 const Footer = () => {
-  const [{ isPlaying, volume, trackData, playerTime }, dispatch] =
-    useStateValue();
+  const [
+    { isPlaying, isShuffling, isRepeated, volume, trackData, playerTime },
+    dispatch
+  ] = useStateValue();
   const { getSongDuration } = useContext(UserContext);
 
   // console.debug( 'Footer', 'isPlaying=', isPlaying,'volume=',volume, 'trackData=', trackData, 'playerTime=', playerTime );
 
-  /** SETS PLAY/PAUSE GLOBALLY */
+  /** SET PLAY/PAUSE/SHUFFLE/REPEAT GLOBALLY */
   const togglePause = () => {
+    if (isPlaying && !trackData) {
+      alert(
+        "Pick a song first to start playing! \n **Doesn't actually play sound**"
+      );
+    }
+    if (playerTime > trackData?.duration_ms) {
+      dispatch({
+        type: 'SET_PLAYER_TIMELINE',
+        playerTime: 0
+      });
+      dispatch({
+        type: 'SET_PLAYING',
+        isPlaying: true
+      });
+    }
     dispatch({
       type: 'SET_PLAYING',
       isPlaying: !isPlaying
     });
   };
+  const toggleShuffle = () => {
+    dispatch({
+      type: 'SET_SHUFFLING',
+      isShuffling: !isShuffling
+    });
+  };
+  const toggleRepeat = () => {
+    dispatch({
+      type: 'SET_REPEATED',
+      isRepeated: !isRepeated
+    });
+  };
 
-  /** SAVES SONG TIME GLOBALLY */
+  /** SAVE SONG TIME GLOBALLY */
   const handleTimeline = evt => {
     dispatch({
       type: 'SET_PLAYER_TIMELINE',
@@ -74,6 +104,27 @@ const Footer = () => {
     });
   };
 
+  /** song time increments when isPlaying is true
+   * timer stops when playerTime exceeds max song duration
+   */
+  useEffect(() => {
+    let timerId;
+    if (isPlaying) {
+      timerId = setInterval(() => {
+        if (playerTime < trackData?.duration_ms) {
+          dispatch({
+            type: 'SET_PLAYER_TIMELINE',
+            playerTime: playerTime + 1000
+          });
+        } else {
+          togglePause();
+          clearInterval(timerId);
+        }
+      }, 1000);
+    }
+    return () => clearInterval(timerId);
+  }, [isPlaying, playerTime, dispatch, togglePause, trackData?.duration_ms]);
+
   return (
     <div className="Footer">
       <div className="Footer-left">
@@ -82,13 +133,21 @@ const Footer = () => {
         ) : null}
         <div className="Footer-songInfo">
           <h4>{trackData?.name}</h4>
-          <p>{trackData?.artist_name}</p>
+          <p>
+            <span>
+              {trackData?.explicit && <ExplicitIcon fontSize="small" />}{' '}
+            </span>
+            {trackData?.artist_name}
+          </p>
         </div>
       </div>
 
       <div className="Footer-center">
         <div className="Footer-center-controls">
-          <ShuffleIcon className="Footer-green" />
+          <ShuffleIcon
+            className={isShuffling ? 'Footer-green' : ''}
+            onClick={toggleShuffle}
+          />
           <SkipPreviousIcon fontSize="large" className="Footer-icon" />
           {isPlaying ? (
             <PauseCircleFilledIcon
@@ -102,11 +161,14 @@ const Footer = () => {
             />
           )}
           <SkipNextIcon fontSize="large" className="Footer-icon" />
-          <RepeatIcon className="Footer-green" />
+          <RepeatIcon
+            className={isRepeated ? 'Footer-green' : ''}
+            onClick={toggleRepeat}
+          />
         </div>
         <div className="Footer-control-timeline">
           <div>
-            <span>{trackData ? getSongDuration(playerTime) : null}</span>
+            <span>{trackData && getSongDuration(playerTime)}</span>
           </div>
           <div className="Footer-control-slider">
             <Slider
@@ -117,9 +179,7 @@ const Footer = () => {
             />
           </div>
           <div>
-            <span>
-              {trackData ? getSongDuration(trackData?.duration_ms) : null}
-            </span>
+            <span>{trackData && getSongDuration(trackData?.duration_ms)}</span>
           </div>
         </div>
       </div>

@@ -58,3 +58,7 @@
 .Song-button-delete:hover {
   background-color: rgba(255, 0, 0, 0.3);
 }
+
+.Song-current {
+  color: #1ed15e;
+}

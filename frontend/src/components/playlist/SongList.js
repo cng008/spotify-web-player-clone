@@ -13,7 +13,7 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime';
  */
 
 const SongList = ({ songs, removeSong }) => {
-  const [{}, dispatch] = useStateValue();
+  const [{ trackData }, dispatch] = useStateValue();
 
   // console.debug('Song', 'songs=', songs);
 
@@ -27,7 +27,7 @@ const SongList = ({ songs, removeSong }) => {
     });
     dispatch({
       type: 'SET_PLAYING',
-      isPlaying: false
+      isPlaying: true
     });
     dispatch({
       type: 'SET_PLAYER_TIMELINE',
@@ -52,7 +52,8 @@ const SongList = ({ songs, removeSong }) => {
         <tbody>
           {songs.map((track, id) => (
             <tr
-              key={id}
+              key={track.id}
+              className={track.id === trackData?.id ? 'SongList-current' : ''}
               onClick={() => {
                 setSong(track);
               }}

@@ -62,7 +62,7 @@ _:future,
   font-size: 13px;
 }
 
-.Footer-green:active {
+.Footer-green {
   color: #1ed15e;
 }
 
@@ -89,8 +89,7 @@ _:future,
   transform: scale(1.05);
 }
 
-.Footer-icon:hover,
-.Footer-green:hover {
+.Footer-icon:hover {
   /* transition: transform 0.1s ease-in-out; */
   /* transform: scale(1.1) !important; * to override material ui */
   color: white;
