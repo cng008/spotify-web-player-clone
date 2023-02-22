@@ -29,14 +29,32 @@ const SlidingPanel = () => {
         <div className="Pop-out-slider-content">
           <p>
             *made by
-            <a href="https://www.linkedin.com/in/christienng/"> Christien Ng</a>
+            <a
+              href="https://christienng.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {' '}
+              Christien Ng
+            </a>
           </p>
           <br />
 
-          <a href="https://github.com/cng008/spotify-clone.git"> Github Repo</a>
+          <a
+            href="https://github.com/cng008/spotify-clone.git"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {' '}
+            Github Repo
+          </a>
 
           <div className="Pop-out-slider-links">
-            <a href="https://www.linkedin.com/in/christienng/">
+            <a
+              href="https://www.linkedin.com/in/christienng/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img
                 src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
                 alt="LinkedIn"
@@ -45,7 +63,11 @@ const SlidingPanel = () => {
                 height="30px"
               />
             </a>
-            <a href="https://github.com/cng008">
+            <a
+              href="https://github.com/cng008"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img
                 src="https://www.nicepng.com/png/full/52-520535_free-files-github-github-icon-png-white.png"
                 alt="GitHub"
@@ -58,7 +80,11 @@ const SlidingPanel = () => {
 
           <p>
             Application data sourced from{' '}
-            <a href="https://developer.spotify.com/documentation/web-api/">
+            <a
+              href="https://developer.spotify.com/documentation/web-api/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Spotify API
             </a>
           </p>
@@ -71,6 +97,18 @@ const SlidingPanel = () => {
           <p>
             *This application is not produced, endorsed, supported, or
             affiliated with Spotify or its affiliated companies
+          </p>
+          <br />
+          <br />
+          <p>
+            for help, contact{' '}
+            <a
+              href="https://christienng.com/contact/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              help@christienng.com
+            </a>
           </p>
         </div>
       </SlidingPane>
