@@ -12,10 +12,26 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime';
  * App -> Routes -> Playlist -> SongList -> Song
  */
 
-const SongList = ({ songs, removeSong }) => {
+const SongList = ({ songs, sortOption, removeSong }) => {
   const [{ trackData }, dispatch] = useStateValue();
 
-  // console.debug('Song', 'songs=', songs);
+  /** re-orders songs based on sortOption */
+  const sortedData = () => {
+    switch (sortOption) {
+      case 'name':
+        return songs.sort((a, b) => a.name.localeCompare(b.name));
+      case 'artist':
+        return songs.sort((a, b) => a.artist_name.localeCompare(b.artist_name));
+      case 'album':
+        return songs.sort((a, b) => a.album_name.localeCompare(b.album_name));
+      case 'added_at':
+        return songs.sort((a, b) => a.added_at.localeCompare(b.added_at));
+      case 'duration':
+        return songs.sort((a, b) => a.duration_ms - b.duration_ms);
+      default:
+        return songs;
+    }
+  };
 
   /** "PLAYS" SONG IN FOOTER
    * Sets the current song and updates the playing state and player timeline
@@ -50,7 +66,7 @@ const SongList = ({ songs, removeSong }) => {
           </tr>
         </thead>
         <tbody>
-          {songs.map((track, id) => (
+          {sortedData().map((track, id) => (
             <tr
               key={track.id}
               className={track.id === trackData?.id ? 'SongList-current' : ''}

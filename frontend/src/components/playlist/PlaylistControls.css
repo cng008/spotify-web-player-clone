@@ -84,7 +84,7 @@
   background-color: rgb(114, 32, 32);
 }
 
-.Playlist-filter {
+.Playlist-sorting {
   flex: 0.2;
   display: flex;
   justify-content: flex-end;

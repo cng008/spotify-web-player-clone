@@ -21,19 +21,14 @@ import SearchIcon from '@material-ui/icons/Search';
  * App -> Routes -> Home/Library/Sidebar -> Playlist -> PlaylistControls
  */
 
-const PlaylistControls = ({ playlist }) => {
+const PlaylistControls = ({ playlist, handleSort, sortOption }) => {
   const history = useHistory();
   const [{ isPlaying }, dispatch] = useStateValue();
-  const [sort, setSort] = useState('');
   const [liked, setLike] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [isClicked, seIsClicked] = useState(false);
 
-  // console.debug('PlaylistControls', 'playlist=', playlist, 'handle=', handle ,'sort=',sort,'isPlaying=',isPlaying,'liked=',liked,'showModal=',showModal,'isClicked=',isClicked);
-
-  const handleSort = evt => {
-    setSort(evt.target.value);
-  };
+  // console.debug('PlaylistControls', 'playlist=', playlist, 'handle=', handle ,'sort=',sort,'isPlaying=',isPlaying,'liked=',liked,'modalOpen=',modalOpen,'isClicked=',isClicked);
 
   const togglePause = () => {
     dispatch({
@@ -42,20 +37,10 @@ const PlaylistControls = ({ playlist }) => {
     });
   };
 
-  const toggleLike = () => {
-    setLike(liked ? false : true);
-  };
-
-  const openModal = () => {
-    setShowModal(true);
-  };
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const handleClick = () => {
-    seIsClicked(isClicked ? false : true);
-  };
+  const toggleLike = () => setLike(liked ? false : true);
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+  const handleClick = () => seIsClicked(isClicked ? false : true);
 
   const deletePlaylist = async () => {
     const confirm = window.confirm(
@@ -131,32 +116,30 @@ const PlaylistControls = ({ playlist }) => {
         </div>
       </div>
 
-      <div className="Playlist-filter">
+      <div className="Playlist-sorting">
         <SearchIcon />
         <form sx={{ m: 1, minWidth: 80 }} className="Playlist-form">
           <select
             id="song-order"
-            value={sort ? sort : 'custom'}
+            value={sortOption}
             label="Age"
             onChange={handleSort}
           >
             <option value="" className="sort-by" disabled>
               Sort by
             </option>
-            <option value="custom">Custom order</option>
-            <option value="title">Title</option>
+            <option value="default">Custom order</option>
+            <option value="name">Title</option>
             <option value="artist">Artist</option>
             <option value="album">Album</option>
-            <option value="dateAdded">Date added</option>
+            <option value="added_at">Date added</option>
             <option value="duration">Duration</option>
           </select>
         </form>
       </div>
-      {showModal ? (
-        <div>
-          <EditPlaylistForm playlist={playlist} closeModal={closeModal} />
-        </div>
-      ) : null}
+      {modalOpen && (
+        <EditPlaylistForm playlist={playlist} closeModal={closeModal} />
+      )}
     </div>
   );
 };

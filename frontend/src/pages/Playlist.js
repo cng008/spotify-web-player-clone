@@ -22,10 +22,21 @@ import './Playlist.css';
 const Playlist = () => {
   const { handle } = useParams();
   const history = useHistory();
-  const [playlist, setPlaylist] = useState('');
+  const [playlist, setPlaylist] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [sortOption, setSortOption] = useState('default');
 
-  // console.debug('Playlist', 'handle=',handle,'playlist=',playlist,'sort=',sort, 'isLoading=', isLoading, 'paused=', paused, 'liked=', liked);
+  /** handles select form for sorting to be passed as prop */
+  const handleSort = evt => setSortOption(evt.target.value);
+
+  const removeSongFromPlaylist = async songKey => {
+    try {
+      await SpotifyCloneApi.removeSongFromPlaylist(playlist.id, songKey);
+      history.go(0);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   // GET PLAYLIST FROM DB
   useEffect(() => {
@@ -43,15 +54,6 @@ const Playlist = () => {
     };
     getPlaylistDetails();
   }, [handle, history]);
-
-  const removeSongFromPlaylist = async songKey => {
-    try {
-      await SpotifyCloneApi.removeSongFromPlaylist(playlist.id, songKey);
-      history.go(0);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   if (isLoading) {
     document.body.style.cursor = 'progress';
@@ -83,9 +85,10 @@ const Playlist = () => {
           </div>
 
           <section>
-            <PlaylistControls playlist={playlist} />
+            <PlaylistControls playlist={playlist} handleSort={handleSort} />
             <SongList
               songs={playlist?.songs}
+              sortOption={sortOption}
               removeSong={removeSongFromPlaylist}
             />
           </section>
