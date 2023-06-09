@@ -35,7 +35,7 @@
 
 ## **Live Website**
 
-### 👉 [Click here to open website](http://cng008-spotify-clone.surge.sh)
+### 👉 [Click here to open website](https://cng008-spotify-clone.surge.sh)
 
 ---
 
@@ -115,7 +115,7 @@ This project was made using the following technologies:
 
 ## :construction_worker: **How to Run**
 
-### Go to [http://cng008-spotify-clone.surge.sh](http://cng008-spotify-clone.surge.sh)
+### Go to [https://cng008-spotify-clone.surge.sh](https://cng008-spotify-clone.surge.sh)
 
 ##### OR
 
